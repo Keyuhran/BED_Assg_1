@@ -72,11 +72,15 @@ nav ul li a {
     margin: 50px 0;
 }
 
-.countries {
-    display: flex;
-    justify-content: center;
-    gap: 20px;
+.carousel {
+    overflow-x: scroll;
+    white-space: nowrap;
     padding: 20px;
+}
+
+.countries {
+    display: inline-flex;
+    gap: 20px;
 }
 
 .country {
@@ -84,4 +88,5 @@ nav ul li a {
     height: 100px;
     width: 100px;
     border-radius: 50%;
+    display: inline-block;
 }
