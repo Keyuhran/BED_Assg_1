@@ -1,0 +1,127 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f9f9f9;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100vh;
+}
+
+header {
+    position: absolute;
+    top: 20px;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    padding: 0 20px;
+}
+
+.logo {
+    width: 60px;
+    height: 60px;
+}
+
+.user-pfp {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+}
+
+.container {
+    margin-top: 100px;
+    width: 90%;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    cursor: pointer;
+}
+
+thead th {
+    text-align: left;
+    padding: 10px;
+}
+
+tbody td {
+    background-color: #d3d3d3;
+    padding: 10px;
+}
+
+tbody tr {
+    border-top: 10px solid #f9f9f9;
+    border-bottom: 10px solid #f9f9f9;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+tbody tr td:first-child {
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+}
+
+tbody tr td:last-child {
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+
+.add-product-button {
+    background-color: #b3a2a2;
+    padding: 20px;
+    margin-top: 20px;
+    text-align: center;
+    cursor: pointer;
+    border-radius: 5px;
+    width: 100px;
+    margin: 0 auto;
+}
+
+/* Overlay CSS */
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    visibility: hidden;
+}
+
+.overlay-content {
+    background: blue;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    color: white;
+}
+
+.overlay-header {
+    margin-bottom: 20px;
+}
+
+.overlay-body {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.overlay-button {
+    background: white;
+    color: blue;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.overlay-button:hover {
+    background: lightgray;
+}
+
+form div {
+    margin-bottom: 10px;
+}
