@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Account Editor</title>
+    <link rel="stylesheet" href="../css/accounteditor.css">
+</head>
+<body>
+    <header>
+        <img src="logo.png" alt="Logo" class="logo">
+        <img src="user-pfp.png" alt="User PFP" class="user-pfp">
+    </header>
+    <div class="container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Account Name</th>
+                    <th>Account ID</th>
+                    <th>Details</th>
+                    <th>Country</th>
+                    <th>Number</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr onclick="showOverlay('Kieran Raj', '69696')">
+                    <td>Kieran Raj</td>
+                    <td>69696</td>
+                    <td>Make your own</td>
+                    <td>Malaysia</td>
+                    <td>9999</td>
+                </tr>
+                <tr onclick="showOverlay('Daryl Soon', '42042')">
+                    <td>Daryl Soon</td>
+                    <td>42042</td>
+                    <td>At sorting Center</td>
+                    <td>Vietnam</td>
+                    <td>99</td>
+                </tr>
+                <tr onclick="showOverlay('John Yong Haiwen', '36936')">
+                    <td>John Yong Haiwen</td>
+                    <td>36936</td>
+                    <td>At sorting Center</td>
+                    <td>Thailand</td>
+                    <td>123123</td>
+                </tr>
+                <tr onclick="showOverlay('Haziq Razak', '111111')">
+                    <td>Haziq Razak</td>
+                    <td>111111</td>
+                    <td>By Irvins international corporation...</td>
+                    <td>Singapore</td>
+                    <td>999119</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Initial Overlay -->
+    <div id="overlay" class="overlay">
+        <div class="overlay-content">
+            <div class="overlay-header">
+                <h2 id="accountName">Account Name</h2>
+            </div>
+            <div class="overlay-body">
+                <button class="overlay-button" onclick="showDeleteConfirm()">DELETE</button>
+                <button class="overlay-button" onclick="showEditOverlay()">EDIT</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Confirmation Overlay -->
+    <div id="confirmOverlay" class="overlay">
+        <div class="overlay-content">
+            <div class="overlay-header">
+                <h2>Confirm Deletion</h2>
+            </div>
+            <div class="overlay-body">
+                <p>This action is non-reversible. Are you sure you want to delete?</p>
+                <button class="overlay-button" onclick="confirmDeleteAccount()">Yes, Delete</button>
+                <button class="overlay-button" onclick="hideConfirmOverlay()">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Overlay -->
+    <div id="editOverlay" class="overlay">
+        <div class="overlay-content">
+            <div class="overlay-header">
+                <h2>Edit Account</h2>
+            </div>
+            <div class="overlay-body">
+                <form id="editForm">
+                    <div>
+                        <label for="editAccountName">Account Name</label>
+                        <input type="text" id="editAccountName" name="editAccountName" readonly>
+                    </div>
+                    <div>
+                        <label for="editAccountId">Account ID</label>
+                        <input type="text" id="editAccountId" name="editAccountId" readonly>
+                    </div>
+                    <div>
+                        <label for="editCountry">Country</label>
+                        <input type="text" id="editCountry" name="editCountry">
+                    </div>
+                    <div>
+                        <label for="editDetails">Details</label>
+                        <input type="text" id="editDetails" name="editDetails">
+                    </div>
+                    <div>
+                        <label for="editNumber">Number</label>
+                        <input type="text" id="editNumber" name="editNumber">
+                    </div>
+                    <div>
+                        <label for="editImage">Add Image</label>
+                        <input type="file" id="editImage" name="editImage">
+                    </div>
+                    <button type="button" onclick="submitEdit()">Submit</button>
+                    <button type="button" onclick="hideEditOverlay()">Cancel</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/accounteditor.js"></script>
+</body>
+</html>
