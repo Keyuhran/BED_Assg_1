@@ -10,6 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 });
+/*formating for all windows*/
 $(window).on('resize', function() {
     if($(window).width() > 600) {
         $('#body').addClass('limit1200');
