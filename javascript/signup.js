@@ -1,11 +1,11 @@
 // Initialize Firebase
 const firebaseConfig = {
-  apiKey: "AIzaSyBd0hMFsqST37C0C_LnW669a8F9zkVY1gc",
-  authDomain: "south-eats-login.firebaseapp.com",
-  projectId: "south-eats-login",
-  storageBucket: "south-eats-login.appspot.com",
-  messagingSenderId: "998066367297",
-  appId: "1:998066367297:web:7d9f1cdb8aa5ca41c74fc0"
+  apiKey: "AIzaSyAuKFPymNnGYcBwCzbDvLiky_jEx21IHi8",
+  authDomain: "southeatslogin.firebaseapp.com",
+  projectId: "southeatslogin",
+  storageBucket: "southeatslogin.appspot.com",
+  messagingSenderId: "582873503422",
+  appId: "1:582873503422:web:69f4d628e0769bc4a4f0ef"
 };
 
 firebase.initializeApp(firebaseConfig);
