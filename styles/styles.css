@@ -1,0 +1,96 @@
+/*formating for diff pages */
+.limit400 h1 { font-size:12px; }
+.limit1200 h1 { font-size:50px; }
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+}
+
+header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px;
+    border-bottom: 1px solid #ddd;
+}
+
+.logo img {
+    height: 50px;
+}
+
+nav ul {
+    list-style: none;
+    display: flex;
+    gap: 20px;
+}
+
+nav ul li a {
+    text-decoration: none;
+    color: black;
+    border: 2px solid #999;
+    border-radius: 10px;
+    padding: 10px 15px;
+}
+
+.cart-icon img {
+    height: 30px;
+}
+
+.advert-display {
+    text-align: center;
+    padding: 50px 0;
+    background-color: #f7f7f7;
+}
+
+.advert {
+    background-color: #ddd;
+    width: 80%;
+    margin: 0 auto;
+    padding: 50px 0;
+    border-radius: 10px;
+    font-size: 24px;
+    color: black;
+}
+
+.dots {
+    margin-top: 20px;
+}
+
+.dot {
+    height: 10px;
+    width: 10px;
+    background-color: #bbb;
+    border-radius: 50%;
+    display: inline-block;
+    margin: 0 5px;
+}
+
+.shop-by-country {
+    text-align: center;
+    margin: 50px 0;
+}
+
+.carousel {
+    overflow-x: scroll;
+    white-space: nowrap;
+    padding: 20px;
+}
+
+.countries {
+    display: inline-flex;
+    gap: 20px;
+}
+
+.country {
+    background-color: #ddd;
+    height: 100px;
+    width: 100px;
+    border-radius: 50%;
+    display: inline-block;
+}
