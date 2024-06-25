@@ -1,4 +1,4 @@
-/*formating for diff pages */
+/* Formating for diff pages */
 .limit400 h1 { font-size:12px; }
 .limit1200 h1 { font-size:50px; }
 
@@ -76,21 +76,28 @@ nav ul li a {
     margin: 50px 0;
 }
 
-.carousel {
-    overflow-x: scroll;
-    white-space: nowrap;
-    padding: 20px;
+.shop-by-country h2 {
+    margin-bottom: 40px; 
 }
 
 .countries {
-    display: inline-flex;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
     gap: 20px;
+    justify-items: center;
+    align-items: center;
 }
 
 .country {
     background-color: #ddd;
-    height: 100px;
-    width: 100px;
-    border-radius: 50%;
-    display: inline-block;
+    height: 200px; 
+    width: 600px; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+    font-size: 14px;
+    text-align: center;
+    padding: 10px;
 }
+
