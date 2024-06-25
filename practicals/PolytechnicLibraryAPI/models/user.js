@@ -1,6 +1,7 @@
 const sql = require("mssql");
 const dbConfig = require("../dbConfig");
 
+
 class User {
     constructor(id, username, email) {
       this.id = id;
@@ -8,7 +9,7 @@ class User {
       this.email = email;
     }
 
-    static async createUser(user) {
+    static async resgisterUser(user) {
         const connection = await sql.connect(dbConfig);
     
         // Define the SQL query with placeholders
@@ -195,6 +196,27 @@ class User {
           await connection.close();
         }
     }
+
+    static async getUserByUsername(Username) {
+      const connection = await sql.connect(dbConfig);
+  
+      const sqlQuery = `SELECT * FROM Users WHERE username = @username`; // Parameterized query
+  
+      const request = connection.request();
+      request.input("username", username);
+      const result = await request.query(sqlQuery);
+  
+      connection.close();
+  
+      return result.recordset[0]
+        ? new User(
+            result.recordset[0].id,
+            result.recordset[0].username,
+            result.recordset[0].role
+          )
+        : null; // Handle book not found
+  }
+  
     
   }
   

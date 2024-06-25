@@ -42,6 +42,32 @@ class Book {
           )
         : null; // Handle book not found
     }
+
+    static async updateBookAvail(id, updatedBook) {
+      const connection = await sql.connect(dbConfig);
+  
+      // Define the SQL UPDATE statement with placeholders
+      const sqlQuery = `UPDATE Books SET availability = @availability WHERE id = @id;`;
+  
+      // Prepare the request object
+      const request = connection.request();
+  
+      // Add parameters to the request
+      request.input('id', id);
+      request.input('availability', updatedBook.availability);
+      try {
+          // Execute the query
+          const result = await request.query(sqlQuery);
+          console.log(`User with ID ${id} updated successfully`);
+          return result;
+      } catch (error) {
+          console.error("Error updating book:", error);
+          throw error; // Rethrow the error to handle it in the caller function
+      } finally {
+          // Close the database connection
+          connection.close();
+      }
+  }
   }
   
   module.exports = Book;
