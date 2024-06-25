@@ -1,6 +1,6 @@
 const express = require("express");
 const sql = require("mssql");
-const dbConfig = require("./dbConfig");
+const dbConfig = require("./javascript/dbConfig");
 const bodyParser = require("body-parser"); // Import body-parser
 const usersController = require("./controllers/Controller");
 
