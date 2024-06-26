@@ -1,6 +1,6 @@
 const express = require("express");
 const sql = require("mssql");
-const dbConfig = require("./dbConfig");
+const dbConfig = require("./javascript/dbConfig");
 const bodyParser = require("body-parser"); // Import body-parser
 const usersController = require("./controllers/Controller");
 
@@ -50,27 +50,3 @@ process.on("SIGINT", async () => {
 
 
 
-// below is johns old code
-document.addEventListener('DOMContentLoaded', () => {
-    const dots = document.querySelectorAll('.dot');
-    const advert = document.querySelector('.advert');
-
-    dots.forEach((dot, index) => {
-        dot.addEventListener('click', () => {
-            advert.textContent = `Advert/Display ${index + 1}`;
-            dots.forEach(d => d.style.backgroundColor = '#bbb');
-            dot.style.backgroundColor = '#333';
-        });
-    });
-});
-/*formating for all windows*/
-$(window).on('resize', function() {
-    if($(window).width() > 600) {
-        $('#body').addClass('limit1200');
-        $('#body').removeClass('limit400');
-    }
-    else {
-        $('#body').addClass('limit400');
-        $('#body').removeClass('limit1200');
-    }
-})

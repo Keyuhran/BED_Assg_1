@@ -7,10 +7,8 @@
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <link href="https://fonts.googleapis.com/css2?family=Antic+Slab&family=Kalnia:wght@300&family=Kavivanar&family=Orbitron:wght@700&family=Raleway:wght@200&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles/login.css">
-    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-auth.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-database.js"></script>
-    <script src="javascript/signup.js"></script>
+
+
 </head>
 <body class="login">
     <div id="body" class="limit400">
@@ -66,24 +64,12 @@
     </div>
 
     
+  
     <script>
-        // JavaScript to handle the click event for "BACK TO LOGIN" button
+        // JavaScript to handle the click event for "CREATE ACCOUNT" button
         document.getElementById('back-to-login-btn').addEventListener('click', function() {
-            window.location.href = 'login.html'; 
+            window.location.href = 'login.html'; // Redirect to signup.html when button is clicked
         });
-
-        // Your web app's Firebase configuration
-        const firebaseConfig = {
-            apiKey: "AIzaSyAuKFPymNnGYcBwCzbDvLiky_jEx21IHi8",
-  authDomain: "southeatslogin.firebaseapp.com",
-  projectId: "southeatslogin",
-  storageBucket: "southeatslogin.appspot.com",
-  messagingSenderId: "582873503422",
-  appId: "1:582873503422:web:69f4d628e0769bc4a4f0ef"
-  };
-
-        // Initialize Firebase
-        firebase.initializeApp(firebaseConfig);
     </script>
 </body>
 </html>
