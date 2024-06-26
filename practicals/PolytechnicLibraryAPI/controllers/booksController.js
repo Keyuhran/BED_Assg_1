@@ -24,7 +24,21 @@ const getBookById = async (req, res) => {
   }
 };
 
+const updateBookAvail = async (req, res) => {
+  const Id = req.params.id;
+  const availability = req.body;
+
+  try {
+      const result = await book.updateBookAvail(Id, availability);
+      res.status(200).json({ message: "User updated successfully" });
+  } catch (error) {
+      console.error("Error updating user:", error);
+      res.status(500).json({ message: "Failed to update user" });
+  }
+};
+
 module.exports = {
   getAllBooks,
   getBookById,
+  updateBookAvail
 };
