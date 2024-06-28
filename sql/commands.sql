@@ -273,9 +273,3 @@ INSERT INTO PHILIPPINES (SnackId, SnackName, SnackDescription, SnackPrice, Ingre
 ('PH001', 'Adobo', 'A popular Filipino dish of meat (chicken, pork, or both) marinated in vinegar, soy sauce, garlic, bay leaves, and black peppercorns, then stewed until tender.', 4.00, 'Chicken/Pork, Vinegar, Soy Sauce, Garlic, Bay Leaves, Black Peppercorns'),
 ('PH002', 'Halo-Halo', 'A Filipino dessert made with mixed fruits, beans, jelly, and shaved ice, topped with evaporated milk, ice cream, and sometimes leche flan (caramel custard).', 3.50, 'Mixed Fruits, Beans, Jelly, Shaved Ice, Evaporated Milk, Ice Cream, Leche Flan'),
 ('PH003', 'Lechon', 'A whole roasted pig cooked over charcoal, resulting in crispy skin and tender meat, often served during festive occasions.', 5.00, 'Pork, Garlic, Vinegar, Soy Sauce, Bay Leaves');
-
-
-
-
-
-
