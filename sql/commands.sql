@@ -3,11 +3,11 @@ CREATE TABLE Users (
     Email VARCHAR(255),
     Password VARCHAR(255),
     passwordHash VARCHAR(255),
-    Postalcode INT(6),
+    Postalcode INT,
     Streetname VARCHAR(255),
-    Blockno INT(4),
+    Blockno INT,
     Unitno INT,
-    Phoneno int(8),
+    Phoneno int,
      
 )
 
