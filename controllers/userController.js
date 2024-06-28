@@ -2,10 +2,10 @@ const User = require("../models/User");
 
 async function login(req, res) {
 
-    const username = req.body.username;
+    const email = req.body.email;
     const password = req.body.password;
     try {
-    const user = await User.login(username, password);
+    const user = await User.login(email, password);
 
     if (!user) {
       return res.status(401).send("Invalid username or password");

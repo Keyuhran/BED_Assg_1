@@ -1,6 +1,7 @@
 const sql = require("mssql");
 const dbConfig = require("../dbConfig");
 
+
 class User {
   constructor(id, name, email, passwordHash, postalcode, streetname, blockno, unitno, phoneno) {
     this.id = id;
