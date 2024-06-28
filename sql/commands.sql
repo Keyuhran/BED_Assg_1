@@ -1,13 +1,12 @@
 CREATE TABLE Users (
-    Name VARCHAR(255),
     Email VARCHAR(255),
-    Password VARCHAR(255),
     passwordHash VARCHAR(255),
     Postalcode INT,
     Streetname VARCHAR(255),
     Blockno INT,
     Unitno INT,
     Phoneno int,
+    Name VARCHAR(255),
      
 )
 

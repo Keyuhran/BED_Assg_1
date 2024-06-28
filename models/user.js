@@ -3,9 +3,7 @@ const dbConfig = require("../dbConfig");
 
 
 class User {
-  constructor(id, name, email, passwordHash, postalcode, streetname, blockno, unitno, phoneno) {
-    this.id = id;
-    this.name = name;
+  constructor(email, passwordHash, postalcode, streetname, blockno, unitno, phoneno, name) {
     this.email = email;
     this.passwordHash = passwordHash;
     this.postalcode = postalcode;
@@ -13,6 +11,7 @@ class User {
     this.blockno = blockno;
     this.unitno = unitno;
     this.phoneno = phoneno;
+    this.name = name;
   }
 
   static async login(email, password) {
@@ -34,7 +33,7 @@ class User {
 
     const user = result.recordset[0];
 
-    // Implement password hashing comparison here (explained earlier)
+    //Implement password hashing comparison here (explained earlier)
     /*if (/* compare password with hashed password */ {
       //return new User(
         //user.id,
