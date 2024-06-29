@@ -1,10 +1,11 @@
 const User = require("../models/User");
 const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
 
 async function login(req, res) {
 
   const email = req.body.email;
-  const password = req.body.password;
+  const password = req.body.pass
 
   try {
     const user = await User.login(email, password); // Call the User.login function
@@ -28,8 +29,6 @@ async function login(req, res) {
     res.status(500).send("Error logging in");
   }
 };
-
-
 
 
 
@@ -60,7 +59,25 @@ async function createUser(req, res) {
       }
     }
 
+
+    async function retrieveUser(req, res) {
+
+      const email = req.query.email;
+    
+      try {
+        const user = await User.retrieveUser(email)
+       
+      } catch (error) {
+        console.error(error);
+        res.status(500).send("Error retrieving data");
+      }
+    };
+    
+
 module.exports = {
     login,
-    createUser
+    createUser,
+    retrieveUser
 }
+
+

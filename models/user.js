@@ -67,5 +67,24 @@ static async hashPassword(password) {
   return hashedPassword;
 
 }
+
+
+static async retrieveUser(email) {
+  const connection = await sql.connect(dbConfig);
+  const sqlQuery = `SELECT * FROM Users WHERE email = @email`; // Parameterized query
+  const request = connection.request();
+
+  request.input("email", email);
+
+
+  const result = await request.query(sqlQuery);
+  connection.close();
+
+  if (result.recordset.length === 0) {
+    return null; // User not found
+  }
+
+  const user = result.recordset[0];
+}
 }
 module.exports = User;

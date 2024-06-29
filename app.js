@@ -14,8 +14,9 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 
 
-app.get("/users", userController.login); // Create user
+//app.get("/users", userController.login); // Create user
 app.post("/users", userController.createUser)
+app.get("/users", userController.retrieveUser)
 
 // Start server
 const server = app.listen(port, async () => {
