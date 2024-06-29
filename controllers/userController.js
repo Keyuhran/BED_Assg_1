@@ -33,8 +33,7 @@ async function createUser(req, res) {
     const phoneno = req.body.phoneno
     const name = req.body.name
     try {
-        const salt = await bcrypt.genSalt(10);
-        const hashedPassword = await bcrypt.hash(password, salt);
+        const hashedPassword = await User.hashPassword(password);
         const newUser = await User.createUser(email, hashedPassword, postalcode, streetname, blockno, unitno, phoneno, name);
     
         if (newUser) {

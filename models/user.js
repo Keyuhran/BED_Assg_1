@@ -1,5 +1,6 @@
 const sql = require("mssql");
 const dbConfig = require("../dbConfig");
+const bcrypt = require("bcryptjs");
 
 
 class User {
@@ -59,24 +60,12 @@ request.input("name", name);
 
  return result.rowsAffected[0] === 1; // Check if 1 row was inserted (success)
 
+}
+static async hashPassword(password) {
+  const salt = await bcrypt.genSalt(10);
+  const hashedPassword = await bcrypt.hash(password, salt);
+  return hashedPassword;
 
-  /*Implement password hashing comparison here (explained earlier)
-  if ( compare password with hashed password) {
-    return new User(
-      user.id,
-      user.name,
-      user.email,
-      user.passwordHash,
-      user.postalcode,
-      user.streetname,
-      user.blockno,
-      user.unitno,
-      user.phoneno
-    );
-  } else {
-    return null; // Invalid password
-  }*/
 }
 }
-
 module.exports = User;
