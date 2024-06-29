@@ -1,0 +1,237 @@
+const express = require('express'); 
+const router = express.Router(); 
+const sql = require('mssql'); 
+const dbConfig = require('../dbConfig'); // Adjust the path as per your directory structure 
+ 
+// Route for handling GET requests to /snacks 
+router.get('/', async (req, res) => { 
+    const { country } = req.query; 
+ 
+    let query; 
+    if (country) { 
+        // Validate the country parameter 
+        switch (country.toLowerCase()) { 
+            case 'malaysia': 
+                query = ` 
+                    SELECT TOP 3 SnackId AS Id, SnackName AS Name, SnackDescription AS Description, SnackPrice AS Price, Ingredients, ImagePath 
+                    FROM MALAYSIA 
+                    ORDER BY SnackId 
+                `; 
+                break; 
+            case 'singapore': 
+                query = ` 
+                    SELECT TOP 3 SnackId AS Id, SnackName AS Name, SnackDescription AS Description, SnackPrice AS Price, Ingredients, ImagePath 
+                    FROM SINGAPORE 
+                    ORDER BY SnackId 
+                `; 
+                break; 
+            case 'brunei': 
+                query = ` 
+                    SELECT TOP 3 SnackId AS Id, SnackName AS Name, SnackDescription AS Description, SnackPrice AS Price, Ingredients, ImagePath 
+                    FROM BRUNEI 
+                    ORDER BY SnackId 
+                `; 
+                break; 
+            case 'cambodia': 
+                query = ` 
+                    SELECT TOP 3 SnackId AS Id, SnackName AS Name, SnackDescription AS Description, SnackPrice AS Price, Ingredients, ImagePath 
+                    FROM CAMBODIA 
+                    ORDER BY SnackId 
+                `; 
+                break; 
+            case 'myanmar': 
+                query = ` 
+                    SELECT TOP 3 SnackId AS Id, SnackName AS Name, SnackDescription AS Description, SnackPrice AS Price, Ingredients, ImagePath 
+                    FROM MYANMAR 
+                    ORDER BY SnackId 
+                `; 
+                break; 
+            case 'laos': 
+                query = ` 
+                    SELECT TOP 3 SnackId AS Id, SnackName AS Name, SnackDescription AS Description, SnackPrice AS Price, Ingredients, ImagePath 
+                    FROM LAOS 
+                    ORDER BY SnackId 
+                `; 
+                break; 
+            case 'vietnam': 
+                query = ` 
+                    SELECT TOP 3 SnackId AS Id, SnackName AS Name, SnackDescription AS Description, SnackPrice AS Price, Ingredients, ImagePath 
+                    FROM VIETNAM 
+                    ORDER BY SnackId 
+                `; 
+                break; 
+            case 'philippines': 
+                query = ` 
+                    SELECT TOP 3 SnackId AS Id, SnackName AS Name, SnackDescription AS Description, SnackPrice AS Price, Ingredients, ImagePath 
+                    FROM PHILIPPINES 
+                    ORDER BY SnackId 
+                `; 
+                break; 
+            case 'thailand': 
+                query = ` 
+                    SELECT TOP 3 SnackId AS Id, SnackName AS Name, SnackDescription AS Description, SnackPrice AS Price, Ingredients, ImagePath 
+                    FROM THAILAND 
+                    ORDER BY SnackId 
+                `; 
+                break; 
+            case 'indonesia': 
+                query = ` 
+                    SELECT TOP 3 SnackId AS Id, SnackName AS Name, SnackDescription AS Description, SnackPrice AS Price, Ingredients, ImagePath 
+                    FROM INDONESIA 
+                    ORDER BY SnackId 
+                `; 
+                break; 
+            case 'timor-leste': 
+                query = ` 
+                    SELECT TOP 3 SnackId AS Id, SnackName AS Name, SnackDescription AS Description, SnackPrice AS Price, Ingredients, ImagePath 
+                    FROM TIMORLESTE 
+                    ORDER BY SnackId 
+                `; 
+                break; 
+            default: 
+                return res.status(400).json({ error: 'Invalid country' }); 
+        } 
+    } else { 
+
+        query = ` 
+            WITH RankedSnacks AS ( 
+                SELECT 'Malaysia' AS Country, SnackId, SnackName AS Name, SnackDescription AS Description, SnackPrice AS Price, Ingredients, ImagePath, 
+                       ROW_NUMBER() OVER (PARTITION BY 'Malaysia' ORDER BY SnackId) AS rn 
+                FROM MALAYSIA 
+                UNION ALL 
+                SELECT 'Singapore' AS Country, SnackId, SnackName AS Name, SnackDescription AS Description, SnackPrice AS Price, Ingredients, ImagePath, 
+                       ROW_NUMBER() OVER (PARTITION BY 'Singapore' ORDER BY SnackId) AS rn 
+                FROM SINGAPORE 
+                UNION ALL 
+                SELECT 'Brunei' AS Country, SnackId, SnackName AS Name, SnackDescription AS Description, SnackPrice AS Price, Ingredients, ImagePath, 
+                       ROW_NUMBER() OVER (PARTITION BY 'Brunei' ORDER BY SnackId) AS rn 
+                FROM BRUNEI 
+                UNION ALL 
+                SELECT 'Cambodia' AS Country, SnackId, SnackName AS Name, SnackDescription AS Description, SnackPrice AS Price, Ingredients, ImagePath, 
+                       ROW_NUMBER() OVER (PARTITION BY 'Cambodia' ORDER BY SnackId) AS rn 
+                FROM CAMBODIA 
+                UNION ALL 
+                SELECT 'Myanmar' AS Country, SnackId, SnackName AS Name, SnackDescription AS Description, SnackPrice AS Price, Ingredients, ImagePath, 
+                       ROW_NUMBER() OVER (PARTITION BY 'Myanmar' ORDER BY SnackId) AS rn 
+                FROM MYANMAR 
+                UNION ALL 
+                SELECT 'Laos' AS Country, SnackId, SnackName AS Name, SnackDescription AS Description, SnackPrice AS Price, Ingredients, ImagePath, 
+                       ROW_NUMBER() OVER (PARTITION BY 'Laos' ORDER BY SnackId) AS rn 
+                FROM LAOS 
+                UNION ALL 
+                SELECT 'Vietnam' AS Country, SnackId, SnackName AS Name, SnackDescription AS Description, SnackPrice AS Price, Ingredients, ImagePath, 
+                       ROW_NUMBER() OVER (PARTITION BY 'Vietnam' ORDER BY SnackId) AS rn 
+                FROM VIETNAM 
+                UNION ALL 
+                SELECT 'Philippines' AS Country, SnackId, SnackName AS Name, SnackDescription AS Description, SnackPrice AS Price, Ingredients, ImagePath, 
+                       ROW_NUMBER() OVER (PARTITION BY 'Philippines' ORDER BY SnackId) AS rn 
+                FROM PHILIPPINES 
+                UNION ALL 
+                SELECT 'Thailand' AS Country, SnackId, SnackName AS Name, SnackDescription AS Description, SnackPrice AS Price, Ingredients, ImagePath, 
+                       ROW_NUMBER() OVER (PARTITION BY 'Thailand' ORDER BY SnackId) AS rn 
+                FROM THAILAND 
+                UNION ALL 
+                SELECT 'Indonesia' AS Country, SnackId, SnackName AS Name, SnackDescription AS Description, SnackPrice AS Price, Ingredients, ImagePath, 
+                       ROW_NUMBER() OVER (PARTITION BY 'Indonesia' ORDER BY SnackId) AS rn 
+                FROM INDONESIA 
+                UNION ALL 
+                SELECT 'Timor-Leste' AS Country, SnackId, SnackName AS Name, SnackDescription AS Description, SnackPrice AS Price, Ingredients, ImagePath, 
+                       ROW_NUMBER() OVER (PARTITION BY 'Timor-Leste' ORDER BY SnackId) AS rn 
+                FROM TIMORLESTE 
+            ) 
+            SELECT Country, SnackId AS Id, Name, Description, Price, Ingredients, ImagePath 
+            FROM RankedSnacks 
+            WHERE rn <= 3 
+        `; 
+    } 
+ 
+    try { 
+        let pool = await sql.connect(dbConfig); 
+        let result = await pool.request().query(query); 
+        res.json(result.recordset); 
+    } catch (err) { 
+        console.error('Error fetching snacks:', err.message); 
+        res.status(500).json({ error: 'Internal server error (GET)' }); 
+    } 
+});
+
+module.exports = router;
+
+
+class Snack {
+    constructor(snackName, snackDescription, snackPrice, ingredients, country, imagePath) {
+        this.snackName = snackName;
+        this.snackDescription = snackDescription;
+        this.snackPrice = snackPrice;
+        this.ingredients = ingredients;
+        this.country = country;
+        this.imagePath = imagePath;
+    }
+
+    static async createSnack(snackName, snackDescription, snackPrice, ingredients, country, imagePath) {
+        try {
+            const pool = await sql.connect(dbConfig);
+
+            let tableName;
+            switch (country.toLowerCase()) {
+                case 'malaysia':
+                    tableName = 'MALAYSIA';
+                    break;
+                case 'singapore':
+                    tableName = 'SINGAPORE';
+                    break;
+                case 'brunei':
+                    tableName = 'BRUNEI';
+                    break;
+                case 'cambodia':
+                    tableName = 'CAMBODIA';
+                    break;
+                case 'myanmar':
+                    tableName = 'MYANMAR';
+                    break;
+                case 'laos':
+                    tableName = 'LAOS';
+                    break;
+                case 'vietnam':
+                    tableName = 'VIETNAM';
+                    break;
+                case 'philippines':
+                    tableName = 'PHILIPPINES';
+                    break;
+                case 'thailand':
+                    tableName = 'THAILAND';
+                    break;
+                case 'indonesia':
+                    tableName = 'INDONESIA';
+                    break;
+                case 'timorleste':
+                    tableName = 'TIMORLESTE';
+                    break;
+                default:
+                    throw new Error('Invalid country provided');
+            }
+
+            const sqlQuery = `
+                INSERT INTO ${tableName} (SnackName, SnackDescription, SnackPrice, Ingredients, ImagePath)
+                VALUES (@snackName, @snackDescription, @snackPrice, @ingredients, @imagePath)
+            `;
+
+            const request = pool.request();
+            request.input('snackName', sql.NVarChar, snackName);
+            request.input('snackDescription', sql.NVarChar, snackDescription);
+            request.input('snackPrice', sql.Decimal, snackPrice);
+            request.input('ingredients', sql.NVarChar, ingredients);
+            request.input('imagePath', sql.NVarChar, imagePath);
+
+            const result = await request.query(sqlQuery);
+            pool.close();
+
+            return result.rowsAffected[0] === 1; 
+        } catch (error) {
+            console.error('Error adding snack:', error.message);
+            throw error; 
+        }
+    }
+}
+
+module.exports = Snack;
