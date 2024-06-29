@@ -7,7 +7,7 @@ CREATE TABLE Users (
     Unitno INT,
     Phoneno int,
     Name VARCHAR(255),
-     
+    isRider BIT,
 )
 
 CREATE TABLE Account (
