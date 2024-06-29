@@ -1,11 +1,11 @@
 module.exports = {
-    user: "Southeatsadmin", 
-    password: "password", 
-    server: "localhost",
-    database: "bedassg",
-    trustServerCertificate: true,
-    options: {
-      port: 1433, // Default SQL Server port
-      connectionTimeout: 60000, // Connection timeout in milliseconds
-    },
-  };
+  user: "darylsoon",
+  password: "darylsoon", 
+  server: "localhost",
+  database: "bedasg", 
+  trustServerCertificate: true,
+  options: {
+    port: 1433,
+    connectionTimeout: 60000,
+  },
+};

@@ -1,44 +1,31 @@
-const express = require("express");
-const path = require("path");
-const bodyParser = require("body-parser");
-const sql = require("mssql");
-const dbConfig = require("./dbConfig");
-
+const express = require('express');
+const bodyParser = require('body-parser');
 const app = express();
-const port = process.env.PORT || 3000;
+const dbConfig = require('dbConfig'); 
+const sql = require('mssql');
 
-// Middleware
+// Middleware setup
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(express.static(path.join(__dirname, 'public')));
 
-// Start server
-const server = app.listen(port, async () => {
+// Routes setup
+const snacksRoutes = require('./public/scripts/snacks'); // Adjust path as per your file structure
+app.use('/api/snacks', snacksRoutes); // Use the appropriate endpoint
+
+// Initialize database connection
+async function startServer() {
   try {
-    // Connect to the database
     await sql.connect(dbConfig);
-    console.log("Database connection established successfully");
-  } catch (err) {
-    console.error("Database connection error:", err);
-    // Terminate the application with an error code
-    process.exit(1);
-  }
-  
-  console.log(`Server listening on port ${port}`);
-});
-
-// Graceful shutdown
-process.on("SIGINT", async () => {
-  console.log("Server is gracefully shutting down");
-  try {
-    await sql.close();
-    console.log("Database connection closed");
-  } catch (err) {
-    console.error("Error closing database connection:", err);
-  } finally {
-    server.close(() => {
-      console.log("Server closed");
-      process.exit(0);
+    console.log('Connected to SQL Server database');
+    
+    // Start the Express server
+    const port = process.env.PORT || 3000;
+    app.listen(port, () => {
+      console.log(`Server is running on http://localhost:${port}`);
     });
+  } catch (err) {
+    console.error('Error connecting to SQL Server:', err.message);
   }
-});
+}
+
+startServer();
