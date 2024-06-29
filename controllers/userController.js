@@ -3,9 +3,8 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
 async function login(req, res) {
-
   const email = req.body.email;
-  const password = req.body.pass
+  const password = req.body.password;
 
   try {
     const user = await User.login(email, password); // Call the User.login function
@@ -14,12 +13,11 @@ async function login(req, res) {
       return res.status(401).send("Invalid email or password");
     }
 
-    // **Corrected Line:** Verify password using bcrypt.compare
+    // Verify password using bcrypt.compare
     const isMatch = await bcrypt.compare(password, user.hashedPassword);
 
-    if (isMatch == true)  {
+    if (isMatch) {
       // Login successful (generate session, JWT, etc.)
-      // Consider what user data to expose in the response (avoid sensitive passwords)
       res.json({ message: "Login successful!" });
     } else {
       res.status(401).send("Invalid email or password");
@@ -30,54 +28,60 @@ async function login(req, res) {
   }
 };
 
-
-
 async function createUser(req, res) {
+  const email = req.body.email;
+  const password = req.body.password;
+  const postalcode = req.body.postalcode;
+  const streetname = req.body.streetname; // Corrected this line
+  const blockno = req.body.blockno;
+  const unitno = req.body.unitno;
+  const phoneno = req.body.phoneno;
+  const name = req.body.name;
 
-    const email = req.body.email;
-    const password = req.body.password;
-    const postalcode = req.body.postalcode
-    const streetname = req.body.postalcode
-    const blockno = req.body.blockno
-    const unitno = req.body.unitno
-    const phoneno = req.body.phoneno
-    const name = req.body.name
-    try {
-        const hashedPassword = await User.hashPassword(password);
-        const newUser = await User.createUser(email, hashedPassword, postalcode, streetname, blockno, unitno, phoneno, name);
-    
-        if (newUser) {
-          // Handle successful user creation (redirect, send confirmation email, etc.)
-          res.status(201).send("User created successfully!"); // 201 Created status code
-        } else {
-          // Handle potential errors (e.g., email already exists, etc.)
-          res.status(400).send("Error creating user");
-        }
-      } catch (error) {
-        console.error(error);
-        res.status(500).send("Internal server error");
-      }
+  try {
+    const hashedPassword = await User.hashPassword(password);
+    const newUser = await User.createUser(email, hashedPassword, postalcode, streetname, blockno, unitno, phoneno, name);
+
+    if (newUser) {
+      res.status(201).send("User created successfully!"); // 201 Created status code
+    } else {
+      res.status(400).send("Error creating user");
     }
-
-
-    async function retrieveUser(req, res) {
-
-      const email = req.query.email;
-    
-      try {
-        const user = await User.retrieveUser(email)
-       
-      } catch (error) {
-        console.error(error);
-        res.status(500).send("Error retrieving data");
-      }
-    };
-    
-
-module.exports = {
-    login,
-    createUser,
-    retrieveUser
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Internal server error");
+  }
 }
 
+async function retrieveUser(req, res) {
+  const email = req.query.email;
 
+  try {
+    const user = await User.retrieveUser(email);
+
+    if (user) {
+      res.json({
+        email: user.email,
+        hashedPassword: user.hashedPassword,
+        postalcode: user.postalcode,
+        streetname: user.streetname,
+        blockno: user.blockno,
+        unitno: user.unitno,
+        phoneno: user.phoneno,
+        name: user.name,
+        isRider: user.isRider
+      });
+    } else {
+      res.status(404).send("User not found");
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Error retrieving data");
+  }
+}
+
+module.exports = {
+  login,
+  createUser,
+  retrieveUser
+};

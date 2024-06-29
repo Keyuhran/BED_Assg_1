@@ -16,7 +16,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 //app.get("/users", userController.login); // Create user
 app.post("/users", userController.createUser)
-app.get("/users", userController.retrieveUser)
+app.get("/users/email", userController.retrieveUser)
 
 // Start server
 const server = app.listen(port, async () => {
