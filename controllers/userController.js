@@ -3,22 +3,33 @@ const bcrypt = require("bcryptjs");
 
 async function login(req, res) {
 
-    const email = req.body.email;
-    const password = req.body.password;
-    try {
-    const user = await User.login(email, password);
+  const email = req.body.email;
+  const password = req.body.password;
+
+  try {
+    const user = await User.login(email, password); // Call the User.login function
 
     if (!user) {
-      return res.status(401).send("Invalid username or password");
+      return res.status(401).send("Invalid email or password");
     }
 
-    // Handle successful login (redirect, session creation, etc.)
-    res.json(user); // This might expose sensitive user data, adjust based on your needs
+    // **Corrected Line:** Verify password using bcrypt.compare
+    const isMatch = await bcrypt.compare(password, user.hashedPassword);
+
+    if (isMatch == true)  {
+      // Login successful (generate session, JWT, etc.)
+      // Consider what user data to expose in the response (avoid sensitive passwords)
+      res.json({ message: "Login successful!" });
+    } else {
+      res.status(401).send("Invalid email or password");
+    }
   } catch (error) {
     console.error(error);
     res.status(500).send("Error logging in");
   }
 };
+
+
 
 
 

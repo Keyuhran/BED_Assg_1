@@ -7,8 +7,8 @@ loginForm.addEventListener('submit', async (event) => {
   const password = document.getElementById('password').value;
 
   try {
-    const response = await fetch('/login', { // Assuming your login endpoint is at /login
-      method: 'POST',
+    const response = await fetch('/Users', { // Assuming your login endpoint is at /login
+      method: 'GET',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email, password })
     });
