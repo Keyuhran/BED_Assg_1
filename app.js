@@ -4,7 +4,7 @@ const bodyParser = require("body-parser");
 const sql = require("mssql");
 const dbConfig = require("./dbConfig");
 const userController = require("./controllers/userController");
-const snacksRoutes = require('./models/snacks'); 
+const snacksRouter = require('./controllers/snackController');
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -13,9 +13,8 @@ const port = process.env.PORT || 3000;
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
+app.use('/snacks', snacksRouter); 
 
-// Routes
-app.use("/snacks", snacksRoutes); 
 app.post("/users", userController.createUser);
 app.get("/users", userController.login); // Create user
 
