@@ -18,7 +18,7 @@ async function createSnack(req, res) {
     if (newSnack) {
       res.status(201).send("Snack created successfully!");
     } else {
-      res.status(400).send("Error creating user");
+      res.status(400).send("Error adding snack");
     }
   } catch (error) {
     console.error(error);
@@ -45,27 +45,23 @@ async function retrieveSnacks(req, res) {
   }
 }
 
-async function deleteUser(req, res) {
-  const email = req.query.email;
-
+const getSnacksByCountry = async (req, res) => {
+  const country = req.params.country; // Retrieve the country from the URL parameter
+  console.log(country);
   try {
-    const user = await User.retrieveUser(email);
-    console.log("Attempting to delete user:", user.name);
-    const success = await User.deleteUser(email);
-
-    if (success) {
-      res.status(204).send("User deleted successfully");
-    } else {
-      res.status(404).send("User not found");
+    const snacks = await Snack.getSnacksByCountry(country);
+    if (!snacks) {
+      return res.status(404).send("Snacks not found");
     }
+    res.json(snacks);
   } catch (error) {
     console.error(error);
-    res.status(500).send("Error deleting user");
+    res.status(500).send("Error retrieving snacks");
   }
-}
+};
 
 module.exports = {
   createSnack,
   retrieveSnacks,
-  deleteUser
+  getSnacksByCountry
 };
