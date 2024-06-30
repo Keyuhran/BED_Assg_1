@@ -71,3 +71,12 @@ INSERT INTO Users (Email, passwordHash, Postalcode, Streetname, Blockno, Unitno,
 ('user3@example.com', 'passwordHash3', 345678, 'Street 3', 30, 303, 34567890, 'User Three', 1),
 ('user4@example.com', 'passwordHash4', 456789, 'Street 4', 40, 404, 45678901, 'User Four', 0),
 ('user5@example.com', 'passwordHash5', 567890, 'Street 5', 50, 505, 56789012, 'User Five', 1);
+
+CREATE TABLE Cart (
+    Email VARCHAR(255),
+    SnackId VARCHAR(5),
+    Quantity INT,
+    FOREIGN KEY (Email) REFERENCES Users(Email),
+    FOREIGN KEY (SnackId) REFERENCES Snacks(SnackId),
+    PRIMARY KEY (Email, SnackId)
+);
