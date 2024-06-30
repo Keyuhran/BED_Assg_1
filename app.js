@@ -22,6 +22,8 @@ app.post('/cart/add', cartController.addToCart);
 app.get("/users", userController.login); // Create user
 app.get("/snacks", snackController.retrieveSnacks);
 app.get('/snacks/:country', snackController.getSnacksByCountry);
+app.get("/riders", userController.retrieveRider)
+app.delete("/users/email", userController.deleteUser)
 
 // Start server
 const server = app.listen(port, async () => {
