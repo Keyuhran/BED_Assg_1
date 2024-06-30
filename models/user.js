@@ -142,7 +142,7 @@ class User {
     connection.close();
 
     console.log("Delete results:", result); //To see result
-    return result.rowsAffected[0] === 1; // Check if a column was deleted 
+    return result.rowsAffected[1] === 1; // Check if a column was deleted 
   }
 }
 

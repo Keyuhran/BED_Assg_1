@@ -105,8 +105,8 @@ async function deleteUser(req, res) {
   try {
     const user = await User.retrieveUser(email);
     console.log("Attempting to delete user:", user.name);
+    console.log(user.name);
     const success = await User.deleteUser(email);
-
     if (success) {
       res.status(200).send("User deleted successfully");
     } else {
