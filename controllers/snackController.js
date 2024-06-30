@@ -1,4 +1,4 @@
-const Snack = require("../models/Snack");
+const Snack = require("../models/snack");
 const bcrypt = require("bcryptjs");
 
 
