@@ -19,7 +19,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.post("/users", userController.createUser);
 app.post("/snacks", snackController.createSnack);
 app.post('/cart/add', cartController.addToCart);
-app.get("/users", userController.login); // Create user
+app.get("/users/email", userController.retrieveUser);
 app.get("/snacks", snackController.retrieveSnacks);
 app.get('/snacks/:country', snackController.getSnacksByCountry);
 app.get("/riders", userController.retrieveRider)

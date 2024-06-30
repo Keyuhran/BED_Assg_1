@@ -90,17 +90,6 @@ class User {
     }
 
     const user = result.recordset[0];
-    console.log({
-      email: user.Email,
-      hashedPassword: user.passwordHash, // Correct field name
-      postalcode: user.Postalcode,
-      streetname: user.Streetname,
-      blockno: user.Blockno,
-      unitno: user.Unitno,
-      phoneno: user.Phoneno,
-      name: user.Name,
-      isRider: user.isRider
-    });
     return new User(
       user.Email,
       user.passwordHash,

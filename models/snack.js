@@ -5,7 +5,7 @@ const bcrypt = require("bcryptjs");
 
 class Snack {
     constructor(snackId, snackName, snackDescription, snackPrice, ingredients, imagePath, country) {
-        this.snackId = snackId,
+        this.snackId = snackId;
         this.snackName = snackName;
         this.snackDescription = snackDescription;
         this.snackPrice = snackPrice;
@@ -47,6 +47,33 @@ static async retrieveSnacks() {
   const result = await request.query(sqlQuery);
   connection.close();
 
+  if (result.recordset.length === 0) {
+    return null; // Snacks not found
+  }
+
+  return result.recordset.map(
+    (snack) => new Snack(
+      snack.SnackId,
+      snack.SnackName,
+      snack.SnackDescription,
+      snack.SnackPrice,
+      snack.Ingredients,
+      snack.ImagePath,
+      snack.Country,
+    )
+  );
+}
+
+static async getSnacksByCountry(country) {
+  const connection = await sql.connect(dbConfig);
+  const sqlQuery = `SELECT * FROM Snacks where Country = @country`; // Parameterized query
+  const request = connection.request();
+
+  request.input("Country", country);
+
+  const result = await request.query(sqlQuery);
+  connection.close();
+  console.log(result);
   if (result.recordset.length === 0) {
     return null; // Snacks not found
   }
