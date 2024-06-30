@@ -132,7 +132,8 @@ class User {
 
   static async deleteUser(email) {
     const connection = await sql.connect(dbConfig);
-    const sqlQuery = `delete from Users where Email = @email`;
+    const sqlQuery = `delete from Cart where Email = @email
+    delete from Users where Email = @email`;
     const request = connection.request();
 
     request.input("Email", sql.VarChar, email);
