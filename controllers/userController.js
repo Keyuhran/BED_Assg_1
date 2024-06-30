@@ -81,8 +81,47 @@ async function retrieveUser(req, res) {
   }
 }
 
+async function retrieveRider(req, res) {
+
+  try {
+    const users = await User.retrieveRider();
+
+    if (users) {
+      console.log('Rider details in controller:', users); // Added for debugging
+
+      res.json(users);
+    } else {
+      res.status(404).send("Riders not found");
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Error retrieving data");
+  }
+}
+
+async function deleteUser(req, res) {
+  const email = req.query.email;
+
+  try {
+    const user = await User.retrieveUser(email);
+    console.log("Attempting to delete user:", user.name);
+    const success = await User.deleteUser(email);
+
+    if (success) {
+      res.status(200).send("User deleted successfully");
+    } else {
+      res.status(404).send("User not found");
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Error deleting user");
+  }
+}
+
 module.exports = {
   login,
   createUser,
-  retrieveUser
+  retrieveUser,
+  retrieveRider,
+  deleteUser
 };

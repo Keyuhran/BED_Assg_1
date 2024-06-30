@@ -113,6 +113,47 @@ class User {
       user.isRider
     );
   }
+
+  static async retrieveRider() {
+    const connection = await sql.connect(dbConfig);
+    const sqlQuery = `SELECT * FROM Users WHERE isRider = 1`; // Parameterized query
+    const request = connection.request();
+
+    const result = await request.query(sqlQuery);
+    connection.close();
+
+    if (result.recordset.length === 0) {
+      return null; // User not found
+    }
+
+    return result.recordset.map(
+      (user) => new User(
+        user.Email,
+        user.passwordHash,
+        user.Postalcode,
+        user.Streetname,
+        user.Blockno,
+        user.Unitno,
+        user.Phoneno,
+        user.Name,
+        user.isRider
+      )
+    );
+  }
+
+  static async deleteUser(email) {
+    const connection = await sql.connect(dbConfig);
+    const sqlQuery = `delete from Users where Email = @email`;
+    const request = connection.request();
+
+    request.input("Email", sql.VarChar, email);
+
+    const result = await request.query(sqlQuery);
+    connection.close();
+
+    console.log("Delete results:", result); //To see result
+    return result.rowsAffected[0] === 1; // Check if a column was deleted 
+  }
 }
 
 module.exports = User;
