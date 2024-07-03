@@ -90,17 +90,6 @@ class User {
     }
 
     const user = result.recordset[0];
-    console.log({
-      email: user.Email,
-      hashedPassword: user.passwordHash, // Correct field name
-      postalcode: user.Postalcode,
-      streetname: user.Streetname,
-      blockno: user.Blockno,
-      unitno: user.Unitno,
-      phoneno: user.Phoneno,
-      name: user.Name,
-      isRider: user.isRider
-    });
     return new User(
       user.Email,
       user.passwordHash,
@@ -143,7 +132,8 @@ class User {
 
   static async deleteUser(email) {
     const connection = await sql.connect(dbConfig);
-    const sqlQuery = `delete from Users where Email = @email`;
+    const sqlQuery = `delete from Cart where Email = @email
+    delete from Users where Email = @email`;
     const request = connection.request();
 
     request.input("Email", sql.VarChar, email);
@@ -152,7 +142,7 @@ class User {
     connection.close();
 
     console.log("Delete results:", result); //To see result
-    return result.rowsAffected[0] === 1; // Check if a column was deleted 
+    return result.rowsAffected[1] === 1; // Check if a column was deleted 
   }
 }
 

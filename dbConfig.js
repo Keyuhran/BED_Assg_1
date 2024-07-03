@@ -5,7 +5,7 @@ module.exports = {
     database: "bedassg",
     trustServerCertificate: true,
     options: {
-      port: 1433, // Default SQL Server port
-      connectionTimeout: 60000, // Connection timeout in milliseconds
+      port: 1433, 
+      connectionTimeout: 60000, 
     },
   };
