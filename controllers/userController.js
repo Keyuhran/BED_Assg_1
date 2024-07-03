@@ -2,11 +2,14 @@ const User = require("../models/User");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
-async function login(req, res) {
-  const email = req.body.email;
-  const password = req.body.password;
+const secretKey = "ilovehaziq2?$%"; // secret key for jwt token
 
+
+
+async function login(req, res) {
   try {
+    const { email, password } = req.body; // Get data from request body (POST)
+
     const user = await User.login(email, password);
 
     if (!user) {
@@ -16,7 +19,14 @@ async function login(req, res) {
     const isMatch = await bcrypt.compare(password, user.passwordHash);
 
     if (isMatch) {
-      res.json({ message: "Login successful!" });
+      const payload = {
+        email: user.email,
+        isRider: user.isRider, // Include additional user data if needed
+      };
+
+      const token = jwt.sign(payload, secretKey, { expiresIn: "1h" }); // Set expiry time
+
+      res.json({ message: "Login successful!", token }); 
     } else {
       res.status(401).send("Invalid email or password");
     }
@@ -25,6 +35,10 @@ async function login(req, res) {
     res.status(500).send("Error logging in");
   }
 }
+
+
+
+
 
 async function createUser(req, res) {
   const email = req.body.email;
