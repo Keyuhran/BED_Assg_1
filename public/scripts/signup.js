@@ -13,18 +13,31 @@ signupForm.addEventListener('submit', async (event) => {
   const name = document.getElementById('setname').value;
 
   try {
-    // Implement password hashing using bcrypt (replace with your implementation)
-    const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(password, salt);
+    const response = await fetch('/api/createUser', { // Replace '/api/createUser' with your actual endpoint
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        email,
+        password,
+        postalcode,
+        streetname,
+        blockno,
+        unitno,
+        phoneno,
+        name
+      })
+    });
 
-    const newUser = await User.createUser(email, hashedPassword, postalcode, streetname, blockno, unitno, phoneno, name);
+    const data = await response.json();
 
-    if (newUser) {
+    if (data.message === 'User created successfully!') {
       // Handle successful user creation (redirect, send confirmation email, etc.)
       alert("User created successfully!"); // Replace with appropriate redirection or message
     } else {
       // Handle potential errors (e.g., email already exists, etc.)
-      alert("Error creating user. Please try again."); // Replace with specific error message
+      alert(data.message || "Error creating user. Please try again."); // Use specific error message from response if available
     }
   } catch (error) {
     console.error(error);

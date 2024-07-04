@@ -16,6 +16,7 @@ header {
     border-bottom: 1px solid #ddd;
 }
 
+
 .logo img {
     height: 50px;
 }
@@ -34,8 +35,16 @@ nav ul li a {
     padding: 10px 15px;
 }
 
-.cart-icon img {
+.user-icons {  display: flex;
+}
+
+.profile-icon img{
     height: 30px;
+   
+}
+.cart-icon img {
+  height: 30px;
+  padding-left: 40%;
 }
 
 .advert-display {

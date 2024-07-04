@@ -16,7 +16,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Routes
-app.post("/users", userController.createUser);
+app.post("/users/createUser", userController.createUser);
+app.post("/users/login", userController.login);
 app.post("/snacks", snackController.createSnack);
 app.post('/cart/add', cartController.addToCart);
 app.get("/users/email", userController.retrieveUser);
