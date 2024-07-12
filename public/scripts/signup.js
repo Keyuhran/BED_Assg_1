@@ -1,4 +1,5 @@
 const signupForm = document.getElementById('signup-form');
+const backToLoginBtn = document.getElementById('back-to-login-btn');
 
 signupForm.addEventListener('submit', async (event) => {
   event.preventDefault(); // Prevent default form submission
@@ -11,9 +12,10 @@ signupForm.addEventListener('submit', async (event) => {
   const unitno = document.getElementById('setunit').value;
   const phoneno = document.getElementById('setnumber').value;
   const name = document.getElementById('setname').value;
+  const isRider = document.getElementById('isRider').value;
 
   try {
-    const response = await fetch('/api/createUser', { // Replace '/api/createUser' with your actual endpoint
+    const response = await fetch('/users/createUser', { // Correct endpoint
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -26,21 +28,28 @@ signupForm.addEventListener('submit', async (event) => {
         blockno,
         unitno,
         phoneno,
-        name
+        name,
+        isRider
       })
     });
 
     const data = await response.json();
 
-    if (data.message === 'User created successfully!') {
-      // Handle successful user creation (redirect, send confirmation email, etc.)
-      alert("User created successfully!"); // Replace with appropriate redirection or message
+    if (response.ok) {
+      // Handle successful user creation
+      alert("User created successfully!"); 
+      window.location.href = 'login.html'; // Redirect to login page
     } else {
-      // Handle potential errors (e.g., email already exists, etc.)
-      alert(data.message || "Error creating user. Please try again."); // Use specific error message from response if available
+      // Handle potential errors
+      alert(data.message || "Error creating user. Please try again."); 
     }
   } catch (error) {
     console.error(error);
-    alert("An error occurred. Please try again."); // Generic error message for user
+    alert("An error occurred. Please try again."); 
   }
+});
+
+// Event listener for "Back to Login" button
+backToLoginBtn.addEventListener('click', () => {
+  window.location.href = 'login.html'; // Redirect to login page
 });
