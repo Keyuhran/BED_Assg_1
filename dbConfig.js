@@ -1,6 +1,6 @@
 module.exports = {
-    user: "Kieran", 
-    password: "Trystan88?!?ttt", 
+    user: "darylsoon", 
+    password: "darylsoon", 
     server: "localhost",
     database: "bedassg",
     trustServerCertificate: true,
