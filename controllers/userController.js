@@ -26,7 +26,7 @@ async function login(req, res) {
 
       const token = jwt.sign(payload, secretKey, { expiresIn: "1h" }); // Set expiry time
 
-      res.json({ message: "Login successful!", token }); 
+      res.json({ message: "Login successful!", token, email: user.email }); 
     } else {
       res.status(401).send("Invalid email or password");
     }
@@ -41,28 +41,20 @@ async function login(req, res) {
 
 
 async function createUser(req, res) {
-  const email = req.body.email;
-  const password = req.body.password;
-  const postalcode = req.body.postalcode;
-  const streetname = req.body.streetname;
-  const blockno = req.body.blockno;
-  const unitno = req.body.unitno;
-  const phoneno = req.body.phoneno;
-  const name = req.body.name;
-  const isRider = req.body.isRider;
+  const { email, password, postalcode, streetname, blockno, unitno, phoneno, name, isRider} = req.body;
 
   try {
     const hashedPassword = await User.hashPassword(password);
     const newUser = await User.createUser(email, hashedPassword, postalcode, streetname, blockno, unitno, phoneno, name, isRider);
 
     if (newUser) {
-      res.status(201).send("User created successfully!");
+      res.status(201).json({ message: "User created successfully!" });
     } else {
-      res.status(400).send("Error creating user");
+      res.status(400).json({ message: "Error creating user" });
     }
   } catch (error) {
     console.error(error);
-    res.status(500).send("Internal server error");
+    res.status(500).json({ message: "Internal server error" });
   }
 }
 
