@@ -38,7 +38,7 @@ signupForm.addEventListener('submit', async (event) => {
     if (response.ok) {
       // Handle successful user creation
       alert("User created successfully!"); 
-      window.location.href = 'login.html'; // Redirect to login page
+      window.location.href = 'index.html'; // Redirect to login page
     } else {
       // Handle potential errors
       alert(data.message || "Error creating user. Please try again."); 
@@ -51,5 +51,5 @@ signupForm.addEventListener('submit', async (event) => {
 
 // Event listener for "Back to Login" button
 backToLoginBtn.addEventListener('click', () => {
-  window.location.href = 'login.html'; // Redirect to login page
+  window.location.href = 'index.html'; // Redirect to login page
 });
