@@ -3,7 +3,7 @@ const dbConfig = require("../dbConfig");
 const bcrypt = require("bcryptjs");
 
 class User {
-  constructor(Email, passwordHash, Postalcode, Streetname, Blockno, Unitno, Phoneno, Name, isRider) {
+  constructor(Email, passwordHash, Postalcode, Streetname, Blockno, Unitno, Phoneno, Name, isRider, isAdmin) {
     this.email = Email;
     this.passwordHash = passwordHash;
     this.postalcode = Postalcode;
@@ -13,6 +13,7 @@ class User {
     this.phoneno = Phoneno;
     this.name = Name;
     this.isRider = isRider;
+    this.isAdmin = isAdmin;
   }
 
   static async login(email, password) {
@@ -40,16 +41,46 @@ class User {
       user.unitno,
       user.phoneno,
       user.name,
-      user.isRider
+      user.isRider,
+      user.isAdmin
     );
   }
 
-  static async createUser(Email, passwordHash, Postalcode, Streetname, Blockno, Unitno, Phoneno, Name, isRider) {
+  static async retrieveUsers() {
+    const connection = await sql.connect(dbConfig);
+    const sqlQuery = `select * from Users`;
+
+    const request = connection.request();
+    const result = await request.query(sqlQuery);
+    connection.close();
+
+    if (result.recordset.length === 0) {
+      console.log("No users to retrieve");
+      return null;
+    }
+    
+    return result.recordset.map(
+      (user) => new User(
+        user.Email,
+        user.passwordHash,
+        user.Postalcode,
+        user.Streetname,
+        user.Blockno,
+        user.Unitno,
+        user.Phoneno,
+        user.Name,
+        user.isRider,
+        user.isAdmin
+      )
+    );
+  }
+
+  static async createUser(Email, passwordHash, Postalcode, Streetname, Blockno, Unitno, Phoneno, Name, isRider, isAdmin) {
     const connection = await sql.connect(dbConfig);
 
     const sqlQuery = `
-      INSERT INTO Users (email, passwordHash, postalcode, streetname, blockno, unitno, phoneno, name, isRider)
-      VALUES (@Email, @PasswordHash, @Postalcode, @Streetname, @Blockno, @Unitno, @Phoneno, @Name, @IsRider)
+      INSERT INTO Users (email, passwordHash, postalcode, streetname, blockno, unitno, phoneno, name, isRider, isAdmin)
+      VALUES (@Email, @PasswordHash, @Postalcode, @Streetname, @Blockno, @Unitno, @Phoneno, @Name, @IsRider, @IsAdmin)
     `;
 
     const request = connection.request();
@@ -62,6 +93,7 @@ class User {
     request.input("Phoneno", sql.Int, Phoneno);
     request.input("Name", sql.VarChar, Name);
     request.input("IsRider", sql.Bit, isRider);
+    request.input("IsAdmin", sql.Bit, isAdmin);
 
     const result = await request.query(sqlQuery);
     connection.close();
@@ -99,7 +131,8 @@ class User {
       user.Unitno,
       user.Phoneno,
       user.Name,
-      user.isRider
+      user.isRider,
+      user.isAdmin
     );
   }
 
@@ -125,7 +158,8 @@ class User {
         user.Unitno,
         user.Phoneno,
         user.Name,
-        user.isRider
+        user.isRider,
+        user.isAdmin
       )
     );
   }
