@@ -21,7 +21,7 @@ loginForm.addEventListener('submit', async (event) => {
     // Handle successful login (redirect, display success message, etc.)
     alert('Login Successful!'); // You can replace this with a redirection or other logic
     console.log('Login Successful! Welcome,', data.email); // Adjust based on your data
-    window.location.href = '../index.html'; // Redirect to home page or another page after login
+    window.location.href = '../homepage.html'; // Redirect to home page or another page after login
   } catch (error) {
     console.error('Login error:', error);
     // Handle login errors (display error message to the user)
