@@ -1,5 +1,4 @@
-const loginForm = document.getElementById('login-form');
-
+localStorage.getItem("currentuser")
 loginForm.addEventListener('submit', async (event) => {
   event.preventDefault(); // Prevent default form submission
 
