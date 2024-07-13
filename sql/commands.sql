@@ -1,5 +1,5 @@
 CREATE TABLE Users (
-    Email VARCHAR(255),
+    Email VARCHAR(255) PRIMARY KEY,
     passwordHash VARCHAR(255),
     Postalcode INT,
     Streetname VARCHAR(255),
