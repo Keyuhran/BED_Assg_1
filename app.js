@@ -23,8 +23,8 @@ app.post('/cart/add', cartController.addToCart);
 app.get("/users/email", userController.retrieveUser);
 app.get("/snacks", snackController.retrieveSnacks);
 app.get('/snacks/:country', snackController.getSnacksByCountry);
-app.get("/riders", userController.retrieveRider)
-app.delete("/users/email", userController.deleteUser)
+app.get("/riders", userController.retrieveRider);
+app.delete("/users/email", userController.deleteUser);
 
 // Start server
 const server = app.listen(port, async () => {
