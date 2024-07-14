@@ -73,10 +73,7 @@ async function retrieveUser(req, res) {
 
   try {
     const user = await User.retrieveUser(email);
-
     if (user) {
-      console.log('User details in controller:', user); // Added for debugging
-
       res.json({
         email: user.email,
         password: user.password,
