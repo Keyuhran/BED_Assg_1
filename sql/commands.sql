@@ -1,21 +1,49 @@
+Drop table Cart
+Drop table Users
+Drop table Admins
+Drop table Riders
+Drop table Snacks
+
 CREATE TABLE Users (
-    Email VARCHAR(255) PRIMARY KEY,
-    passwordHash VARCHAR(255),
-    Postalcode INT,
-    Streetname VARCHAR(255),
-    Blockno INT,
-    Unitno INT,
-    Phoneno int,
-    Name VARCHAR(255),
-    isRider BIT,
-    isAdmin BIT,
+    email VARCHAR(255) PRIMARY KEY,
+    name VARCHAR(255),
+    password VARCHAR(255),
+    address VARCHAR(255),
+    unitNo VARCHAR(255),
+    postalCode VARCHAR(255),
+    country VARCHAR(255),
+    phoneNo VARCHAR(255),
+    userBday DATE,
+    imagePath VARCHAR(MAX)
 )
 
-CREATE TABLE Account (
-    Name VARCHAR(255),
-    Id INT,
-    Details VARCHAR(255),
-    country VARCHAR(255)
+CREATE TABLE Riders (
+    riderId VARCHAR(255) PRIMARY KEY,
+    name VARCHAR(255),
+    email VARCHAR(255),
+    password VARCHAR(255),
+    address VARCHAR(255),
+    unitNo VARCHAR(255),
+    postalCode VARCHAR(255),
+    country VARCHAR(255),
+    phoneNo VARCHAR(255),
+    joinDate DATE,
+    imagePath VARCHAR(MAX)
+)
+
+CREATE TABLE Admins (
+    adminId VARCHAR(255) PRIMARY KEY,
+    name VARCHAR(255),
+    email VARCHAR(255),
+    password VARCHAR(255),
+    address VARCHAR(255),
+    unitNo VARCHAR(255),
+    postalCode VARCHAR(255),
+    department VARCHAR(255),
+    branch VARCHAR(255),
+    position VARCHAR(255),
+    phoneNo VARCHAR(255),
+    joinDate DATE,   
 )
  
 /*FROM HERE ON ARE TABLES FOR THE COUNTRIES*/
@@ -66,18 +94,32 @@ INSERT INTO Snacks (SnackId, SnackName, SnackDescription, SnackPrice, Ingredient
 ('PH002', 'Halo-Halo', 'A Filipino dessert made with mixed fruits, beans, jelly, and shaved ice, topped with evaporated milk, ice cream, and sometimes leche flan (caramel custard).', 3.50, 'Mixed Fruits, Beans, Jelly, Shaved Ice, Evaporated Milk, Ice Cream, Leche Flan', NULL, 'Philippines'),
 ('PH003', 'Lechon', 'A whole roasted pig cooked over charcoal, resulting in crispy skin and tender meat, often served during festive occasions.', 5.00, 'Pork, Garlic, Vinegar, Soy Sauce, Bay Leaves', NULL, 'Philippines');
 
-INSERT INTO Users (Email, passwordHash, Postalcode, Streetname, Blockno, Unitno, Phoneno, Name, isRider, isAdmin) VALUES
-('user1@example.com', 'passwordHash1', 123456, 'Street 1', 10, 101, 12345678, 'User One', 1, 0),
-('user2@example.com', 'passwordHash2', 234567, 'Street 2', 20, 202, 23456789, 'User Two', 0, 0),
-('user3@example.com', 'passwordHash3', 345678, 'Street 3', 30, 303, 34567890, 'User Three', 1, 0),
-('user4@example.com', 'passwordHash4', 456789, 'Street 4', 40, 404, 45678901, 'User Four', 0, 1),
-('user5@example.com', 'passwordHash5', 567890, 'Street 5', 50, 505, 56789012, 'User Five', 1, 0);
+INSERT INTO Users (email, name, password, address, unitNo, postalCode, country, phoneNo, userBday, imagePath) VALUES
+('user1@example.com', 'user one', 'password', 'Street 1', 10, 101, 'Singapore', '+65 12121212', '2006/08/16', null),
+('user2@example.com', 'user two', 'password', 'Street 2', 20, 202, 'Singapore', '+65 12121212', '2006/08/16', null),
+('user3@example.com', 'user three', 'password', 'Street 3', 30, 303, 'Singapore', '+65 12121212', '2006/08/16', null),
+('user4@example.com', 'user four', 'password', 'Street 4', 40, 404, 'Singapore', '+65 12121212', '2006/08/16', null),
+('user5@example.com', 'user five', 'password', 'Street 5', 50, 505, 'Singapore', '+65 12121212', '2006/08/16', null);
+
+INSERT INTO Riders (riderId, name, email, password, address, unitNo, postalCode, country, phoneNo, joinDate, imagePath) VALUES
+('12341234', 'Krish Kamal', 'kamal@email.com', '$2a$10$B4i8bICJNjaR4bcBaMdnseKIG8IkkSU2rF2VlmlrZsdrZBnEOUljC', 'Street 1', 10, 101, 'Singapore', '+65 12121212', '2022/08/16', null),
+('12341235', 'Jeffrey Dahmer', 'dahmer@email.com', '$2a$10$B4i8bICJNjaR4bcBaMdnseKIG8IkkSU2rF2VlmlrZsdrZBnEOUljC', 'Street 2', 20, 202, 'Singapore', '+65 12121212', '2023/08/16', null),
+('12341236', 'Ben Kheng', 'kheng@email.com', '$2a$10$B4i8bICJNjaR4bcBaMdnseKIG8IkkSU2rF2VlmlrZsdrZBnEOUljC', 'Street 3', 30, 303, 'Singapore', '+65 12121212', '2020/08/16', null),
+('12341237', 'Robert Downey Jr.', 'downey@email.com', '$2a$10$B4i8bICJNjaR4bcBaMdnseKIG8IkkSU2rF2VlmlrZsdrZBnEOUljC', 'Street 4', 40, 404, 'Singapore', '+65 12121212', '2006/08/16', null),
+('12341238', 'Spider-Man', 'spidey@email.com', '$2a$10$B4i8bICJNjaR4bcBaMdnseKIG8IkkSU2rF2VlmlrZsdrZBnEOUljC', 'Street 5', 50, 505, 'Singapore', '+65 12121212', '1999/08/16', null);
+
+INSERT INTO Admins (adminId, name, email, password, address, unitNo, postalCode, department, branch, position, phoneNo, joinDate) VALUES
+('12341239', 'Krish Kamal', 'kamal@email.com', '$2a$10$B4i8bICJNjaR4bcBaMdnseKIG8IkkSU2rF2VlmlrZsdrZBnEOUljC', 'Street 1', 10, 101, 'Snack', '1', 'intern', '+65 12121212', '2022/07/16'),
+('12341240', 'Jeffrey Dahmer', 'dahmer@email.com', '$2a$10$B4i8bICJNjaR4bcBaMdnseKIG8IkkSU2rF2VlmlrZsdrZBnEOUljC', 'Street 2', 20, 202, 'Snack', '1', 'lead developer', '+65 12121212', '2023/09/15'),
+('12341241', 'Ben Kheng', 'kheng@email.com', '$2a$10$B4i8bICJNjaR4bcBaMdnseKIG8IkkSU2rF2VlmlrZsdrZBnEOUljC', 'Street 3', 30, 303, 'Rider', '2', 'developer', '+65 12121212', '2020/03/20'),
+('12341242', 'Robert Downey Jr.', 'downey@email.com', '$2a$10$B4i8bICJNjaR4bcBaMdnseKIG8IkkSU2rF2VlmlrZsdrZBnEOUljC', 'Street 4', 40, 404, 'User', '2', 'manager', '+65 12121212', '2006/02/09'),
+('12341243', 'Spider-Man', 'spidey@email.com', '$2a$10$B4i8bICJNjaR4bcBaMdnseKIG8IkkSU2rF2VlmlrZsdrZBnEOUljC', 'Street 5', 50, 505, 'Admin', '3', 'manager', '+65 12121212', '2001/08/10');
 
 CREATE TABLE Cart (
-    Email VARCHAR(255),
+    email VARCHAR(255),
     SnackId VARCHAR(5),
     Quantity INT,
-    FOREIGN KEY (Email) REFERENCES Users(Email),
+    FOREIGN KEY (email) REFERENCES Users(email),
     FOREIGN KEY (SnackId) REFERENCES Snacks(SnackId),
-    PRIMARY KEY (Email, SnackId)
+    PRIMARY KEY (email, SnackId)
 );
