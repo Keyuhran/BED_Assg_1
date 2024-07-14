@@ -21,14 +21,13 @@ async function login(req, res) {
     if (isMatch) {
       const payload = {
         email: user.email,
-        isRider: user.isRider, 
-        isAdmin: user.isAdmin 
+        role: user.role
       };
 
       const token = jwt.sign(payload, secretKey, { expiresIn: "1h" }); 
 
       console.log("Login successful for email:", email); 
-      res.json({ message: "Login successful!", token, email: user.email, isAdmin: user.isAdmin }); 
+      res.json({ message: "Login successful!", token, email: user.email, role: user.role }); 
     } else {
       console.log("Password does not match for email:", email);
       res.status(401).send("Invalid email or password");
@@ -50,11 +49,11 @@ async function retrieveUsers(req, res) {
 }
 
 async function createUser(req, res) {
-  const { email, password, name, address, unitNo, postalCode, country, phoneNo, userBday, imagePath } = req.body;
+  const { email, password, name, address, unitNo, postalCode, country, phoneNo, userBday, imagePath, role } = req.body;
 
   try {
     const hashedPassword = await bcrypt.hash(password, 10);
-    const newUser = await User.createUser(email, hashedPassword, name, address, unitNo, postalCode, country, phoneNo, userBday, imagePath);
+    const newUser = await User.createUser(email, hashedPassword, name, address, unitNo, postalCode, country, phoneNo, userBday, imagePath, role);
 
     if (newUser) {
       res.status(201).json({ message: "User created successfully!" });
@@ -85,6 +84,7 @@ async function retrieveUser(req, res) {
         phoneNo: user.phoneNo,
         userBday: user.userBday,
         imagePath: user.imagePath,
+        role: user.role,
       });
     } else {
       res.status(404).send("User not found");

@@ -3,7 +3,7 @@ const dbConfig = require("../dbConfig");
 const bcrypt = require("bcryptjs");
 
 class User {
-  constructor(email, password, name, address, unitNo, postalCode, country, phoneNo, userBday, imagePath) {
+  constructor(email, password, name, address, unitNo, postalCode, country, phoneNo, userBday, imagePath, role) {
     this.email = email;
     this.password = password;
     this.name = name;
@@ -14,22 +14,26 @@ class User {
     this.phoneNo = phoneNo;
     this.userBday = userBday;
     this.imagePath = imagePath;
+    this.role = role;
   }
 
   static async retrieveUser(email) {
     const connection = await sql.connect(dbConfig);
+    console.log(connection);
     const sqlQuery = `SELECT * FROM Users WHERE email = @Email`;
 
     const request = connection.request();
     request.input("Email", sql.VarChar, email);
-
+    console.log(email);
     const result = await request.query(sqlQuery);
     connection.close();
+    console.log(result);
     if (result.recordset.length === 0) {
       return null; // User not found
     }
 
     const user = result.recordset[0];
+    console.log(user);
     return new User(
       user.email,
       user.password, // Ensure this field exists in the database and is retrieved correctly
@@ -40,21 +44,22 @@ class User {
       user.country,
       user.phoneNo,
       user.userBday,
-      user.imagePath
+      user.imagePath,
+      user.role
     );
   }
 
-  static async createUser(email, hashedPassword, name, address, unitNo, postalCode, country, phoneNo, userBday, imagePath) {
+  static async createUser(email, password, name, address, unitNo, postalCode, country, phoneNo, userBday, imagePath, role) {
     const connection = await sql.connect(dbConfig);
 
     const sqlQuery = `
-      INSERT INTO Users (email, password, name, address, unitNo, postalCode, country, phoneNo, userBday, imagePath)
-      VALUES (@Email, @Password, @Name, @Address, @UnitNo, @PostalCode, @Country, @PhoneNo, @UserBday, @ImagePath)
+      INSERT INTO Users (email, password, name, address, unitNo, postalCode, country, phoneNo, userBday, imagePath, role)
+      VALUES (@Email, @Password, @Name, @Address, @UnitNo, @PostalCode, @Country, @PhoneNo, @UserBday, @ImagePath, @Role)
     `;
 
     const request = connection.request();
     request.input("Email", sql.VarChar, email);
-    request.input("Password", sql.VarChar, hashedPassword);
+    request.input("Password", sql.VarChar, password);
     request.input("Name", sql.VarChar, name);
     request.input("Address", sql.VarChar, address);
     request.input("UnitNo", sql.VarChar, unitNo);
@@ -63,6 +68,7 @@ class User {
     request.input("PhoneNo", sql.VarChar, phoneNo);
     request.input("UserBday", sql.Date, userBday);
     request.input("ImagePath", sql.VarChar, imagePath);
+    request.input("Role", sql.VarChar, role);
 
     const result = await request.query(sqlQuery);
     connection.close();
@@ -94,15 +100,18 @@ class User {
         user.country,
         user.phoneNo,
         user.userBday,
-        user.imagePath
+        user.imagePath,
+        user.role
       )
     );
   }
 
   static async deleteUser(email) {
     const connection = await sql.connect(dbConfig);
-    const sqlQuery = `DELETE FROM Cart WHERE Email = @Email;
-                      DELETE FROM Users WHERE Email = @Email`;
+    const sqlQuery = `DELETE FROM Cart WHERE email = @Email;
+                      DELETE FROM Riders WHERE email = @Email;
+                      DELETE FROM Admins WHERE email = @Email;
+                      DELETE FROM Users WHERE email = @Email`;
 
     const request = connection.request();
     request.input("Email", sql.VarChar, email);
@@ -111,7 +120,7 @@ class User {
     connection.close();
 
     console.log("Delete results:", result); //To see result
-    return result.rowsAffected[1] === 1; // Check if a row was deleted
+    return result.rowsAffected[3] === 1; // Check if a row was deleted
   }
 
   static async hashPassword(password) {
