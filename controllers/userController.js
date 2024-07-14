@@ -38,7 +38,7 @@ async function login(req, res) {
 
 async function retrieveUsers(req, res) {
   try {
-    const users = await User.getAllUsers();
+    const users = await User.retrieveUsers();
     res.json(users);
   } catch (error) {
     console.error(error);
