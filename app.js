@@ -20,10 +20,10 @@ app.use(express.static(path.join(__dirname, 'public')));
 // Routes
 app.post("/users/createUser", userController.createUser);
 app.post("/users/login", userController.login);
-app.post("/snacks", snackController.createSnack);
+app.post("/snacks/createSnack", snackController.createSnack);
 app.post('/cart/add', cartController.addToCart);
 app.get("/users/email", userController.retrieveUser);
-app.get("/snacks", snackController.retrieveSnacks);
+app.get("/snacks/retrieveSnacks", snackController.retrieveSnacks);
 app.get('/snacks/:country', snackController.getSnacksByCountry);
 app.get("/riders", userController.retrieveRider);
 app.delete("/users/email", userController.deleteUser);
