@@ -4,48 +4,57 @@ const jwt = require("jsonwebtoken");
 
 const secretKey = "ilovehaziq2?$%"; // secret key for jwt token
 
-
-
 async function login(req, res) {
   try {
-    const { email, password } = req.body; // Get data from request body (POST)
+    const { email, password } = req.body; 
+    console.log("Login attempt with email:", email); 
 
-    const user = await User.login(email, password);
-
+    const user = await User.retrieveUser(email);
+    console.log(user);
     if (!user) {
+      console.log("User not found for email:", email);
       return res.status(401).send("Invalid email or password");
     }
 
-    const isMatch = await bcrypt.compare(password, user.passwordHash);
+    const isMatch = await bcrypt.compare(password, user.password);
 
     if (isMatch) {
       const payload = {
         email: user.email,
-        isRider: user.isRider, // Include additional user data if needed
+        isRider: user.isRider, 
+        isAdmin: user.isAdmin 
       };
 
-      const token = jwt.sign(payload, secretKey, { expiresIn: "1h" }); // Set expiry time
+      const token = jwt.sign(payload, secretKey, { expiresIn: "1h" }); 
 
-      res.json({ message: "Login successful!", token, email: user.email }); 
+      console.log("Login successful for email:", email); 
+      res.json({ message: "Login successful!", token, email: user.email, isAdmin: user.isAdmin }); 
     } else {
+      console.log("Password does not match for email:", email);
       res.status(401).send("Invalid email or password");
     }
   } catch (error) {
-    console.error(error);
+    console.error("Error during login:", error);
     res.status(500).send("Error logging in");
   }
 }
 
-
-
-
+async function retrieveUsers(req, res) {
+  try {
+    const users = await User.retrieveUsers();
+    res.json(users);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Error retrieving users");
+  }
+}
 
 async function createUser(req, res) {
-  const { email, password, postalcode, streetname, blockno, unitno, phoneno, name, isRider} = req.body;
+  const { email, password, name, address, unitNo, postalCode, country, phoneNo, userBday, imagePath } = req.body;
 
   try {
-    const hashedPassword = await User.hashPassword(password);
-    const newUser = await User.createUser(email, hashedPassword, postalcode, streetname, blockno, unitno, phoneno, name, isRider);
+    const hashedPassword = await bcrypt.hash(password, 10);
+    const newUser = await User.createUser(email, hashedPassword, name, address, unitNo, postalCode, country, phoneNo, userBday, imagePath);
 
     if (newUser) {
       res.status(201).json({ message: "User created successfully!" });
@@ -58,25 +67,24 @@ async function createUser(req, res) {
   }
 }
 
+
 async function retrieveUser(req, res) {
   const email = req.query.email;
 
   try {
     const user = await User.retrieveUser(email);
-
     if (user) {
-      console.log('User details in controller:', user); // Added for debugging
-
       res.json({
         email: user.email,
-        passwordHash: user.passwordHash,
-        postalcode: user.postalcode,
-        streetname: user.streetname,
-        blockno: user.blockno,
-        unitno: user.unitno,
-        phoneno: user.phoneno,
+        password: user.password,
         name: user.name,
-        isRider: user.isRider
+        address: user.address,
+        unitNo: user.unitNo,
+        postalCode: user.postalCode,
+        country: user.country,
+        phoneNo: user.phoneNo,
+        userBday: user.userBday,
+        imagePath: user.imagePath,
       });
     } else {
       res.status(404).send("User not found");
@@ -126,6 +134,7 @@ async function deleteUser(req, res) {
 
 module.exports = {
   login,
+  retrieveUsers,
   createUser,
   retrieveUser,
   retrieveRider,

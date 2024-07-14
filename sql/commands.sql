@@ -1,25 +1,39 @@
+DROP TABLE IF EXISTS Cart;
+DROP TABLE IF EXISTS Users;
+DROP TABLE IF EXISTS Admins;
+DROP TABLE IF EXISTS Riders;
+DROP TABLE IF EXISTS Snacks;
+
 CREATE TABLE Users (
-    Email VARCHAR(255),
-    passwordHash VARCHAR(255),
-    Postalcode INT,
-    Streetname VARCHAR(255),
-    Blockno INT,
-    Unitno INT,
-    Phoneno int,
-    Name VARCHAR(255),
+    email VARCHAR(255) PRIMARY KEY,
+    password VARCHAR(255),    
+    name VARCHAR(255),
+    address VARCHAR(255),
+    unitNo VARCHAR(255),
+    postalCode VARCHAR(255),
+    country VARCHAR(255),
+    phoneNo VARCHAR(255),
+    userBday DATE,
+    imagePath VARCHAR(MAX),
     isRider BIT,
-)
+    isAdmin BIT
+);
 
-CREATE TABLE Account (
-    Name VARCHAR(255),
-    Id INT,
-    Details VARCHAR(255),
-    country VARCHAR(255)
-)
- 
-/*FROM HERE ON ARE TABLES FOR THE COUNTRIES*/
+CREATE TABLE Riders (
+    riderId VARCHAR(255) PRIMARY KEY,
+    email VARCHAR(255),
+    joinDate DATE,
+);
 
--- Snack
+CREATE TABLE Admins (
+    adminId VARCHAR(255) PRIMARY KEY,
+    email VARCHAR(255),
+    department VARCHAR(255),
+    branch VARCHAR(255),
+    position VARCHAR(255),
+    joinDate DATE,
+);
+
 CREATE TABLE Snacks (
   SnackId VARCHAR(5) PRIMARY KEY,
   SnackName VARCHAR(255) NOT NULL,
@@ -28,6 +42,15 @@ CREATE TABLE Snacks (
   Ingredients VARCHAR(MAX),
   ImagePath VARCHAR(MAX),
   Country VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE Cart (
+    email VARCHAR(255),
+    SnackId VARCHAR(5),
+    Quantity INT,
+    FOREIGN KEY (email) REFERENCES Users(email),
+    FOREIGN KEY (SnackId) REFERENCES Snacks(SnackId),
+    PRIMARY KEY (email, SnackId)
 );
 
 INSERT INTO Snacks (SnackId, SnackName, SnackDescription, SnackPrice, Ingredients, ImagePath, Country) VALUES
@@ -65,18 +88,23 @@ INSERT INTO Snacks (SnackId, SnackName, SnackDescription, SnackPrice, Ingredient
 ('PH002', 'Halo-Halo', 'A Filipino dessert made with mixed fruits, beans, jelly, and shaved ice, topped with evaporated milk, ice cream, and sometimes leche flan (caramel custard).', 3.50, 'Mixed Fruits, Beans, Jelly, Shaved Ice, Evaporated Milk, Ice Cream, Leche Flan', NULL, 'Philippines'),
 ('PH003', 'Lechon', 'A whole roasted pig cooked over charcoal, resulting in crispy skin and tender meat, often served during festive occasions.', 5.00, 'Pork, Garlic, Vinegar, Soy Sauce, Bay Leaves', NULL, 'Philippines');
 
-INSERT INTO Users (Email, passwordHash, Postalcode, Streetname, Blockno, Unitno, Phoneno, Name, isRider) VALUES
-('user1@example.com', 'passwordHash1', 123456, 'Street 1', 10, 101, 12345678, 'User One', 1),
-('user2@example.com', 'passwordHash2', 234567, 'Street 2', 20, 202, 23456789, 'User Two', 0),
-('user3@example.com', 'passwordHash3', 345678, 'Street 3', 30, 303, 34567890, 'User Three', 1),
-('user4@example.com', 'passwordHash4', 456789, 'Street 4', 40, 404, 45678901, 'User Four', 0),
-('user5@example.com', 'passwordHash5', 567890, 'Street 5', 50, 505, 56789012, 'User Five', 1);
+INSERT INTO Users (email, password, name, address, unitNo, postalCode, country, phoneNo, userBday, imagePath) VALUES
+('user1@example.com', '$2a$10$B4i8bICJNjaR4bcBaMdnseKIG8IkkSU2rF2VlmlrZsdrZBnEOUljC', 'user one', 'Street 1', 10, 101, 'Singapore', '+65 12121212', '2006/08/16', null),
+('user2@example.com', '$2a$10$B4i8bICJNjaR4bcBaMdnseKIG8IkkSU2rF2VlmlrZsdrZBnEOUljC', 'user two', 'Street 2', 20, 202, 'Singapore', '+65 12121212', '2006/08/16', null),
+('user3@example.com', '$2a$10$B4i8bICJNjaR4bcBaMdnseKIG8IkkSU2rF2VlmlrZsdrZBnEOUljC', 'user three', 'Street 3', 30, 303, 'Singapore', '+65 12121212', '2006/08/16', null),
+('user4@example.com', '$2a$10$B4i8bICJNjaR4bcBaMdnseKIG8IkkSU2rF2VlmlrZsdrZBnEOUljC', 'user four', 'Street 4', 40, 404, 'Singapore', '+65 12121212', '2006/08/16', null),
+('user5@example.com', '$2a$10$B4i8bICJNjaR4bcBaMdnseKIG8IkkSU2rF2VlmlrZsdrZBnEOUljC', 'user five', 'Street 5', 50, 505, 'Singapore', '+65 12121212', '2006/08/16', null);
 
-CREATE TABLE Cart (
-    Email VARCHAR(255),
-    SnackId VARCHAR(5),
-    Quantity INT,
-    FOREIGN KEY (Email) REFERENCES Users(Email),
-    FOREIGN KEY (SnackId) REFERENCES Snacks(SnackId),
-    PRIMARY KEY (Email, SnackId)
-);
+INSERT INTO Riders (riderId, email, password, name, address, unitNo, postalCode, country, phoneNo, joinDate, imagePath) VALUES
+('12341234', 'krish@email.com', '$2a$10$B4i8bICJNjaR4bcBaMdnseKIG8IkkSU2rF2VlmlrZsdrZBnEOUljC', 'Krish Kamal', 'Street 1', 10, 101, 'Singapore', '+65 12121212', '2022/08/16', null),
+('12341235', 'jeffrey@email.com', '$2a$10$B4i8bICJNjaR4bcBaMdnseKIG8IkkSU2rF2VlmlrZsdrZBnEOUljC', 'Jeffrey Dahmer', 'Street 2', 20, 202, 'Singapore', '+65 12121212', '2023/08/16', null),
+('12341236', 'ben@email.com', '$2a$10$B4i8bICJNjaR4bcBaMdnseKIG8IkkSU2rF2VlmlrZsdrZBnEOUljC', 'Ben Kheng', 'Street 3', 30, 303, 'Singapore', '+65 12121212', '2020/08/16', null),
+('12341237', 'robert@email.com', '$2a$10$B4i8bICJNjaR4bcBaMdnseKIG8IkkSU2rF2VlmlrZsdrZBnEOUljC', 'Robert Downey Jr.', 'Street 4', 40, 404, 'Singapore', '+65 12121212', '2006/08/16', null),
+('12341238', 'spider@email.com', '$2a$10$B4i8bICJNjaR4bcBaMdnseKIG8IkkSU2rF2VlmlrZsdrZBnEOUljC', 'Spider-Man', 'Street 5', 50, 505, 'Singapore', '+65 12121212', '1999/08/16', null);
+
+INSERT INTO Admins (adminId, email, password, name, address, unitNo, postalCode, department, branch, position, phoneNo, joinDate) VALUES
+('12341239', 'kamal@email.com', '$2a$10$B4i8bICJNjaR4bcBaMdnseKIG8IkkSU2rF2VlmlrZsdrZBnEOUljC', 'Krish Kamal', 'Street 1', 10, 101, 'Snack', '1', 'intern', '+65 12121212', '2022/07/16'),
+('12341240', 'dahmer@email.com', '$2a$10$B4i8bICJNjaR4bcBaMdnseKIG8IkkSU2rF2VlmlrZsdrZBnEOUljC', 'Jeffrey Dahmer', 'Street 2', 20, 202, 'Snack', '1', 'lead developer', '+65 12121212', '2023/09/15'),
+('12341241', 'kheng@email.com', '$2a$10$B4i8bICJNjaR4bcBaMdnseKIG8IkkSU2rF2VlmlrZsdrZBnEOUljC', 'Ben Kheng', 'Street 3', 30, 303, 'Rider', '2', 'developer', '+65 12121212', '2020/03/20'),
+('12341242', 'downey@email.com', '$2a$10$B4i8bICJNjaR4bcBaMdnseKIG8IkkSU2rF2VlmlrZsdrZBnEOUljC', 'Robert Downey Jr.', 'Street 4', 40, 404, 'User', '2', 'manager', '+65 12121212', '2006/02/09'),
+('12341243', 'man@email.com', '$2a$10$B4i8bICJNjaR4bcBaMdnseKIG8IkkSU2rF2VlmlrZsdrZBnEOUljC', 'Spider-Man', 'Street 5', 50, 505, 'Admin', '3', 'manager', '+65 12121212', '2001/08/10');
