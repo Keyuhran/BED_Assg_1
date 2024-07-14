@@ -22,9 +22,16 @@ loginForm.addEventListener('submit', async (event) => {
 
     const data = await response.json();
     // Handle successful login (redirect, display success message, etc.)
-    alert('Login Successful!'); // You can replace this with a redirection or other logic
     console.log('Login Successful! Welcome,', data.email); // Adjust based on your data
-    window.location.href = '../homepage.html'; // Redirect to home page or another page after login
+    console.log(data.isAdmin);
+    alert('Login Successful!'); // You can replace this with a redirection or other logic
+
+    // Redirect based on isAdmin status
+    if (data.isAdmin) {
+      window.location.href = '../AccountEditor.html'; // Redirect to account editor page if admin
+    } else {
+      window.location.href = '../homepage.html'; // Redirect to home page if not admin
+    }
   } catch (error) {
     console.error('Login error:', error);
     // Handle login errors (display error message to the user)
@@ -40,9 +47,11 @@ togglePasswordBtn.addEventListener('click', () => {
   const passwordField = document.getElementById('password');
   if (passwordField.type === 'password') {
     passwordField.type = 'text';
-    togglePasswordBtn.textContent = 'Hide Password';
+    togglePasswordBtn.classList.remove('bxs-show');
+    togglePasswordBtn.classList.add('bxs-hide');
   } else {
     passwordField.type = 'password';
-    togglePasswordBtn.textContent = 'Show Password';
+    togglePasswordBtn.classList.remove('bxs-hide');
+    togglePasswordBtn.classList.add('bxs-show');
   }
 });

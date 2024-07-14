@@ -24,12 +24,13 @@ async function login(req, res) {
       const payload = {
         email: user.email,
         isRider: user.isRider, // Include additional user data if needed
+        isAdmin: user.isAdmin // Include isAdmin in the payload
       };
 
       const token = jwt.sign(payload, secretKey, { expiresIn: "1h" }); // Set expiry time
 
       console.log("Login successful for email:", email); // Log successful login
-      res.json({ message: "Login successful!", token, email: user.email }); 
+      res.json({ message: "Login successful!", token, email: user.email, isAdmin: user.isAdmin }); 
     } else {
       console.log("Password does not match for email:", email);
       res.status(401).send("Invalid email or password");

@@ -2,29 +2,40 @@ document.addEventListener("DOMContentLoaded", () => {
     fetchUsers();
 });
 
-function fetchUsers() {
-    fetch("http://localhost:3000/users")
-        .then(response => response.json())
-        .then(users => {
-            const userTableBody = document.getElementById("userTableBody");
-            userTableBody.innerHTML = ""; // Clear existing table rows
+async function fetchUsers() {
+    try {
+        const response = await fetch("/users"); // Ensure this endpoint is correct
+        if (!response.ok) {
+            throw new Error("Failed to fetch users");
+        }
+        const users = await response.json();
+        console.log("Fetched users:", users); // Log fetched users
+        populateUserTable(users);
+    } catch (error) {
+        console.error("Error fetching users:", error);
+    }
+}
 
-            users.forEach(user => {
-                const row = document.createElement("tr");
-                row.onclick = () => showOverlay(user.Name, user.email);
+function populateUserTable(users) {
+    const userTableBody = document.getElementById("userTableBody");
+    userTableBody.innerHTML = ""; // Clear existing table rows
 
-                row.innerHTML = `
-                    <td>${user.Name}</td>
-                    <td>${user.email}</td>
-                    <td>${user.Streetname}, ${user.Blockno}, ${user.Unitno}</td>
-                    <td>${user.Postalcode}</td>
-                    <td>${user.Phoneno}</td>
-                `;
+    users.forEach(user => {
+        console.log("Displaying user:", user); // Log each user being displayed
+        const row = document.createElement("tr");
+        console.log(user.name);
+        row.onclick = () => showOverlay(user.name, user.email);
 
-                userTableBody.appendChild(row);
-            });
-        })
-        .catch(error => console.error("Error fetching users:", error));
+        row.innerHTML = `
+            <td>${user.name}</td>
+            <td>${user.email}</td>
+            <td>${user.streetname}, ${user.blockno}, ${user.unitno}</td>
+            <td>${user.postalcode}</td>
+            <td>${user.phoneno}</td>
+        `;
+        
+        userTableBody.appendChild(row);
+    });
 }
 
 function showOverlay(accountName, accountId) {
