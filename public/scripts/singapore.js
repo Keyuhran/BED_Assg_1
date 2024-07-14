@@ -18,13 +18,23 @@ document.addEventListener('DOMContentLoaded', () => {
                     snackDiv.classList.add('snack');
                     snackDiv.innerHTML = `
                         <img src="${snack.imagePath && snack.imagePath !== 'NULL' ? snack.imagePath : 'placeholder.png'}" alt="${snack.snackName}">
-                        <p>Snack ID: ${snack.snackId}</p>
-                        <p>Snack Name: ${snack.snackName}</p>
-                        <p>Description: ${snack.snackDescription}</p>
-                        <p>Price: $${snack.snackPrice}</p>
-                        <p>Ingredients: ${snack.ingredients}</p>
-                        <p>Country: ${snack.country}</p>
+                        <div class="snack-details">
+                            <p>Snack ID: ${snack.snackId}</p>
+                            <p>Snack Name: ${snack.snackName}</p>
+                            <p>Description: ${snack.snackDescription}</p>
+                            <p>Price: $${snack.snackPrice}</p>
+                            <p>Ingredients: ${snack.ingredients}</p>
+                            <p>Country: ${snack.country}</p>
+                        </div>
                     `;
+                    snackDiv.addEventListener('click', () => {
+                        const details = snackDiv.querySelector('.snack-details');
+                        if (details.style.display === 'none' || details.style.display === '') {
+                            details.style.display = 'block';
+                        } else {
+                            details.style.display = 'none';
+                        }
+                    });
                     snacksContainer.appendChild(snackDiv);
                 });
             }
