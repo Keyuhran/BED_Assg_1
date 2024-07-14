@@ -26,11 +26,11 @@ loginForm.addEventListener('submit', async (event) => {
     const data = await response.json();
     // Handle successful login (redirect, display success message, etc.)
     console.log('Login Successful! Welcome,', data.email); // Adjust based on your data
-    console.log(data.isAdmin);
+    console.log(data.role);
     alert('Login Successful!'); // You can replace this with a redirection or other logic
 
     // Redirect based on isAdmin status
-    if (data.isAdmin) {
+    if (data.role === 'admin') {
       window.location.href = '../AccountEditor.html'; // Redirect to account editor page if admin
     } else {
       window.location.href = '../homepage.html'; // Redirect to home page if not admin

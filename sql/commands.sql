@@ -1,9 +1,11 @@
+-- Drop existing tables
 DROP TABLE IF EXISTS Cart;
-DROP TABLE IF EXISTS Users;
 DROP TABLE IF EXISTS Admins;
 DROP TABLE IF EXISTS Riders;
+DROP TABLE IF EXISTS Users;
 DROP TABLE IF EXISTS Snacks;
 
+-- Create Users table
 CREATE TABLE Users (
     email VARCHAR(255) PRIMARY KEY,
     password VARCHAR(255),    
@@ -15,16 +17,18 @@ CREATE TABLE Users (
     phoneNo VARCHAR(255),
     userBday DATE,
     imagePath VARCHAR(MAX),
-    isRider BIT,
-    isAdmin BIT
+    role VARCHAR(255) -- Changed column name to 'role' for consistency
 );
 
+-- Create Riders table
 CREATE TABLE Riders (
     riderId VARCHAR(255) PRIMARY KEY,
     email VARCHAR(255),
     joinDate DATE,
+    FOREIGN KEY (email) REFERENCES Users(email)
 );
 
+-- Create Admins table
 CREATE TABLE Admins (
     adminId VARCHAR(255) PRIMARY KEY,
     email VARCHAR(255),
@@ -32,8 +36,10 @@ CREATE TABLE Admins (
     branch VARCHAR(255),
     position VARCHAR(255),
     joinDate DATE,
+    FOREIGN KEY (email) REFERENCES Users(email)
 );
 
+-- Create Snacks table
 CREATE TABLE Snacks (
   SnackId VARCHAR(5) PRIMARY KEY,
   SnackName VARCHAR(255) NOT NULL,
@@ -44,6 +50,7 @@ CREATE TABLE Snacks (
   Country VARCHAR(255) NOT NULL
 );
 
+-- Create Cart table
 CREATE TABLE Cart (
     email VARCHAR(255),
     SnackId VARCHAR(5),
@@ -53,6 +60,7 @@ CREATE TABLE Cart (
     PRIMARY KEY (email, SnackId)
 );
 
+-- Insert Snacks
 INSERT INTO Snacks (SnackId, SnackName, SnackDescription, SnackPrice, Ingredients, ImagePath, Country) VALUES
 ('MY001', 'Kuih Seri Muka', 'A traditional two-layered dessert with a base of glutinous rice and a top layer of pandan custard. The glutinous rice is sticky and slightly salty, while the custard is sweet and flavored with pandan leaves.', 0.50, 'Glutinous rice, coconut milk, pandan leaves, sugar, salt', NULL, 'Malaysia'),
 ('MY002', 'Apam Balik', 'A thick pancake turnover that is crispy on the outside and soft on the inside. It is stuffed with a mixture of ground peanuts, sweet corn, and sugar. It is a popular street food snack.', 0.75, 'Flour, eggs, sugar, peanuts, sweet corn, butter', NULL, 'Malaysia'),
@@ -88,23 +96,36 @@ INSERT INTO Snacks (SnackId, SnackName, SnackDescription, SnackPrice, Ingredient
 ('PH002', 'Halo-Halo', 'A Filipino dessert made with mixed fruits, beans, jelly, and shaved ice, topped with evaporated milk, ice cream, and sometimes leche flan (caramel custard).', 3.50, 'Mixed Fruits, Beans, Jelly, Shaved Ice, Evaporated Milk, Ice Cream, Leche Flan', NULL, 'Philippines'),
 ('PH003', 'Lechon', 'A whole roasted pig cooked over charcoal, resulting in crispy skin and tender meat, often served during festive occasions.', 5.00, 'Pork, Garlic, Vinegar, Soy Sauce, Bay Leaves', NULL, 'Philippines');
 
-INSERT INTO Users (email, password, name, address, unitNo, postalCode, country, phoneNo, userBday, imagePath) VALUES
-('user1@example.com', '$2a$10$B4i8bICJNjaR4bcBaMdnseKIG8IkkSU2rF2VlmlrZsdrZBnEOUljC', 'user one', 'Street 1', 10, 101, 'Singapore', '+65 12121212', '2006/08/16', null),
-('user2@example.com', '$2a$10$B4i8bICJNjaR4bcBaMdnseKIG8IkkSU2rF2VlmlrZsdrZBnEOUljC', 'user two', 'Street 2', 20, 202, 'Singapore', '+65 12121212', '2006/08/16', null),
-('user3@example.com', '$2a$10$B4i8bICJNjaR4bcBaMdnseKIG8IkkSU2rF2VlmlrZsdrZBnEOUljC', 'user three', 'Street 3', 30, 303, 'Singapore', '+65 12121212', '2006/08/16', null),
-('user4@example.com', '$2a$10$B4i8bICJNjaR4bcBaMdnseKIG8IkkSU2rF2VlmlrZsdrZBnEOUljC', 'user four', 'Street 4', 40, 404, 'Singapore', '+65 12121212', '2006/08/16', null),
-('user5@example.com', '$2a$10$B4i8bICJNjaR4bcBaMdnseKIG8IkkSU2rF2VlmlrZsdrZBnEOUljC', 'user five', 'Street 5', 50, 505, 'Singapore', '+65 12121212', '2006/08/16', null);
+-- Insert Users
+INSERT INTO Users (email, password, name, address, unitNo, postalCode, country, phoneNo, userBday, imagePath, role) VALUES
+('user1@example.com', '$2a$10$B4i8bICJNjaR4bcBaMdnseKIG8IkkSU2rF2VlmlrZsdrZBnEOUljC', 'user one', 'Street 1', '10', '101', 'Singapore', '+65 12121212', '2006/08/16', null, 'user'),
+('user2@example.com', '$2a$10$B4i8bICJNjaR4bcBaMdnseKIG8IkkSU2rF2VlmlrZsdrZBnEOUljC', 'user two', 'Street 2', '20', '202', 'Singapore', '+65 12121212', '2006/08/16', null, 'user'),
+('user3@example.com', '$2a$10$B4i8bICJNjaR4bcBaMdnseKIG8IkkSU2rF2VlmlrZsdrZBnEOUljC', 'user three', 'Street 3', '30', '303', 'Singapore', '+65 12121212', '2006/08/16', null, 'user'),
+('user4@example.com', '$2a$10$B4i8bICJNjaR4bcBaMdnseKIG8IkkSU2rF2VlmlrZsdrZBnEOUljC', 'user four', 'Street 4', '40', '404', 'Singapore', '+65 12121212', '2006/08/16', null, 'user'),
+('user5@example.com', '$2a$10$B4i8bICJNjaR4bcBaMdnseKIG8IkkSU2rF2VlmlrZsdrZBnEOUljC', 'user five', 'Street 5', '50', '505', 'Singapore', '+65 12121212', '2006/08/16', null, 'user'),
+('krish@email.com', '$2a$10$B4i8bICJNjaR4bcBaMdnseKIG8IkkSU2rF2VlmlrZsdrZBnEOUljC', 'Krish Kamal', 'Street 1', '10', '101', 'Singapore', '+65 12121212', '2022/08/16', null, 'rider'),
+('jeffrey@email.com', '$2a$10$B4i8bICJNjaR4bcBaMdnseKIG8IkkSU2rF2VlmlrZsdrZBnEOUljC', 'Jeffrey Dahmer', 'Street 2', '20', '202', 'Singapore', '+65 12121212', '2023/08/16', null, 'rider'),
+('ben@email.com', '$2a$10$B4i8bICJNjaR4bcBaMdnseKIG8IkkSU2rF2VlmlrZsdrZBnEOUljC', 'Ben Kheng', 'Street 3', '30', '303', 'Singapore', '+65 12121212', '2020/08/16', null, 'rider'),
+('robert@email.com', '$2a$10$B4i8bICJNjaR4bcBaMdnseKIG8IkkSU2rF2VlmlrZsdrZBnEOUljC', 'Robert Downey Jr.', 'Street 4', '40', '404', 'Singapore', '+65 12121212', '2006/08/16', null, 'rider'),
+('spider@email.com', '$2a$10$B4i8bICJNjaR4bcBaMdnseKIG8IkkSU2rF2VlmlrZsdrZBnEOUljC', 'Spider-Man', 'Street 5', '50', '505', 'Singapore', '+65 12121212', '1999/08/16', null, 'rider'),
+('kamal@email.com', '$2a$10$B4i8bICJNjaR4bcBaMdnseKIG8IkkSU2rF2VlmlrZsdrZBnEOUljC', 'Krish Kamal', 'Street 1', '10', '101', 'Singapore', '+65 12121212', '2022/07/16', null, 'admin'),
+('dahmer@email.com', '$2a$10$B4i8bICJNjaR4bcBaMdnseKIG8IkkSU2rF2VlmlrZsdrZBnEOUljC', 'Jeffrey Dahmer', 'Street 2', '20', '202', 'Singapore', '+65 12121212', '2023/09/15', null, 'admin'),
+('kheng@email.com', '$2a$10$B4i8bICJNjaR4bcBaMdnseKIG8IkkSU2rF2VlmlrZsdrZBnEOUljC', 'Ben Kheng', 'Street 3', '30', '303', 'Singapore', '+65 12121212', '2020/03/20', null, 'admin'),
+('downey@email.com', '$2a$10$B4i8bICJNjaR4bcBaMdnseKIG8IkkSU2rF2VlmlrZsdrZBnEOUljC', 'Robert Downey Jr.', 'Street 4', '40', '404', 'Singapore', '+65 12121212', '2006/02/09', null, 'admin'),
+('man@email.com', '$2a$10$B4i8bICJNjaR4bcBaMdnseKIG8IkkSU2rF2VlmlrZsdrZBnEOUljC', 'Spider-Man', 'Street 5', '50', '505', 'Singapore', '+65 12121212', '2001/08/10', null, 'admin');
 
-INSERT INTO Riders (riderId, email, password, name, address, unitNo, postalCode, country, phoneNo, joinDate, imagePath) VALUES
-('12341234', 'krish@email.com', '$2a$10$B4i8bICJNjaR4bcBaMdnseKIG8IkkSU2rF2VlmlrZsdrZBnEOUljC', 'Krish Kamal', 'Street 1', 10, 101, 'Singapore', '+65 12121212', '2022/08/16', null),
-('12341235', 'jeffrey@email.com', '$2a$10$B4i8bICJNjaR4bcBaMdnseKIG8IkkSU2rF2VlmlrZsdrZBnEOUljC', 'Jeffrey Dahmer', 'Street 2', 20, 202, 'Singapore', '+65 12121212', '2023/08/16', null),
-('12341236', 'ben@email.com', '$2a$10$B4i8bICJNjaR4bcBaMdnseKIG8IkkSU2rF2VlmlrZsdrZBnEOUljC', 'Ben Kheng', 'Street 3', 30, 303, 'Singapore', '+65 12121212', '2020/08/16', null),
-('12341237', 'robert@email.com', '$2a$10$B4i8bICJNjaR4bcBaMdnseKIG8IkkSU2rF2VlmlrZsdrZBnEOUljC', 'Robert Downey Jr.', 'Street 4', 40, 404, 'Singapore', '+65 12121212', '2006/08/16', null),
-('12341238', 'spider@email.com', '$2a$10$B4i8bICJNjaR4bcBaMdnseKIG8IkkSU2rF2VlmlrZsdrZBnEOUljC', 'Spider-Man', 'Street 5', 50, 505, 'Singapore', '+65 12121212', '1999/08/16', null);
+-- Insert Riders
+INSERT INTO Riders (riderId, email, joinDate) VALUES
+('12341234', 'krish@email.com', '2022/08/16'),
+('12341235', 'jeffrey@email.com', '2023/08/16'),
+('12341236', 'ben@email.com', '2020/08/16'),
+('12341237', 'robert@email.com', '2006/08/16'),
+('12341238', 'spider@email.com', '1999/08/16');
 
-INSERT INTO Admins (adminId, email, password, name, address, unitNo, postalCode, department, branch, position, phoneNo, joinDate) VALUES
-('12341239', 'kamal@email.com', '$2a$10$B4i8bICJNjaR4bcBaMdnseKIG8IkkSU2rF2VlmlrZsdrZBnEOUljC', 'Krish Kamal', 'Street 1', 10, 101, 'Snack', '1', 'intern', '+65 12121212', '2022/07/16'),
-('12341240', 'dahmer@email.com', '$2a$10$B4i8bICJNjaR4bcBaMdnseKIG8IkkSU2rF2VlmlrZsdrZBnEOUljC', 'Jeffrey Dahmer', 'Street 2', 20, 202, 'Snack', '1', 'lead developer', '+65 12121212', '2023/09/15'),
-('12341241', 'kheng@email.com', '$2a$10$B4i8bICJNjaR4bcBaMdnseKIG8IkkSU2rF2VlmlrZsdrZBnEOUljC', 'Ben Kheng', 'Street 3', 30, 303, 'Rider', '2', 'developer', '+65 12121212', '2020/03/20'),
-('12341242', 'downey@email.com', '$2a$10$B4i8bICJNjaR4bcBaMdnseKIG8IkkSU2rF2VlmlrZsdrZBnEOUljC', 'Robert Downey Jr.', 'Street 4', 40, 404, 'User', '2', 'manager', '+65 12121212', '2006/02/09'),
-('12341243', 'man@email.com', '$2a$10$B4i8bICJNjaR4bcBaMdnseKIG8IkkSU2rF2VlmlrZsdrZBnEOUljC', 'Spider-Man', 'Street 5', 50, 505, 'Admin', '3', 'manager', '+65 12121212', '2001/08/10');
+-- Insert Admins
+INSERT INTO Admins (adminId, email, department, branch, position, joinDate) VALUES
+('12341239', 'kamal@email.com', 'Snack', '1', 'intern', '2022/07/16'),
+('12341240', 'dahmer@email.com', 'Snack', '1', 'lead developer', '2023/09/15'),
+('12341241', 'kheng@email.com', 'Rider', '2', 'developer', '2020/03/20'),
+('12341242', 'downey@email.com', 'User', '2', 'manager', '2006/02/09'),
+('12341243', 'man@email.com', 'Admin', '3', 'manager', '2001/08/10');
