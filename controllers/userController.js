@@ -36,9 +36,15 @@ async function login(req, res) {
   }
 }
 
-
-
-
+async function retrieveUsers(req, res) {
+  try {
+    const users = await User.retrieveUsers();
+    res.json(users);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Error retrieving users");
+  }
+}
 
 async function createUser(req, res) {
   const { email, password, postalcode, streetname, blockno, unitno, phoneno, name, isRider} = req.body;
@@ -120,8 +126,11 @@ async function deleteUser(req, res) {
   }
 }
 
+
+
 module.exports = {
   login,
+  retrieveUsers,
   createUser,
   retrieveUser,
   retrieveRider,

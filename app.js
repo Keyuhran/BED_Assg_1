@@ -22,6 +22,7 @@ app.post("/users/createUser", userController.createUser);
 app.post("/users/login", userController.login);
 app.post("/snacks", snackController.createSnack);
 app.post('/cart/add', cartController.addToCart);
+app.get("/users", userController.retrieveUsers);
 app.get("/users/email", userController.retrieveUser);
 app.get("/snacks", snackController.retrieveSnacks);
 app.get('/snacks/:country', snackController.getSnacksByCountry);
