@@ -5,15 +5,18 @@ loginForm.addEventListener('submit', async (event) => {
   event.preventDefault(); // Prevent default form submission
 
   const email = document.getElementById('email').value;
+  console.log(email);
   const password = document.getElementById('password').value;
+  console.log(password);
 
   try {
     console.log("Sending login request for email:", email); // Log before sending request
-    const response = await fetch('/users/login', { // Assuming your login endpoint is at /users/login
+    const response = await fetch('/users/login', { 
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email, password })
     });
+    console.log(response);
 
     if (!response.ok) {
       console.error(`Login failed with status: ${response.status}`);
