@@ -1,3 +1,32 @@
+document.addEventListener("DOMContentLoaded", () => {
+    fetchUsers();
+});
+
+function fetchUsers() {
+    fetch("http://localhost:3000/users")
+        .then(response => response.json())
+        .then(users => {
+            const userTableBody = document.getElementById("userTableBody");
+            userTableBody.innerHTML = ""; // Clear existing table rows
+
+            users.forEach(user => {
+                const row = document.createElement("tr");
+                row.onclick = () => showOverlay(user.Name, user.email);
+
+                row.innerHTML = `
+                    <td>${user.Name}</td>
+                    <td>${user.email}</td>
+                    <td>${user.Streetname}, ${user.Blockno}, ${user.Unitno}</td>
+                    <td>${user.Postalcode}</td>
+                    <td>${user.Phoneno}</td>
+                `;
+
+                userTableBody.appendChild(row);
+            });
+        })
+        .catch(error => console.error("Error fetching users:", error));
+}
+
 function showOverlay(accountName, accountId) {
     document.getElementById('accountName').innerText = accountName;
     document.getElementById('editAccountName').value = accountName;

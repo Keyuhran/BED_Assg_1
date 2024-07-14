@@ -13,6 +13,7 @@ signupForm.addEventListener('submit', async (event) => {
   const phoneno = document.getElementById('setnumber').value;
   const name = document.getElementById('setname').value;
   const isRider = document.getElementById('isRider').value;
+  const isAdmin = document.getElementById('isAdmin').value;
 
   try {
     const response = await fetch('/users/createUser', { // Correct endpoint
@@ -29,7 +30,8 @@ signupForm.addEventListener('submit', async (event) => {
         unitno,
         phoneno,
         name,
-        isRider
+        isRider,
+        isAdmin
       })
     });
 

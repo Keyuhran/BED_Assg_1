@@ -1,4 +1,5 @@
 const loginForm = document.getElementById('login-form');
+const togglePasswordBtn = document.getElementById('toggle-password');
 
 loginForm.addEventListener('submit', async (event) => {
   event.preventDefault(); // Prevent default form submission
@@ -7,6 +8,7 @@ loginForm.addEventListener('submit', async (event) => {
   const password = document.getElementById('password').value;
 
   try {
+    console.log("Sending login request for email:", email); // Log before sending request
     const response = await fetch('/users/login', { // Assuming your login endpoint is at /users/login
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -14,6 +16,7 @@ loginForm.addEventListener('submit', async (event) => {
     });
 
     if (!response.ok) {
+      console.error(`Login failed with status: ${response.status}`);
       throw new Error(`Login failed with status: ${response.status}`);
     }
 
@@ -31,4 +34,15 @@ loginForm.addEventListener('submit', async (event) => {
 
 document.getElementById('create-account-btn').addEventListener('click', function() {
   window.location.href = 'signup.html'; // Redirect to signup.html when button is clicked
+});
+
+togglePasswordBtn.addEventListener('click', () => {
+  const passwordField = document.getElementById('password');
+  if (passwordField.type === 'password') {
+    passwordField.type = 'text';
+    togglePasswordBtn.textContent = 'Hide Password';
+  } else {
+    passwordField.type = 'password';
+    togglePasswordBtn.textContent = 'Show Password';
+  }
 });
