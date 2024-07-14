@@ -26,6 +26,7 @@ app.get("/users", userController.retrieveUsers);
 app.get("/users/email", userController.retrieveUser);
 app.delete("/users/email", userController.deleteUser);
 
+
 // // Rider Routes
 // app.post("/riders/createRider", riderController.createRider);
 // app.post("/riders/login", riderController.login);
@@ -44,6 +45,7 @@ app.delete("/users/email", userController.deleteUser);
 app.post("/snacks", snackController.createSnack);
 app.get("/snacks", snackController.retrieveSnacks);
 app.get('/snacks/:country', snackController.getSnacksByCountry);
+app.put("/snacks/:snackId", snackController.updateSnack);
 
 // Cart Routes
 app.post('/cart/add', cartController.addToCart);
