@@ -5,8 +5,8 @@ const cors = require('cors')
 const sql = require("mssql");
 const dbConfig = require("./dbConfig");
 const userController = require("./controllers/userController");
-const riderController = require("./controllers/riderController");
-const adminController = require("./controllers/adminController");
+//const riderController = require("./controllers/riderController");
+//const adminController = require("./controllers/adminController");
 const snackController = require("./controllers/snackController");
 const cartController = require("./controllers/cartController");
 
@@ -27,23 +27,24 @@ app.get("/users/email", userController.retrieveUser);
 app.delete("/users/email", userController.deleteUser);
 
 // Rider Routes
-app.post("/riders/createRider", riderController.createRider);
-app.post("/riders/login", riderController.login);
-app.get("/riders", riderController.retrieveRiders);
-app.get("/riders/email", riderController.retrieveRider);
-app.delete("/riders/email", riderController.deleteRider);
+//app.post("/riders/createRider", riderController.createRider);
+//app.post("/riders/login", riderController.login);
+//app.get("/riders", riderController.retrieveRiders);
+//app.get("/riders/email", riderController.retrieveRider);
+//app.delete("/riders/email", riderController.deleteRider);
 
 // Admin Routes
-app.post("/admins/createAdmin", adminController.createAdmin);
-app.post("/admins/login", adminController.login);
-app.get("/admins", adminController.retrieveAdmins);
-app.get("/admins/email", adminController.retrieveAdmin);
-app.delete("/admins/email", adminController.deleteAdmin);
+//app.post("/admins/createAdmin", adminController.createAdmin);
+//app.post("/admins/login", adminController.login);
+//app.get("/admins", adminController.retrieveAdmins);
+//app.get("/admins/email", adminController.retrieveAdmin);
+//app.delete("/admins/email", adminController.deleteAdmin);
 
 // Snack Routes
 app.post("/snacks", snackController.createSnack);
 app.get("/snacks", snackController.retrieveSnacks);
 app.get('/snacks/:country', snackController.getSnacksByCountry);
+app.put("/snacks/:snackId", snackController.updateSnack);
 
 // Cart Routes
 app.post('/cart/add', cartController.addToCart);
