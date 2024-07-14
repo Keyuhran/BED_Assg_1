@@ -9,10 +9,12 @@ const secretKey = "ilovehaziq2?$%"; // secret key for jwt token
 async function login(req, res) {
   try {
     const { email, password } = req.body; // Get data from request body (POST)
+    console.log("Login attempt with email:", email); // Log email for debugging
 
     const user = await User.login(email, password);
 
     if (!user) {
+      console.log("User not found for email:", email);
       return res.status(401).send("Invalid email or password");
     }
 
@@ -22,16 +24,19 @@ async function login(req, res) {
       const payload = {
         email: user.email,
         isRider: user.isRider, // Include additional user data if needed
+        isAdmin: user.isAdmin // Include isAdmin in the payload
       };
 
       const token = jwt.sign(payload, secretKey, { expiresIn: "1h" }); // Set expiry time
 
-      res.json({ message: "Login successful!", token, email: user.email }); 
+      console.log("Login successful for email:", email); // Log successful login
+      res.json({ message: "Login successful!", token, email: user.email, isAdmin: user.isAdmin }); 
     } else {
+      console.log("Password does not match for email:", email);
       res.status(401).send("Invalid email or password");
     }
   } catch (error) {
-    console.error(error);
+    console.error("Error during login:", error);
     res.status(500).send("Error logging in");
   }
 }
@@ -47,11 +52,11 @@ async function retrieveUsers(req, res) {
 }
 
 async function createUser(req, res) {
-  const { email, password, postalcode, streetname, blockno, unitno, phoneno, name, isRider} = req.body;
+  const { email, password, postalcode, streetname, blockno, unitno, phoneno, name, isRider, isAdmin } = req.body;
 
   try {
     const hashedPassword = await User.hashPassword(password);
-    const newUser = await User.createUser(email, hashedPassword, postalcode, streetname, blockno, unitno, phoneno, name, isRider);
+    const newUser = await User.createUser(email, hashedPassword, postalcode, streetname, blockno, unitno, phoneno, name, isRider, isAdmin);
 
     if (newUser) {
       res.status(201).json({ message: "User created successfully!" });
@@ -63,6 +68,7 @@ async function createUser(req, res) {
     res.status(500).json({ message: "Internal server error" });
   }
 }
+
 
 async function retrieveUser(req, res) {
   const email = req.query.email;
@@ -125,8 +131,6 @@ async function deleteUser(req, res) {
     res.status(500).send("Error deleting user");
   }
 }
-
-
 
 module.exports = {
   login,

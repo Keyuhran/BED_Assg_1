@@ -22,35 +22,8 @@
                     <th>Number</th>
                 </tr>
             </thead>
-            <tbody>
-                <tr onclick="showOverlay('Kieran Raj', '69696')">
-                    <td>Kieran Raj</td>
-                    <td>69696</td>
-                    <td>Make your own</td>
-                    <td>Malaysia</td>
-                    <td>9999</td>
-                </tr>
-                <tr onclick="showOverlay('Daryl Soon', '42042')">
-                    <td>Daryl Soon</td>
-                    <td>42042</td>
-                    <td>At sorting Center</td>
-                    <td>Vietnam</td>
-                    <td>99</td>
-                </tr>
-                <tr onclick="showOverlay('John Yong Haiwen', '36936')">
-                    <td>John Yong Haiwen</td>
-                    <td>36936</td>
-                    <td>At sorting Center</td>
-                    <td>Thailand</td>
-                    <td>123123</td>
-                </tr>
-                <tr onclick="showOverlay('Haziq Razak', '111111')">
-                    <td>Haziq Razak</td>
-                    <td>111111</td>
-                    <td>By Irvins international corporation...</td>
-                    <td>Singapore</td>
-                    <td>999119</td>
-                </tr>
+            <tbody id="userTableBody">
+                <!-- Table rows will be populated here by JavaScript -->
             </tbody>
         </table>
     </div>
@@ -95,7 +68,7 @@
                         <input type="text" id="editAccountName" name="editAccountName" readonly>
                     </div>
                     <div>
-                        <label for="editAccountId">Account ID</label>
+                        <label for="editAccountId">Email</label>
                         <input type="text" id="editAccountId" name="editAccountId" readonly>
                     </div>
                     <div>
