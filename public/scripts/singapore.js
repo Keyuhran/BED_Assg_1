@@ -24,8 +24,19 @@ document.addEventListener('DOMContentLoaded', () => {
                         <p>Price: $${snack.snackPrice}</p>
                         <p>Ingredients: ${snack.ingredients}</p>
                         <p>Country: ${snack.country}</p>
+                        <button class="add-to-cart" data-snack-id="${snack.snackId}" data-snack-name="${snack.snackName}">Add to Cart</button>
                     `;
                     snacksContainer.appendChild(snackDiv);
+                });
+
+                // Add event listeners to "Add to Cart" buttons
+                const addToCartButtons = document.querySelectorAll('.add-to-cart');
+                addToCartButtons.forEach(button => {
+                    button.addEventListener('click', () => {
+                        const snackId = button.getAttribute('data-snack-id');
+                        const snackName = button.getAttribute('data-snack-name');
+                        alert(`Added ${snackName} to cart!`);
+                    });
                 });
             }
         })
