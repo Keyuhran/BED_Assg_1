@@ -22,7 +22,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             <p>Snack ID: ${snack.snackId}</p>
                             <p>Snack Name: ${snack.snackName}</p>
                             <p>Description: ${snack.snackDescription}</p>
-                            <p>Price: $${snack.snackPrice}</p>
+                            <p>Price: $${snack.snackPrice.toFixed(2)}</p>
                             <p>Ingredients: ${snack.ingredients}</p>
                             <p>Country: ${snack.country}</p>
                         </div>

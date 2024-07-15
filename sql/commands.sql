@@ -1,25 +1,45 @@
+-- Drop existing tables
+DROP TABLE IF EXISTS Cart;
+DROP TABLE IF EXISTS Admins;
+DROP TABLE IF EXISTS Riders;
+DROP TABLE IF EXISTS Users;
+DROP TABLE IF EXISTS Snacks;
+
+-- Create Users table
 CREATE TABLE Users (
-    Email VARCHAR(255),
-    passwordHash VARCHAR(255),
-    Postalcode INT,
-    Streetname VARCHAR(255),
-    Blockno INT,
-    Unitno INT,
-    Phoneno int,
-    Name VARCHAR(255),
-    isRider BIT,
-)
+    email VARCHAR(255) PRIMARY KEY,
+    password VARCHAR(255),    
+    name VARCHAR(255),
+    address VARCHAR(255),
+    unitNo VARCHAR(255),
+    postalCode VARCHAR(255),
+    country VARCHAR(255),
+    phoneNo VARCHAR(255),
+    userBday DATE,
+    imagePath VARCHAR(MAX),
+    role VARCHAR(255) -- Changed column name to 'role' for consistency
+);
 
-CREATE TABLE Account (
-    Name VARCHAR(255),
-    Id INT,
-    Details VARCHAR(255),
-    country VARCHAR(255)
-)
- 
-/*FROM HERE ON ARE TABLES FOR THE COUNTRIES*/
+-- Create Riders table
+CREATE TABLE Riders (
+    riderId VARCHAR(255) PRIMARY KEY,
+    email VARCHAR(255),
+    joinDate DATE,
+    FOREIGN KEY (email) REFERENCES Users(email)
+);
 
--- Snack
+-- Create Admins table
+CREATE TABLE Admins (
+    adminId VARCHAR(255) PRIMARY KEY,
+    email VARCHAR(255),
+    department VARCHAR(255),
+    branch VARCHAR(255),
+    position VARCHAR(255),
+    joinDate DATE,
+    FOREIGN KEY (email) REFERENCES Users(email)
+);
+
+-- Create Snacks table
 CREATE TABLE Snacks (
   SnackId VARCHAR(5) PRIMARY KEY,
   SnackName VARCHAR(255) NOT NULL,
@@ -30,13 +50,24 @@ CREATE TABLE Snacks (
   Country VARCHAR(255) NOT NULL
 );
 
+-- Create Cart table
+CREATE TABLE Cart (
+    email VARCHAR(255),
+    SnackId VARCHAR(5),
+    Quantity INT,
+    FOREIGN KEY (email) REFERENCES Users(email),
+    FOREIGN KEY (SnackId) REFERENCES Snacks(SnackId),
+    PRIMARY KEY (email, SnackId)
+);
+
+-- Insert Snacks
 INSERT INTO Snacks (SnackId, SnackName, SnackDescription, SnackPrice, Ingredients, ImagePath, Country) VALUES
-('MY001', 'Kuih Seri Muka', 'A traditional two-layered dessert with a base of glutinous rice and a top layer of pandan custard. The glutinous rice is sticky and slightly salty, while the custard is sweet and flavored with pandan leaves.', 0.50, 'Glutinous rice, coconut milk, pandan leaves, sugar, salt', NULL, 'Malaysia'),
+('MY001', 'Kuih Seri Muka', 'A traditional two-layered dessert with a base of glutinous rice and a top layer of pandan custard. The glutinous rice is sticky and slightly salty, while the custard is sweet and flavored with pandan leaves.', 0.50, 'Glutinous rice, coconut milk, pandan leaves, sugar, salt', 'https://i.ytimg.com/vi/lja78jksL0A/hq720.jpg?sqp=-oaymwEhCK4FEIIDSFryq4qpAxMIARUAAAAAGAElAADIQj0AgKJD&rs=AOn4CLBoIA6leCfATyGeselIGEawOB1Y_A', 'Malaysia'),
 ('MY002', 'Apam Balik', 'A thick pancake turnover that is crispy on the outside and soft on the inside. It is stuffed with a mixture of ground peanuts, sweet corn, and sugar. It is a popular street food snack.', 0.75, 'Flour, eggs, sugar, peanuts, sweet corn, butter', NULL, 'Malaysia'),
 ('MY003', 'Keropok Lekor', 'A traditional Malay snack made from fish and sago flour. These fish crackers are deep-fried until crispy and are usually served with a sweet and spicy chili sauce.', 1.00, 'Fish, sago flour, salt, sugar, chili, oil', NULL, 'Malaysia'),
-('SG001', 'Kaya Toast', 'Toasted bread spread with kaya, a rich and creamy coconut jam, and a thick slice of butter. This snack is often enjoyed with a cup of coffee or tea.', 1.20, 'Bread, kaya (coconut jam), butter', NULL, 'Singapore'),
-('SG002', 'Popiah', 'Fresh spring rolls filled with a mix of cooked turnip, carrots, beans, and shrimp. These rolls are often served with a sweet and spicy sauce.', 1.50, 'Turnip, carrots, beans, shrimp, spring roll wrappers, sweet sauce, spicy sauce', NULL, 'Singapore'),
-('SG003', 'Satay', 'Grilled skewered meat served with a savory peanut sauce. The meat, usually chicken or beef, is marinated in a mixture of spices and then grilled over an open flame.', 2.00, 'Chicken or beef, spices, peanuts, coconut milk, sugar, soy sauce', NULL, 'Singapore'),
+('SG001', 'Kaya Toast', 'Toasted bread spread with kaya, a rich and creamy coconut jam, and a thick slice of butter. This snack is often enjoyed with a cup of coffee or tea.', 1.20, 'Bread, kaya (coconut jam), butter', 'https://i.ytimg.com/vi/11kTX7LpFlA/maxresdefault.jpg', 'Singapore'),
+('SG002', 'Popiah', 'Fresh spring rolls filled with a mix of cooked turnip, carrots, beans, and shrimp. These rolls are often served with a sweet and spicy sauce.', 1.50, 'Turnip, carrots, beans, shrimp, spring roll wrappers, sweet sauce, spicy sauce', 'https://staticcookist.akamaized.net/wp-content/uploads/sites/22/2022/05/popiah-malaysian-spring-rolls-1.jpg', 'Singapore'),
+('SG003', 'Satay', 'Grilled skewered meat served with a savory peanut sauce. The meat, usually chicken or beef, is marinated in a mixture of spices and then grilled over an open flame.', 2.00, 'Chicken or beef, spices, peanuts, coconut milk, sugar, soy sauce', 'https://thebigmansworld.com/wp-content/uploads/2023/10/chicken-satay-recipe.jpg', 'Singapore'),
 ('BN001', 'Kelupis', 'A traditional snack made from glutinous rice that is wrapped in palm leaves and steamed. It is usually enjoyed with a side of curry or sambal.', 1.00, 'Glutinous rice, palm leaves, salt, coconut milk', NULL, 'Brunei'),
 ('BN002', 'Penyaram', 'A sweet, deep-fried cake made from rice flour and palm sugar. The cake is crispy on the outside and soft on the inside, with a caramel-like flavor.', 0.75, 'Rice flour, palm sugar, water, oil', NULL, 'Brunei'),
 ('BN003', 'Kuih Cincin', 'Fried dough rings made from rice flour and palm sugar. These rings are crunchy and have a sweet and slightly smoky flavor.', 0.50, 'Rice flour, palm sugar, water, oil', NULL, 'Brunei'),
@@ -65,18 +96,36 @@ INSERT INTO Snacks (SnackId, SnackName, SnackDescription, SnackPrice, Ingredient
 ('PH002', 'Halo-Halo', 'A Filipino dessert made with mixed fruits, beans, jelly, and shaved ice, topped with evaporated milk, ice cream, and sometimes leche flan (caramel custard).', 3.50, 'Mixed Fruits, Beans, Jelly, Shaved Ice, Evaporated Milk, Ice Cream, Leche Flan', NULL, 'Philippines'),
 ('PH003', 'Lechon', 'A whole roasted pig cooked over charcoal, resulting in crispy skin and tender meat, often served during festive occasions.', 5.00, 'Pork, Garlic, Vinegar, Soy Sauce, Bay Leaves', NULL, 'Philippines');
 
-INSERT INTO Users (Email, passwordHash, Postalcode, Streetname, Blockno, Unitno, Phoneno, Name, isRider) VALUES
-('user1@example.com', 'passwordHash1', 123456, 'Street 1', 10, 101, 12345678, 'User One', 1),
-('user2@example.com', 'passwordHash2', 234567, 'Street 2', 20, 202, 23456789, 'User Two', 0),
-('user3@example.com', 'passwordHash3', 345678, 'Street 3', 30, 303, 34567890, 'User Three', 1),
-('user4@example.com', 'passwordHash4', 456789, 'Street 4', 40, 404, 45678901, 'User Four', 0),
-('user5@example.com', 'passwordHash5', 567890, 'Street 5', 50, 505, 56789012, 'User Five', 1);
+-- Insert Users
+INSERT INTO Users (email, password, name, address, unitNo, postalCode, country, phoneNo, userBday, imagePath, role) VALUES
+('user1@example.com', '$2a$10$B4i8bICJNjaR4bcBaMdnseKIG8IkkSU2rF2VlmlrZsdrZBnEOUljC', 'user one', 'Street 1', '10', '101', 'Singapore', '+65 12121212', '2006/08/16', null, 'user'),
+('user2@example.com', '$2a$10$B4i8bICJNjaR4bcBaMdnseKIG8IkkSU2rF2VlmlrZsdrZBnEOUljC', 'user two', 'Street 2', '20', '202', 'Singapore', '+65 12121212', '2006/08/16', null, 'user'),
+('user3@example.com', '$2a$10$B4i8bICJNjaR4bcBaMdnseKIG8IkkSU2rF2VlmlrZsdrZBnEOUljC', 'user three', 'Street 3', '30', '303', 'Singapore', '+65 12121212', '2006/08/16', null, 'user'),
+('user4@example.com', '$2a$10$B4i8bICJNjaR4bcBaMdnseKIG8IkkSU2rF2VlmlrZsdrZBnEOUljC', 'user four', 'Street 4', '40', '404', 'Singapore', '+65 12121212', '2006/08/16', null, 'user'),
+('user5@example.com', '$2a$10$B4i8bICJNjaR4bcBaMdnseKIG8IkkSU2rF2VlmlrZsdrZBnEOUljC', 'user five', 'Street 5', '50', '505', 'Singapore', '+65 12121212', '2006/08/16', null, 'user'),
+('krish@email.com', '$2a$10$B4i8bICJNjaR4bcBaMdnseKIG8IkkSU2rF2VlmlrZsdrZBnEOUljC', 'Krish Kamal', 'Street 1', '10', '101', 'Singapore', '+65 12121212', '2022/08/16', null, 'rider'),
+('jeffrey@email.com', '$2a$10$B4i8bICJNjaR4bcBaMdnseKIG8IkkSU2rF2VlmlrZsdrZBnEOUljC', 'Jeffrey Dahmer', 'Street 2', '20', '202', 'Singapore', '+65 12121212', '2023/08/16', null, 'rider'),
+('ben@email.com', '$2a$10$B4i8bICJNjaR4bcBaMdnseKIG8IkkSU2rF2VlmlrZsdrZBnEOUljC', 'Ben Kheng', 'Street 3', '30', '303', 'Singapore', '+65 12121212', '2020/08/16', null, 'rider'),
+('robert@email.com', '$2a$10$B4i8bICJNjaR4bcBaMdnseKIG8IkkSU2rF2VlmlrZsdrZBnEOUljC', 'Robert Downey Jr.', 'Street 4', '40', '404', 'Singapore', '+65 12121212', '2006/08/16', null, 'rider'),
+('spider@email.com', '$2a$10$B4i8bICJNjaR4bcBaMdnseKIG8IkkSU2rF2VlmlrZsdrZBnEOUljC', 'Spider-Man', 'Street 5', '50', '505', 'Singapore', '+65 12121212', '1999/08/16', null, 'rider'),
+('kamal@email.com', '$2a$10$B4i8bICJNjaR4bcBaMdnseKIG8IkkSU2rF2VlmlrZsdrZBnEOUljC', 'Krish Kamal', 'Street 1', '10', '101', 'Singapore', '+65 12121212', '2022/07/16', null, 'admin'),
+('dahmer@email.com', '$2a$10$B4i8bICJNjaR4bcBaMdnseKIG8IkkSU2rF2VlmlrZsdrZBnEOUljC', 'Jeffrey Dahmer', 'Street 2', '20', '202', 'Singapore', '+65 12121212', '2023/09/15', null, 'admin'),
+('kheng@email.com', '$2a$10$B4i8bICJNjaR4bcBaMdnseKIG8IkkSU2rF2VlmlrZsdrZBnEOUljC', 'Ben Kheng', 'Street 3', '30', '303', 'Singapore', '+65 12121212', '2020/03/20', null, 'admin'),
+('downey@email.com', '$2a$10$B4i8bICJNjaR4bcBaMdnseKIG8IkkSU2rF2VlmlrZsdrZBnEOUljC', 'Robert Downey Jr.', 'Street 4', '40', '404', 'Singapore', '+65 12121212', '2006/02/09', null, 'admin'),
+('man@email.com', '$2a$10$B4i8bICJNjaR4bcBaMdnseKIG8IkkSU2rF2VlmlrZsdrZBnEOUljC', 'Spider-Man', 'Street 5', '50', '505', 'Singapore', '+65 12121212', '2001/08/10', null, 'admin');
 
-CREATE TABLE Cart (
-    Email VARCHAR(255),
-    SnackId VARCHAR(5),
-    Quantity INT,
-    FOREIGN KEY (Email) REFERENCES Users(Email),
-    FOREIGN KEY (SnackId) REFERENCES Snacks(SnackId),
-    PRIMARY KEY (Email, SnackId)
-);
+-- Insert Riders
+INSERT INTO Riders (riderId, email, joinDate) VALUES
+('12341234', 'krish@email.com', '2022/08/16'),
+('12341235', 'jeffrey@email.com', '2023/08/16'),
+('12341236', 'ben@email.com', '2020/08/16'),
+('12341237', 'robert@email.com', '2006/08/16'),
+('12341238', 'spider@email.com', '1999/08/16');
+
+-- Insert Admins
+INSERT INTO Admins (adminId, email, department, branch, position, joinDate) VALUES
+('12341239', 'kamal@email.com', 'Snack', '1', 'intern', '2022/07/16'),
+('12341240', 'dahmer@email.com', 'Snack', '1', 'lead developer', '2023/09/15'),
+('12341241', 'kheng@email.com', 'Rider', '2', 'developer', '2020/03/20'),
+('12341242', 'downey@email.com', 'User', '2', 'manager', '2006/02/09'),
+('12341243', 'man@email.com', 'Admin', '3', 'manager', '2001/08/10');
