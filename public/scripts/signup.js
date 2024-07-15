@@ -24,7 +24,8 @@ signupForm.addEventListener('submit', async (event) => {
     country,
     phoneNo,
     userBday,
-    imagePath: null 
+    imagePath: null,
+    role: 'user'
   };
 
   try {
