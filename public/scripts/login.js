@@ -29,6 +29,9 @@ loginForm.addEventListener('submit', async (event) => {
     console.log(data.role);
     alert('Login Successful!'); // You can replace this with a redirection or other logic
 
+    // Store email in local storage
+    localStorage.setItem('userEmail', data.email);
+
     // Redirect based on isAdmin status
     if (data.role === 'admin') {
       window.location.href = '../AccountEditor.html'; // Redirect to account editor page if admin
