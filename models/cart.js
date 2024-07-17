@@ -2,53 +2,63 @@ const sql = require("mssql");
 const dbConfig = require("../dbConfig");
 
 class Cart {
-    constructor(email, snackId, quantity) {
-        this.email = email;
-        this.snackId = snackId;
-        this.quantity = quantity;
+  constructor(email, snackId, quantity) {
+    this.email = email;
+    this.snackId = snackId;
+    this.quantity = quantity;
+  }
+
+  static async checkForCart(email) {
+    const connection = await sql.connect(dbConfig);
+    console.log(email);
+
+    const sqlQuery = `SELECT * FROM Cart WHERE Email = @Email`;
+    const request = connection.request();
+    request.input("Email", sql.VarChar, email);
+
+    const result = await request.query(sqlQuery);
+    connection.close();
+    console.log(result);
+
+    if (result.recordset.length === 0) {
+      return null; // Cart not found
     }
 
-    static async checkForCart(email){
-        const connection = await sql.connect(dbConfig);
-        console.log(email);
+    return result.recordset.map(
+      (cart) => new Cart(
+        cart.Email,
+        cart.SnackId,
+        cart.Quantity,
+      )
+    );
+  }
 
-        const sqlQuery = `Select * FROM Cart where Email = @email`;
-        const request = connection.request();
-        request.input("email", email);
+  static async addToCart(email, snackId, quantity) {
+    const connection = await sql.connect(dbConfig);
+    console.log(email, snackId, quantity);
 
-        const result = await request.query(sqlQuery);
-        connection.close();
-        console.log(result);
+    const sqlQuery = `
+      MERGE Cart AS target
+      USING (VALUES (@Email, @SnackId, @Quantity)) AS source (Email, SnackId, Quantity)
+      ON (target.Email = source.Email AND target.SnackId = source.SnackId)
+      WHEN MATCHED THEN 
+          UPDATE SET target.Quantity = target.Quantity + source.Quantity
+      WHEN NOT MATCHED THEN
+          INSERT (Email, SnackId, Quantity) 
+          VALUES (source.Email, source.SnackId, source.Quantity);
+    `;
 
-        if (result.recordset.length === 0) {
-            return null; // Cart not found
-          }
-        
-          return result.recordset.map(
-            (cart) => new Cart(
-              cart.Email,
-              cart.SnackId,
-              cart.Quantity,
-            )
-          );
-    }
+    const request = connection.request();
+    request.input("Email", sql.VarChar, email);
+    request.input("SnackId", sql.VarChar, snackId);
+    request.input("Quantity", sql.Int, quantity);
 
-    static async addToCart(email,snackId,quantity){
-        const connection = await sql.connect(dbConfig);
-        console.log(email, snackId, quantity);
+    const result = await request.query(sqlQuery);
+    connection.close();
+    console.log(result);
 
-        const sqlQuery = `INSERT INTO Cart (Email, SnackId, Quantity)
-  VALUES (@email, @snackId, @quantity)`;
-        const request = connection.request();
-        request.input("email", email);
-        request.input("snackId", snackId);
-        request.input("quantity", quantity);
-
-        const result = await request.query(sqlQuery);
-        connection.close();
-        console.log(result);
-
-        return result.rowsAffected[0] === 1;
-    }
+    return result.rowsAffected[0] === 1;
+  }
 }
+
 module.exports = Cart;
