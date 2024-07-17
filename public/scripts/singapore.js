@@ -18,6 +18,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     snackDiv.classList.add('snack');
                     snackDiv.innerHTML = `
                         <img src="${snack.imagePath && snack.imagePath !== 'NULL' ? snack.imagePath : 'placeholder.png'}" alt="${snack.snackName}">
+
                         <p>Snack ID: ${snack.snackId}</p>
                         <p>Snack Name: ${snack.snackName}</p>
                         <p>Description: ${snack.snackDescription}</p>
@@ -26,6 +27,14 @@ document.addEventListener('DOMContentLoaded', () => {
                         <p>Country: ${snack.country}</p>
                         <button class="add-to-cart-btn" data-snack-id="${snack.snackId}">Add to Cart</button>
                     `;
+                    snackDiv.addEventListener('click', () => {
+                        const details = snackDiv.querySelector('.snack-details');
+                        if (details.style.display === 'none' || details.style.display === '') {
+                            details.style.display = 'block';
+                        } else {
+                            details.style.display = 'none';
+                        }
+                    });
                     snacksContainer.appendChild(snackDiv);
                 });
 

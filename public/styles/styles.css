@@ -14,8 +14,8 @@ header {
     justify-content: space-between;
     padding: 20px;
     border-bottom: 1px solid #ddd;
+    flex-wrap: wrap;
 }
-
 
 .logo img {
     height: 50px;
@@ -25,6 +25,11 @@ nav ul {
     list-style: none;
     display: flex;
     gap: 20px;
+    flex-wrap: wrap;
+}
+
+nav ul li {
+    flex: 1;
 }
 
 nav ul li a {
@@ -33,18 +38,18 @@ nav ul li a {
     border: 2px solid #999;
     border-radius: 10px;
     padding: 10px 15px;
+    display: block;
+    text-align: center;
 }
 
-.user-icons {  display: flex;
+.user-icons {
+    display: flex;
+    gap: 10px;
 }
 
-.profile-icon img{
-    height: 30px;
-   
-}
+.profile-icon img,
 .cart-icon img {
-  height: 30px;
-  padding-left: 40%;
+    height: 30px;
 }
 
 .advert-display {
@@ -87,34 +92,30 @@ nav ul li a {
 
 .countries {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     gap: 20px;
     justify-items: center;
     align-items: center;
+    padding: 0 10px;
 }
 
 .country {
-    background-color: transparent;
-    height: 200px; 
-    width: 600px; 
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 10px;
-    text-align: center;
-    padding: 0; 
-    overflow: hidden;
     position: relative;
+    width: 100%;
+    padding-top: 66.67%;
+    overflow: hidden;
+    border-radius: 10px;
+    transition: transform 0.3s ease;
 }
 
 .country img {
+    position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
     height: 100%;
     object-fit: cover;
-    position: absolute; 
-    top: 0;
-    left: 0;
-    transition: 0.3s ease;
+    transition: filter 0.3s ease;
 }
 
 .country:hover img {
@@ -123,6 +124,9 @@ nav ul li a {
 
 .country-name {
     position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     color: white;
     font-size: 20px;
     font-weight: bold;
@@ -133,4 +137,61 @@ nav ul li a {
 
 .country:hover .country-name {
     opacity: 1;
+}
+
+/* Media Queries for Responsive Design */
+
+@media (max-width: 1024px) {
+    header {
+        flex-direction: column;
+    }
+
+    nav ul {
+        width: 100%;
+        justify-content: space-around;
+    }
+
+    nav ul li {
+        flex: none;
+        margin: 5px 0;
+    }
+
+    .user-icons {
+        justify-content: center;
+        width: 100%;
+        margin-top: 10px;
+    }
+
+    .advert {
+        width: 90%;
+        font-size: 20px;
+    }
+
+    .countries {
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    }
+}
+
+@media (max-width: 768px) {
+    .advert {
+        width: 95%;
+        font-size: 18px;
+    }
+
+    .countries {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Large Screens */
+
+@media (min-width: 1025px) {
+    .countries {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .country {
+        max-width: 620px; 
+        padding-top: 66.67%; 
+    }
 }
