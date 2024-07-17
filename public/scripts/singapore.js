@@ -24,8 +24,36 @@ document.addEventListener('DOMContentLoaded', () => {
                         <p>Price: $${snack.snackPrice}</p>
                         <p>Ingredients: ${snack.ingredients}</p>
                         <p>Country: ${snack.country}</p>
+                        <button class="add-to-cart-btn" data-snack-id="${snack.snackId}">Add to Cart</button>
                     `;
                     snacksContainer.appendChild(snackDiv);
+                });
+
+                document.querySelectorAll('.add-to-cart-btn').forEach(button => {
+                    button.addEventListener('click', async (event) => {
+                        const snackId = event.target.getAttribute('data-snack-id');
+                        const email = localStorage.getItem('userEmail'); // Retrieve email from local storage
+                        const quantity = 1; // Assuming adding 1 item at a time
+
+                        try {
+                            const response = await fetch('/cart/add', {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json'
+                                },
+                                body: JSON.stringify({ email, snackId, quantity })
+                            });
+
+                            if (!response.ok) {
+                                throw new Error(`Error adding to cart: ${response.statusText}`);
+                            }
+
+                            alert('Snack added to cart successfully!');
+                        } catch (error) {
+                            console.error('Error adding to cart:', error);
+                            alert('Failed to add snack to cart.');
+                        }
+                    });
                 });
             }
         })
