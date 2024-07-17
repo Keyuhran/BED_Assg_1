@@ -3,52 +3,32 @@ const dbConfig = require("../dbConfig");
 const bcrypt = require("bcryptjs");
 
 class Rider {
-  constructor(riderId, email, password, name, address, unitNo, postalCode, country, phoneNo, joinDate, imagePath) {
+  constructor(riderId, email, joinDate) {
     this.riderId = riderId;
     this.email = email;
-    this.password = password;
-    this.name = name;
-    this.address = address;
-    this.unitNo = unitNo;
-    this.postalCode = postalCode;
-    this.country = country;
-    this.phoneNo = phoneNo;
     this.joinDate = joinDate;
-    this.imagePath = imagePath;
-  }
-
-  static async login(email, password) {
-    const connection = await sql.connect(dbConfig);
-
-    const sqlQuery = `
-      SELECT *
-      FROM Riders 
-      WHERE email = @Email
-    `;
-
-    const request = connection.request();
-    request.input("Email", sql.VarChar, email);
-
-    const result = await request.query(sqlQuery);
-    connection.close();
-
-    if (result.recordset.length === 0) {
-      return null; // Rider not found
-    }
-
-    const rider = result.recordset[0];
-    const isMatch = await bcrypt.compare(password, rider.password);
-
-    if (!isMatch) {
-      return null; // Password does not match
-    }
-
-    return { ...rider, isRider: true, isAdmin: false };
   }
 
   static async retrieveRiders() {
     const connection = await sql.connect(dbConfig);
-    const sqlQuery = `SELECT riderId, email, name, address, unitNo, postalCode, country, phoneNo, joinDate FROM Riders`;
+    const sqlQuery = `SELECT
+    Riders.riderId,
+    Users.email,
+    Users.name,
+    Users.address,
+    Users.unitNo,
+    Users.postalCode,
+    Users.country,
+    Users.phoneNo,
+    Users.userBday,
+    Users.imagePath,
+    Users.role,
+    Riders.joinDate
+    FROM
+    Riders
+    INNER JOIN
+    Users ON Riders.email = Users.email;
+`;
 
     const request = connection.request();
     const result = await request.query(sqlQuery);
