@@ -49,6 +49,7 @@ app.put("/snacks/:snackId", snackController.updateSnack);
 
 // Cart Routes
 app.post('/cart/add', cartController.addToCart);
+app.get('/cart', cartController.getCartContents);
 
 // Start server
 const server = app.listen(port, async () => {
