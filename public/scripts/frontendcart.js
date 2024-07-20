@@ -27,23 +27,23 @@ document.addEventListener("DOMContentLoaded", () => {
           const cartItemDiv = document.createElement("div");
           cartItemDiv.classList.add("cart-item");
           cartItemDiv.innerHTML = `
-              <p>Snack ID: ${item.snackId}</p>
-              <p>Snack Name: ${item.snackName}</p>
-              <p>Quantity: <button class="decrement-btn" data-snack-id="${
-                item.snackId
-              }">-</button> <span class="quantity">${
+                <p>Snack ID: ${item.snackId}</p>
+                <p>Snack Name: ${item.snackName}</p>
+                <p>Quantity: <button class="decrement-btn" data-snack-id="${
+                  item.snackId
+                }">-</button> <span class="quantity">${
             item.quantity
           }</span> <button class="increment-btn" data-snack-id="${
             item.snackId
           }">+</button></p>
-              <p>Price: $${item.snackPrice}</p>
-              <p>Total Cost: $<span class="total-cost">${item.totalCost.toFixed(
-                2
-              )}</span></p>
-              <button class="remove-from-cart-btn" data-snack-id="${
-                item.snackId
-              }">Remove</button>
-            `;
+                <p>Price: $<span class="price">${item.snackPrice}</span></p>
+                <p>Total Cost: $<span class="total-cost">${item.totalCost.toFixed(
+                  2
+                )}</span></p>
+                <button class="remove-from-cart-btn" data-snack-id="${
+                  item.snackId
+                }">Remove</button>
+              `;
           cartContainer.appendChild(cartItemDiv);
         });
 
@@ -72,9 +72,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
               quantityElement.textContent = newQuantity;
               const priceElement = cartItemDiv.querySelector(".price");
-              const price = parseFloat(
-                priceElement.textContent.replace("$", "")
-              );
+              const price = parseFloat(priceElement.textContent);
               const totalCostElement = cartItemDiv.querySelector(".total-cost");
               totalCostElement.textContent = (newQuantity * price).toFixed(2);
             } catch (error) {
@@ -110,9 +108,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
               quantityElement.textContent = newQuantity;
               const priceElement = cartItemDiv.querySelector(".price");
-              const price = parseFloat(
-                priceElement.textContent.replace("$", "")
-              );
+              const price = parseFloat(priceElement.textContent);
               const totalCostElement = cartItemDiv.querySelector(".total-cost");
               totalCostElement.textContent = (newQuantity * price).toFixed(2);
             } catch (error) {

@@ -18,6 +18,7 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
+app.use('/styles', express.static(path.join(__dirname, 'styles')));
 
 // User Routes
 app.post("/users/createUser", userController.createUser);
@@ -25,6 +26,21 @@ app.post("/users/login", userController.login);
 app.get("/users", userController.retrieveUsers);
 app.get("/users/email", userController.retrieveUser);
 app.delete("/users/email", userController.deleteUser);
+
+
+// // Rider Routes
+// app.post("/riders/createRider", riderController.createRider);
+// app.post("/riders/login", riderController.login);
+// app.get("/riders", riderController.retrieveRiders);
+// app.get("/riders/email", riderController.retrieveRider);
+// app.delete("/riders/email", riderController.deleteRider);
+
+// // Admin Routes
+// app.post("/admins/createAdmin", adminController.createAdmin);
+// app.post("/admins/login", adminController.login);
+// app.get("/admins", adminController.retrieveAdmins);
+// app.get("/admins/email", adminController.retrieveAdmin);
+// app.delete("/admins/email", adminController.deleteAdmin); 
 
 // Snack Routes
 app.post("/snacks", snackController.createSnack);
