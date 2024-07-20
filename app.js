@@ -48,9 +48,13 @@ app.get("/snacks", snackController.retrieveSnacks);
 app.get('/snacks/:country', snackController.getSnacksByCountry);
 app.put("/snacks/:snackId", snackController.updateSnack);
 
+
 // Cart Routes
 app.post('/cart/add', cartController.addToCart);
 app.get('/cart', cartController.getCartContents);
+app.post('/cart/remove', cartController.removeFromCart);
+app.post('/cart/update', cartController.updateQuantity);
+
 
 // Start server
 const server = app.listen(port, async () => {
