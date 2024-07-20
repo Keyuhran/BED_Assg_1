@@ -1,7 +1,7 @@
 const express = require("express");
 const path = require("path");
 const bodyParser = require("body-parser");
-const cors = require('cors')
+const cors = require('cors');
 const sql = require("mssql");
 const dbConfig = require("./dbConfig");
 const userController = require("./controllers/userController");
@@ -14,10 +14,11 @@ const app = express();
 const port = process.env.PORT || 3000;
 
 // Middleware
-app.use(cors())
+app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
+app.use('/styles', express.static(path.join(__dirname, 'styles')));
 
 // User Routes
 app.post("/users/createUser", userController.createUser);
@@ -39,7 +40,7 @@ app.delete("/users/email", userController.deleteUser);
 // app.post("/admins/login", adminController.login);
 // app.get("/admins", adminController.retrieveAdmins);
 // app.get("/admins/email", adminController.retrieveAdmin);
-// app.delete("/admins/email", adminController.deleteAdmin);
+// app.delete("/admins/email", adminController.deleteAdmin); 
 
 // Snack Routes
 app.post("/snacks", snackController.createSnack);
@@ -49,6 +50,7 @@ app.put("/snacks/:snackId", snackController.updateSnack);
 
 // Cart Routes
 app.post('/cart/add', cartController.addToCart);
+app.get('/cart', cartController.getCartContents);
 
 // Start server
 const server = app.listen(port, async () => {

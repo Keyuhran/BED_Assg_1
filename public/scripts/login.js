@@ -29,8 +29,9 @@ loginForm.addEventListener('submit', async (event) => {
     console.log(data.role);
     alert('Login Successful!'); // You can replace this with a redirection or other logic
 
-    // Store email in local storage
+    // Store email and JWT in local storage
     localStorage.setItem('userEmail', data.email);
+    localStorage.setItem('token', data.token);
 
     // Redirect based on isAdmin status
     if (data.role === 'admin') {
