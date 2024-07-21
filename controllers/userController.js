@@ -1,8 +1,8 @@
+require('dotenv').config()
+
 const User = require("../models/User");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-
-const secretKey = "ilovehaziq2?$%"; // secret key for jwt token
 
 async function login(req, res) {
   try {
@@ -24,7 +24,7 @@ async function login(req, res) {
         role: user.role
       };
 
-      const token = jwt.sign(payload, secretKey, { expiresIn: "1h" }); 
+      const token = jwt.sign(payload, process.env.secretKey, { expiresIn: "1h" }); 
 
       console.log("Login successful for email:", email); 
       res.json({ message: "Login successful!", token, email: user.email, role: user.role }); 
