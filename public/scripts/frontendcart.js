@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
   const token = localStorage.getItem("token"); // Retrieve token from local storage
 
-  fetch("/cart", {
+  fetch("http://localhost:3000/cart", {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
@@ -27,23 +27,21 @@ document.addEventListener("DOMContentLoaded", () => {
           const cartItemDiv = document.createElement("div");
           cartItemDiv.classList.add("cart-item");
           cartItemDiv.innerHTML = `
-              <p>Snack ID: ${item.snackId}</p>
-              <p>Snack Name: ${item.snackName}</p>
-              <p>Quantity: <button class="decrement-btn" data-snack-id="${
-                item.snackId
-              }">-</button> <span class="quantity">${
-            item.quantity
-          }</span> <button class="increment-btn" data-snack-id="${
-            item.snackId
+            <p>Snack ID: ${item.snackIds}</p>
+            <p>Snack Name: ${item.snackName}</p>
+            <p>Quantity: <button class="decrement-btn" data-snack-id="${
+              item.snackIds
+            }">-</button> <span class="quantity">${item.quantity}</span> <button class="increment-btn" data-snack-id="${
+            item.snackIds
           }">+</button></p>
-              <p>Price: $${item.snackPrice}</p>
-              <p>Total Cost: $<span class="total-cost">${item.totalCost.toFixed(
-                2
-              )}</span></p>
-              <button class="remove-from-cart-btn" data-snack-id="${
-                item.snackId
-              }">Remove</button>
-            `;
+            <p>Price: $<span class="price">${item.snackPrice.toFixed(2)}</span></p>
+            <p>Total Cost: $<span class="total-cost">${item.totalCost.toFixed(
+              2
+            )}</span></p>
+            <button class="remove-from-cart-btn" data-snack-id="${
+              item.snackIds
+            }">Remove</button>
+          `;
           cartContainer.appendChild(cartItemDiv);
         });
 
@@ -55,7 +53,7 @@ document.addEventListener("DOMContentLoaded", () => {
             const newQuantity = parseInt(quantityElement.textContent) + 1;
 
             try {
-              const response = await fetch("/cart/update", {
+              const response = await fetch("http://localhost:3000/cart/update", {
                 method: "POST",
                 headers: {
                   "Content-Type": "application/json",
@@ -72,9 +70,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
               quantityElement.textContent = newQuantity;
               const priceElement = cartItemDiv.querySelector(".price");
-              const price = parseFloat(
-                priceElement.textContent.replace("$", "")
-              );
+              const price = parseFloat(priceElement.textContent);
               const totalCostElement = cartItemDiv.querySelector(".total-cost");
               totalCostElement.textContent = (newQuantity * price).toFixed(2);
               updateTotalPrice();
@@ -94,7 +90,7 @@ document.addEventListener("DOMContentLoaded", () => {
             if (newQuantity < 1) return; // Minimum quantity is 1
 
             try {
-              const response = await fetch("/cart/update", {
+              const response = await fetch("http://localhost:3000/cart/update", {
                 method: "POST",
                 headers: {
                   "Content-Type": "application/json",
@@ -111,9 +107,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
               quantityElement.textContent = newQuantity;
               const priceElement = cartItemDiv.querySelector(".price");
-              const price = parseFloat(
-                priceElement.textContent.replace("$", "")
-              );
+              const price = parseFloat(priceElement.textContent);
               const totalCostElement = cartItemDiv.querySelector(".total-cost");
               totalCostElement.textContent = (newQuantity * price).toFixed(2);
               updateTotalPrice();
@@ -129,7 +123,7 @@ document.addEventListener("DOMContentLoaded", () => {
             const cartItemDiv = event.target.closest(".cart-item");
 
             try {
-              const response = await fetch("/cart/remove", {
+              const response = await fetch("http://localhost:3000/cart/remove", {
                 method: "POST",
                 headers: {
                   "Content-Type": "application/json",

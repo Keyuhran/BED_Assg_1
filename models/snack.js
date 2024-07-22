@@ -1,123 +1,85 @@
 const sql = require("mssql");
 const dbConfig = require("../dbConfig");
-const bcrypt = require("bcryptjs");
-
 
 class Snack {
-    constructor(snackId, snackName, snackDescription, snackPrice, ingredients, imagePath, country) {
-        this.snackId = snackId;
-        this.snackName = snackName;
-        this.snackDescription = snackDescription;
-        this.snackPrice = snackPrice;
-        this.ingredients = ingredients;
-        this.imagePath = imagePath;
-        this.country = country;
+  static async createSnack(snackId, snackName, snackDescription, snackPrice, ingredients, imagePath, country) {
+    try {
+      const connection = await sql.connect(dbConfig);
+      const sqlQuery = `INSERT INTO Snacks (snackId, snackName, snackDescription, snackPrice, ingredients, imagePath, country) 
+                        VALUES (@snackId, @snackName, @snackDescription, @snackPrice, @ingredients, @imagePath, @country)`;
+      const request = connection.request();
+      request.input("snackId", sql.VarChar, snackId);
+      request.input("snackName", sql.VarChar, snackName);
+      request.input("snackDescription", sql.VarChar, snackDescription);
+      request.input("snackPrice", sql.Decimal(10, 2), snackPrice);
+      request.input("ingredients", sql.VarChar, ingredients);
+      request.input("imagePath", sql.VarChar, imagePath);
+      request.input("country", sql.VarChar, country);
+
+      const result = await request.query(sqlQuery);
+      connection.close();
+      return result.rowsAffected[0] === 1;
+    } catch (error) {
+      console.error("Error creating snack:", error);
+      throw error;
     }
-
-static async createSnack(snackId, snackName, snackDescription, snackPrice, ingredients, imagePath, country) {
-  const connection = await sql.connect(dbConfig);
-  console.log(snackId,snackName,snackDescription);
-  const sqlQuery = `
-  INSERT INTO Snacks (SnackId, SnackName, SnackDescription, SnackPrice, Ingredients, ImagePath, Country)
-  VALUES (@snackId, @snackName, @snackDescription, @snackPrice, @ingredients, @imagePath, @country)
-`;
-
-  const request = connection.request();
-  request.input("snackId", snackId);
-  request.input("snackName", snackName);
-  request.input("snackDescription", snackDescription);
-  request.input("snackPrice", snackPrice);
-  request.input("ingredients", ingredients);
-  request.input("imagePath", imagePath);
-  request.input("country", country);
-
-  const result = await request.query(sqlQuery);
-  connection.close();
-
- return result.rowsAffected[0] === 1; // Check if 1 row was inserted (success)
-
-}
-
-
-static async retrieveSnacks() {
-  const connection = await sql.connect(dbConfig);
-  const sqlQuery = `SELECT * FROM Snacks`; // Parameterized query
-  const request = connection.request();
-
-  const result = await request.query(sqlQuery);
-  connection.close();
-
-  if (result.recordset.length === 0) {
-    return null; // Snacks not found
   }
 
-  return result.recordset.map(
-    (snack) => new Snack(
-      snack.SnackId,
-      snack.SnackName,
-      snack.SnackDescription,
-      snack.SnackPrice,
-      snack.Ingredients,
-      snack.ImagePath,
-      snack.Country,
-    )
-  );
-}
-
-static async getSnacksByCountry(country) {
-  const connection = await sql.connect(dbConfig);
-  const sqlQuery = `SELECT * FROM Snacks where Country = @country`; // Parameterized query
-  const request = connection.request();
-
-  request.input("Country", country);
-
-  const result = await request.query(sqlQuery);
-  connection.close();
-  console.log(result);
-  if (result.recordset.length === 0) {
-    return null; // Snacks not found
+  static async retrieveSnacks() {
+    try {
+      const connection = await sql.connect(dbConfig);
+      const result = await connection.query('SELECT * FROM Snacks');
+      connection.close();
+      return result.recordset;
+    } catch (error) {
+      console.error("Error retrieving snacks:", error);
+      throw error;
+    }
   }
 
-  return result.recordset.map(
-    (snack) => new Snack(
-      snack.SnackId,
-      snack.SnackName,
-      snack.SnackDescription,
-      snack.SnackPrice,
-      snack.Ingredients,
-      snack.ImagePath,
-      snack.Country,
-    )
-  );
+  static async getSnacksByCountry(country) {
+    try {
+      const connection = await sql.connect(dbConfig);
+      const sqlQuery = 'SELECT * FROM Snacks WHERE country = @country';
+      const request = connection.request();
+      request.input("country", sql.VarChar, country);
+      const result = await request.query(sqlQuery);
+      connection.close();
+      return result.recordset;
+    } catch (error) {
+      console.error("Error fetching snacks by country:", error);
+      throw error;
+    }
+  }
+
+  static async updateSnack(snackId, snackName, snackDescription, snackPrice, ingredients, imagePath, country) {
+    try {
+      const connection = await sql.connect(dbConfig);
+      const sqlQuery = `UPDATE Snacks SET 
+                          snackName = @snackName, 
+                          snackDescription = @snackDescription, 
+                          snackPrice = @snackPrice, 
+                          ingredients = @ingredients, 
+                          imagePath = @imagePath, 
+                          country = @country
+                        WHERE snackId = @snackId`;
+      const request = connection.request();
+      request.input("snackId", sql.VarChar, snackId);
+      request.input("snackName", sql.VarChar, snackName);
+      request.input("snackDescription", sql.VarChar, snackDescription);
+      request.input("snackPrice", sql.Decimal(10, 2), snackPrice);
+      request.input("ingredients", sql.VarChar, ingredients);
+      request.input("imagePath", sql.VarChar, imagePath);
+      request.input("country", sql.VarChar, country);
+
+      const result = await request.query(sqlQuery);
+      connection.close();
+      return result.rowsAffected[0] === 1;
+    } catch (error) {
+      console.error("Error updating snack:", error);
+      throw error;
+    }
+  }
 }
 
-static async updateSnack(snackId, snackName, snackDescription, snackPrice, ingredients, imagePath, country) {
-  const connection = await sql.connect(dbConfig);
-  const sqlQuery = `
-    UPDATE Snacks
-    SET SnackName = @snackName,
-        SnackDescription = @snackDescription,
-        SnackPrice = @snackPrice,
-        Ingredients = @ingredients,
-        ImagePath = @imagePath,
-        Country = @country
-    WHERE SnackId = @snackId
-  `;
-
-  const request = connection.request();
-  request.input("snackId", snackId);
-  request.input("snackName", snackName);
-  request.input("snackDescription", snackDescription);
-  request.input("snackPrice", snackPrice);
-  request.input("ingredients", ingredients);
-  request.input("imagePath", imagePath);
-  request.input("country", country);
-
-  const result = await request.query(sqlQuery);
-  connection.close();
-
-  return result.rowsAffected[0] === 1; // Check if 1 row was updated (success)
-}
-
-}
 module.exports = Snack;
