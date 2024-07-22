@@ -90,5 +90,34 @@ static async getSnacksByCountry(country) {
     )
   );
 }
+
+static async updateSnack(snackId, snackName, snackDescription, snackPrice, ingredients, imagePath, country) {
+  const connection = await sql.connect(dbConfig);
+  const sqlQuery = `
+    UPDATE Snacks
+    SET SnackName = @snackName,
+        SnackDescription = @snackDescription,
+        SnackPrice = @snackPrice,
+        Ingredients = @ingredients,
+        ImagePath = @imagePath,
+        Country = @country
+    WHERE SnackId = @snackId
+  `;
+
+  const request = connection.request();
+  request.input("snackId", snackId);
+  request.input("snackName", snackName);
+  request.input("snackDescription", snackDescription);
+  request.input("snackPrice", snackPrice);
+  request.input("ingredients", ingredients);
+  request.input("imagePath", imagePath);
+  request.input("country", country);
+
+  const result = await request.query(sqlQuery);
+  connection.close();
+
+  return result.rowsAffected[0] === 1; // Check if 1 row was updated (success)
+}
+
 }
 module.exports = Snack;

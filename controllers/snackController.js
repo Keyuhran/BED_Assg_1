@@ -60,8 +60,35 @@ const getSnacksByCountry = async (req, res) => {
   }
 };
 
+async function updateSnack(req, res) {
+  const snackId = req.params.snackId; // Retrieve the snackId from the URL parameter
+  const { snackName, snackDescription, snackPrice, ingredients, imagePath, country } = req.body;
+
+  try {
+    const updated = await Snack.updateSnack(
+      snackId,
+      snackName,
+      snackDescription,
+      snackPrice,
+      ingredients,
+      imagePath,
+      country
+    );
+
+    if (updated) {
+      res.status(200).send("Snack updated successfully!");
+    } else {
+      res.status(404).send("Snack not found or could not be updated");
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Internal server error");
+  }
+}
+
 module.exports = {
   createSnack,
   retrieveSnacks,
-  getSnacksByCountry
+  getSnacksByCountry,
+  updateSnack
 };

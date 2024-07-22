@@ -1,10 +1,52 @@
+body {
+    font-family: Arial, sans-serif;
+}
+
+h1 {
+    text-align: center;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.snacks-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    padding: 20px;
+}
+
 .snack {
     border: 1px solid #ddd;
-    padding: 10px;
-    margin: 10px;
     border-radius: 5px;
+    width: 200px;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s ease-in-out;
 }
+
+.snack:hover {
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
 .snack img {
-    max-width: 100px;
-    max-height: 100px;
+    width: 100%;
+    height: 150px; /* Set a fixed height for the images */
+    object-fit: cover; /* Crop the image to fit the container */
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+.snack-details {
+    display: none;
+    text-align: left;
+}
+
+.snack:hover .snack-details {
+    display: block;
+}
+
+.snack p {
+    margin: 5px 0;
 }

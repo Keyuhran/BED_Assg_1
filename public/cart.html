@@ -4,8 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>South Eats Local Snack Store</title>
-    <link rel="stylesheet" href="styles/styles.css">
-    <script src="scripts/script.js"></script>
+    <link rel="stylesheet" href="styles/cart.css">
 </head>
 <body>
     <header>
@@ -14,23 +13,25 @@
         </div>
         <nav>
             <ul>
-                <li><a href="index.html">Home</a></li>
+                <li><a href="homepage.html">Home</a></li>
                 <li><a href="#">Cart</a></li>
                 <li><a href="#">Contact</a></li>
                 <li><a href="#">About</a></li>
                 <li><a href="#">Order History</a></li>
             </ul>
         </nav>
-        <div class="user-icons">  <a href="profile.html" class="profile-icon">
-            <img src="media/Profile.jpg" alt="Profile Icon">
-          </a>
-          <a href="cart.html" class="cart-icon">
-            <img src="media/Shopping Cart.png" alt="Cart Icon">
-          </a>
+        <div class="user-icons">
+            <a href="profilepage.html" class="profile-icon">
+                <img src="media/Profile.jpg" alt="Profile Icon">
+            </a>
+            <a href="cart.html" class="cart-icon">
+                <img src="media/Shopping Cart.png" alt="Cart Icon">
+            </a>
         </div>
     </header>
-    <p style="text-align: center; font-size: 30px;">Purchased</p>
-     
-    <script src="scripts/script.js"></script>
+    <main>
+        <div id="cart-container"></div>
+    </main>
+    <script src="scripts/frontendcart.js"></script>
 </body>
 </html>
