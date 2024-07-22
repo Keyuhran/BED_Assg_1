@@ -3,52 +3,32 @@ const dbConfig = require("../dbConfig");
 const bcrypt = require("bcryptjs");
 
 class Rider {
-  constructor(riderId, email, password, name, address, unitNo, postalCode, country, phoneNo, joinDate, imagePath) {
+  constructor(riderId, email, joinDate) {
     this.riderId = riderId;
     this.email = email;
-    this.password = password;
-    this.name = name;
-    this.address = address;
-    this.unitNo = unitNo;
-    this.postalCode = postalCode;
-    this.country = country;
-    this.phoneNo = phoneNo;
     this.joinDate = joinDate;
-    this.imagePath = imagePath;
-  }
-
-  static async login(email, password) {
-    const connection = await sql.connect(dbConfig);
-
-    const sqlQuery = `
-      SELECT *
-      FROM Riders 
-      WHERE email = @Email
-    `;
-
-    const request = connection.request();
-    request.input("Email", sql.VarChar, email);
-
-    const result = await request.query(sqlQuery);
-    connection.close();
-
-    if (result.recordset.length === 0) {
-      return null; // Rider not found
-    }
-
-    const rider = result.recordset[0];
-    const isMatch = await bcrypt.compare(password, rider.password);
-
-    if (!isMatch) {
-      return null; // Password does not match
-    }
-
-    return { ...rider, isRider: true, isAdmin: false };
   }
 
   static async retrieveRiders() {
     const connection = await sql.connect(dbConfig);
-    const sqlQuery = `SELECT riderId, email, name, address, unitNo, postalCode, country, phoneNo, joinDate FROM Riders`;
+    const sqlQuery = `SELECT
+    Riders.riderId,
+    Users.email,
+    Users.name,
+    Users.address,
+    Users.unitNo,
+    Users.postalCode,
+    Users.country,
+    Users.phoneNo,
+    Users.userBday,
+    Users.imagePath,
+    Users.role,
+    Riders.joinDate
+    FROM
+    Riders
+    INNER JOIN
+    Users ON Riders.email = Users.email;
+`;
 
     const request = connection.request();
     const result = await request.query(sqlQuery);
@@ -62,18 +42,22 @@ class Rider {
     return result.recordset;
   }
 
-  static async createRider(riderId, email, password, name, address, unitNo, postalCode, country, phoneNo, joinDate, imagePath) {
+  static async createRider(riderId, email, joinDate, password, name, address, unitNo, postalCode, country, phoneNo, userBday, imagePath) {
     const connection = await sql.connect(dbConfig);
     const hashedPassword = await bcrypt.hash(password, 10);
 
     const sqlQuery = `
-      INSERT INTO Riders (riderId, email, password, name, address, unitNo, postalCode, country, phoneNo, joinDate, imagePath)
-      VALUES (@RiderId, @Email, @Password, @Name, @Address, @UnitNo, @PostalCode, @Country, @PhoneNo, @JoinDate, @ImagePath)
+      Insert into Users
+      Values(@Email, @Password, @Name, @Address, @UnitNo, @PostalCode, @Country, @PhoneNo, @UserBday, @ImagePath, 'rider')
+
+      Insert into Riders
+      Values(@RiderId, @Email, @JoinDate)
     `;
 
     const request = connection.request();
     request.input("RiderId", sql.VarChar, riderId);
     request.input("Email", sql.VarChar, email);
+    request.input("JoinDate", sql.Date, joinDate);
     request.input("Password", sql.VarChar, hashedPassword);
     request.input("Name", sql.VarChar, name);
     request.input("Address", sql.VarChar, address);
@@ -81,7 +65,7 @@ class Rider {
     request.input("PostalCode", sql.VarChar, postalCode);
     request.input("Country", sql.VarChar, country);
     request.input("PhoneNo", sql.VarChar, phoneNo);
-    request.input("JoinDate", sql.Date, joinDate);
+    request.input("UserBday", sql.Date, userBday);
     request.input("ImagePath", sql.VarChar, imagePath);
 
     const result = await request.query(sqlQuery);
@@ -92,7 +76,24 @@ class Rider {
 
   static async retrieveRider(email) {
     const connection = await sql.connect(dbConfig);
-    const sqlQuery = `SELECT riderId, email, name, address, unitNo, postalCode, country, phoneNo, joinDate FROM Riders WHERE email = @Email`;
+    const sqlQuery = `SELECT
+    Riders.riderId,
+    Users.email,
+    Users.name,
+    Users.address,
+    Users.unitNo,
+    Users.postalCode,
+    Users.country,
+    Users.phoneNo,
+    Users.userBday,
+    Users.imagePath,
+    Users.role,
+    Riders.joinDate
+    FROM
+    Riders
+    INNER JOIN
+    Users ON Riders.email = Users.email
+	where Riders.email = @Email`;
 
     const request = connection.request();
     request.input("Email", sql.VarChar, email);
@@ -105,12 +106,44 @@ class Rider {
     }
 
     const rider = result.recordset[0];
-    return { ...rider, isRider: true, isAdmin: false };
-  }
+    return rider;
+  } 
+
+  static async updateRider(email) {
+    const connection = await sql.connect(dbConfig);
+    const sqlQuery = `Update Cart
+    set email  = @Email, SnackId =  @SnackId, Quantity = @Quantity
+    where email = @Email;
+    Update Admins
+    set admindId = @AdminId, email = @Email,  department = @Department, branch = @Branch, position = @Position, joinDate = @JoinDate
+    where email = @Email;
+    Update Riders
+    set riderId = @RiderId, email = @Email, joinDate = @JoinDate
+    where email = @Email;
+    Update Users
+    set email = @Email, password = @Password, name = @Name, address = @Address, unitNo = @unitNo, postalCode = @PostalCode, country = @Country, phoneNo = @PhoneNo, userBday = @UserBday, imagePath =  @ImagePath, role = @Role
+    where email = @Email`;
+
+    const request = connection.request();
+    request.input("Email", sql.VarChar, email);
+
+    const result = await request.query(sqlQuery);
+    connection.close();
+
+    if (result.recordset.length === 0) {
+      return null; // Rider not found
+    }
+
+    const rider = result.recordset[0];
+    return rider;
+  } 
 
   static async deleteRider(email) {
     const connection = await sql.connect(dbConfig);
-    const sqlQuery = `DELETE FROM Riders WHERE email = @Email`;
+    const sqlQuery = `DELETE FROM Cart WHERE email = @Email;
+                      DELETE FROM Riders WHERE email = @Email;
+                      DELETE FROM Admins WHERE email = @Email;
+                      DELETE FROM Users WHERE email = @Email`;
 
     const request = connection.request();
     request.input("Email", sql.VarChar, email);
@@ -119,7 +152,7 @@ class Rider {
     connection.close();
 
     console.log("Delete results:", result); //To see result
-    return result.rowsAffected[0] === 1; // Check if a row was deleted
+    return result.rowsAffected[3] === 1; // Check if a row was deleted
   }
 }
 
