@@ -18,14 +18,14 @@ document.addEventListener('DOMContentLoaded', () => {
                     snackDiv.classList.add('snack');
                     snackDiv.innerHTML = `
                         <img src="${snack.imagePath && snack.imagePath !== 'NULL' ? snack.imagePath : 'placeholder.png'}" alt="${snack.snackName}">
-                        <div class="snack-details">
-                            <p>Snack ID: ${snack.snackId}</p>
-                            <p>Snack Name: ${snack.snackName}</p>
-                            <p>Description: ${snack.snackDescription}</p>
-                            <p>Price: $${snack.snackPrice.toFixed(2)}</p>
-                            <p>Ingredients: ${snack.ingredients}</p>
-                            <p>Country: ${snack.country}</p>
-                        </div>
+
+                        <p>Snack ID: ${snack.snackId}</p>
+                        <p>Snack Name: ${snack.snackName}</p>
+                        <p>Description: ${snack.snackDescription}</p>
+                        <p>Price: $${snack.snackPrice}</p>
+                        <p>Ingredients: ${snack.ingredients}</p>
+                        <p>Country: ${snack.country}</p>
+                        <button class="add-to-cart-btn" data-snack-id="${snack.snackId}">Add to Cart</button>
                     `;
                     snackDiv.addEventListener('click', () => {
                         const details = snackDiv.querySelector('.snack-details');
@@ -36,6 +36,33 @@ document.addEventListener('DOMContentLoaded', () => {
                         }
                     });
                     snacksContainer.appendChild(snackDiv);
+                });
+
+                document.querySelectorAll('.add-to-cart-btn').forEach(button => {
+                    button.addEventListener('click', async (event) => {
+                        const snackId = event.target.getAttribute('data-snack-id');
+                        const email = localStorage.getItem('userEmail'); // Retrieve email from local storage
+                        const quantity = 1; // Assuming adding 1 item at a time
+
+                        try {
+                            const response = await fetch('/cart/add', {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json'
+                                },
+                                body: JSON.stringify({ email, snackId, quantity })
+                            });
+
+                            if (!response.ok) {
+                                throw new Error(`Error adding to cart: ${response.statusText}`);
+                            }
+
+                            alert('Snack added to cart successfully!');
+                        } catch (error) {
+                            console.error('Error adding to cart:', error);
+                            alert('Failed to add snack to cart.');
+                        }
+                    });
                 });
             }
         })
