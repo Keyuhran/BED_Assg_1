@@ -2,13 +2,14 @@ const sql = require("mssql");
 const dbConfig = require("../dbConfig");
 
 class Cart {
-  constructor(email, snackIds, quantity, snackName, snackPrice, totalCost) {
+  constructor(email, snackIds, quantity, snackName, snackPrice, totalCost, imagePath) {
     this.email = email;
     this.snackIds = snackIds;
     this.quantity = quantity;
     this.snackName = snackName;
     this.snackPrice = snackPrice;
     this.totalCost = totalCost;
+    this.imagePath = imagePath; // Add imagePath here
   }
 
   static async checkForCart(email) {
@@ -25,7 +26,7 @@ class Cart {
       }
 
       return result.recordset.map(
-        (cart) => new Cart(cart.Email, cart.snackIds, cart.Quantity, cart.SnackName, cart.SnackPrice, cart.TotalCost)
+        (cart) => new Cart(cart.Email, cart.snackIds, cart.Quantity, cart.SnackName, cart.SnackPrice, cart.TotalCost, cart.imagePath)
       );
     } catch (error) {
       console.error("Error checking cart:", error);
@@ -91,7 +92,7 @@ class Cart {
     try {
       const pool = await sql.connect(dbConfig);
       const sqlQuery = `
-        SELECT c.Email, c.SnackIds, c.Quantity, s.SnackName, s.SnackPrice, c.TotalCost 
+        SELECT c.Email, c.SnackIds, c.Quantity, s.SnackName, s.SnackPrice, s.imagePath, c.TotalCost 
         FROM Cart c
         JOIN Snacks s ON c.SnackIds = s.snackId
         WHERE c.Email = @Email
@@ -112,7 +113,8 @@ class Cart {
           cart.Quantity,
           cart.SnackName,
           cart.SnackPrice,
-          cart.TotalCost
+          cart.TotalCost,
+          cart.imagePath // Add imagePath here
         )
       );
     } catch (error) {
