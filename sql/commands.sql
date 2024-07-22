@@ -56,7 +56,7 @@ CREATE TABLE Cart (
     email VARCHAR(255),
     snackIds VARCHAR(255),
     quantity VARCHAR(255),
-    TotalCost DECIMAL(10, 2),
+    totalCost DECIMAL(10, 2),
     FOREIGN KEY (email) REFERENCES Users(email),
     PRIMARY KEY (email, snackIds)
 );
