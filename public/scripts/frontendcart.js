@@ -27,23 +27,23 @@ document.addEventListener("DOMContentLoaded", () => {
           const cartItemDiv = document.createElement("div");
           cartItemDiv.classList.add("cart-item");
           cartItemDiv.innerHTML = `
-                <p>Snack ID: ${item.snackId}</p>
-                <p>Snack Name: ${item.snackName}</p>
-                <p>Quantity: <button class="decrement-btn" data-snack-id="${
-                  item.snackId
-                }">-</button> <span class="quantity">${
+              <p>Snack ID: ${item.snackId}</p>
+              <p>Snack Name: ${item.snackName}</p>
+              <p>Quantity: <button class="decrement-btn" data-snack-id="${
+                item.snackId
+              }">-</button> <span class="quantity">${
             item.quantity
           }</span> <button class="increment-btn" data-snack-id="${
             item.snackId
           }">+</button></p>
-                <p>Price: $<span class="price">${item.snackPrice}</span></p>
-                <p>Total Cost: $<span class="total-cost">${item.totalCost.toFixed(
-                  2
-                )}</span></p>
-                <button class="remove-from-cart-btn" data-snack-id="${
-                  item.snackId
-                }">Remove</button>
-              `;
+              <p>Price: $${item.snackPrice}</p>
+              <p>Total Cost: $<span class="total-cost">${item.totalCost.toFixed(
+                2
+              )}</span></p>
+              <button class="remove-from-cart-btn" data-snack-id="${
+                item.snackId
+              }">Remove</button>
+            `;
           cartContainer.appendChild(cartItemDiv);
         });
 
@@ -72,9 +72,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
               quantityElement.textContent = newQuantity;
               const priceElement = cartItemDiv.querySelector(".price");
-              const price = parseFloat(priceElement.textContent);
+              const price = parseFloat(
+                priceElement.textContent.replace("$", "")
+              );
               const totalCostElement = cartItemDiv.querySelector(".total-cost");
               totalCostElement.textContent = (newQuantity * price).toFixed(2);
+              updateTotalPrice();
             } catch (error) {
               console.error("Error updating quantity:", error);
             }
@@ -108,9 +111,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
               quantityElement.textContent = newQuantity;
               const priceElement = cartItemDiv.querySelector(".price");
-              const price = parseFloat(priceElement.textContent);
+              const price = parseFloat(
+                priceElement.textContent.replace("$", "")
+              );
               const totalCostElement = cartItemDiv.querySelector(".total-cost");
               totalCostElement.textContent = (newQuantity * price).toFixed(2);
+              updateTotalPrice();
             } catch (error) {
               console.error("Error updating quantity:", error);
             }
@@ -139,11 +145,14 @@ document.addEventListener("DOMContentLoaded", () => {
               }
 
               cartItemDiv.remove();
+              updateTotalPrice();
             } catch (error) {
               console.error("Error removing from cart:", error);
             }
           });
         });
+
+        updateTotalPrice();
       }
     })
     .catch((error) => {
@@ -151,4 +160,58 @@ document.addEventListener("DOMContentLoaded", () => {
       document.getElementById("cart-container").innerHTML =
         "<p>Error loading cart contents.</p>";
     });
+
+  document.querySelector(".checkout-button").addEventListener("click", () => {
+    const cartContainer = document.getElementById("cart-container");
+    if (cartContainer.innerHTML === "<p>Your cart is empty.</p>") {
+      alert("No items in cart");
+    } else {
+      showOverlay();
+    }
+  });
+
+  document.getElementById("orderNowButton").addEventListener("click", () => {
+    const creditCardNumber = document.getElementById("creditCardNumber").value;
+    const cvv = document.getElementById("cvv").value;
+    const expiryDate = document.getElementById("expiryDate").value;
+
+    if (validateCardDetails(creditCardNumber, cvv, expiryDate)) {
+      alert("Order placed successfully!");
+      window.location.href = "order.html";
+    } else {
+      alert("Card entered incorrectly.");
+    }
+  });
+
+  document.getElementById("cancelButton").addEventListener("click", hideOverlay);
+
+  function showOverlay() {
+    document.getElementById("checkoutOverlay").style.visibility = "visible";
+  }
+
+  function hideOverlay() {
+    document.getElementById("checkoutOverlay").style.visibility = "hidden";
+  }
+
+  function validateCardDetails(creditCardNumber, cvv, expiryDate) {
+    const cardNumberRegex = /^\d{16}$/;
+    const cvvRegex = /^\d{3}$/;
+    const expiryDateRegex = /^(0[1-9]|1[0-2])\/\d{2}$/;
+
+    return (
+      cardNumberRegex.test(creditCardNumber) &&
+      cvvRegex.test(cvv) &&
+      expiryDateRegex.test(expiryDate)
+    );
+  }
+
+  function updateTotalPrice() {
+    const totalPriceElement = document.getElementById("total-price");
+    const totalCostElements = document.querySelectorAll(".total-cost");
+    let totalPrice = 0;
+    totalCostElements.forEach((element) => {
+      totalPrice += parseFloat(element.textContent);
+    });
+    totalPriceElement.textContent = totalPrice.toFixed(2);
+  }
 });
