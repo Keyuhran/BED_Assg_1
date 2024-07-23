@@ -2,7 +2,7 @@ const Cart = require("../models/cart");
 const jwt = require("jsonwebtoken");
 const sql = require("mssql");
 const dbConfig = require("../dbConfig");
-const secretKey = "ilovehaziq2?$%"; // Ensure this matches the one used in userController.js
+const secretKey = process.env.secretKey;
 
 async function addToCart(req, res) {
   try {
@@ -19,6 +19,10 @@ async function addToCart(req, res) {
     }
 
     const snackPrice = await getSnackPrice(snackId); // Function to get the snack price from the database
+    if (snackPrice === null) {
+      return res.status(400).send('Invalid Snack ID');
+    }
+
     const success = await Cart.addToCart(email, snackId, quantity, snackPrice);
     if (success) {
       res.status(201).send("Snack added to cart successfully");
@@ -26,19 +30,29 @@ async function addToCart(req, res) {
       res.status(400).send("Error adding snack");
     }
   } catch (error) {
-    console.error("Error adding to cart:", error);
+    console.error("Error adding to cart:", error.message, error.stack); // Log the error details
     res.status(500).send("Internal server error");
   }
 }
 
 async function getSnackPrice(snackId) {
-  const connection = await sql.connect(dbConfig);
-  const sqlQuery = 'SELECT SnackPrice FROM Snacks WHERE SnackId = @SnackId';
-  const request = connection.request();
-  request.input("SnackId", sql.VarChar, snackId);
-  const result = await request.query(sqlQuery);
-  connection.close();
-  return result.recordset[0].SnackPrice;
+  try {
+    const connection = await sql.connect(dbConfig);
+    const sqlQuery = 'SELECT SnackPrice FROM Snacks WHERE snackId = @SnackId';
+    const request = connection.request();
+    request.input("SnackId", sql.VarChar, snackId);
+    const result = await request.query(sqlQuery);
+    connection.close();
+
+    if (result.recordset.length === 0) {
+      return null;
+    }
+
+    return result.recordset[0].SnackPrice;
+  } catch (error) {
+    console.error("Error fetching snack price:", error.message, error.stack); // Log the error details
+    return null;
+  }
 }
 
 async function getCartContents(req, res) {
@@ -54,7 +68,7 @@ async function getCartContents(req, res) {
       res.status(404).send("Cart is empty");
     }
   } catch (error) {
-    console.error("Error fetching cart contents:", error);
+    console.error("Error fetching cart contents:", error.message, error.stack); // Log the error details
     res.status(500).send("Internal server error");
   }
 }
@@ -79,7 +93,7 @@ async function removeFromCart(req, res) {
       res.status(400).send("Error removing snack");
     }
   } catch (error) {
-    console.error("Error removing from cart:", error);
+    console.error("Error removing from cart:", error.message, error.stack); // Log the error details
     res.status(500).send("Internal server error");
   }
 }
@@ -106,7 +120,7 @@ async function updateQuantity(req, res) {
       res.status(400).send("Error updating quantity");
     }
   } catch (error) {
-    console.error("Error updating quantity:", error);
+    console.error("Error updating quantity:", error.message, error.stack); // Log the error details
     res.status(500).send("Internal server error");
   }
 }

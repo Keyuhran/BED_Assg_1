@@ -1,4 +1,4 @@
-*{
+* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -6,6 +6,8 @@
 
 body {
     font-family: Arial, sans-serif;
+    height: 100%;
+    overflow: hidden; /* Prevents the body from scrolling */
 }
 
 header {
@@ -51,17 +53,21 @@ nav ul li a {
 .cart-icon img {
     height: 30px;
 }
-/* Container for the cart items */
+
+main {
+    overflow-y: auto; /* Allows scrolling within the main content */
+    height: calc(100vh - 270px); /* Adjust height to leave space for fixed elements */
+    padding: 20px;
+}
+
 #cart-container {
     display: flex;
     flex-direction: column;
     gap: 15px;
-    padding: 20px;
     max-width: 800px;
     margin: 0 auto;
 }
 
-/* Style for each cart item */
 .cart-item {
     border: 1px solid #e7fc01;
     padding: 15px;
@@ -77,7 +83,6 @@ nav ul li a {
     font-size: 20px;
 }
 
-/* Style for the quantity buttons */
 .cart-item .quantity-container {
     display: flex;
     align-items: center;
@@ -98,7 +103,6 @@ nav ul li a {
     cursor: not-allowed;
 }
 
-/* Style for the remove button */
 .cart-item .remove-from-cart-btn {
     background-color: #ffea00;
     color: rgb(0, 0, 0);
@@ -110,5 +114,95 @@ nav ul li a {
 }
 
 .cart-item .remove-from-cart-btn:hover {
-    background-color: #c82333;
+    background-color: #3923c8;
+}
+
+.checkout-payment {
+    position: fixed;
+    bottom: 120px; /* Adjust the bottom position to remove the gap */
+    padding: 20px;
+    width: 100%;
+    background-color: rgb(87, 83, 83);
+    color: white;
+    font-size: 20px;
+}
+
+.total-display {
+    position: fixed;
+    bottom: 0;
+    padding: 40px;
+    width: 100%;
+    background-color: rgb(93, 97, 97);
+    color: white;
+    font-size: 20px;
+    display: flex;
+    justify-content: space-between; /* Distributes space between elements */
+    align-items: center; /* Aligns items vertically */
+}
+
+.total-display .checkout-button-container {
+    display: flex;
+    justify-content: flex-end;
+    width: 200%;
+}
+
+.total-display .checkout-button {
+    background-color: #ffdd00;
+    color: rgb(0, 0, 0);
+    border: none;
+    border-radius: 20px;
+    padding: 10px;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.checkout-payment p, .total-display p {
+    margin: 0;
+}
+
+.overlay {
+    visibility: hidden;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.overlay-content {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    text-align: center;
+    width: 300px;
+}
+
+.overlay-content input {
+    width: 100%;
+    margin: 10px 0;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.overlay-content button {
+    margin-top: 10px;
+    padding: 10px 20px;
+    border: none;
+    background-color: #28a745;
+    color: white;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.overlay-content button#cancelButton {
+    background-color: #dc3545;
+}
+
+.overlay-content button:hover {
+    opacity: 0.9;
 }
