@@ -1,127 +1,213 @@
+/* Global Styles */
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  text-decoration: none;
+}
+
+html {
+  --black: #303030;
+  --grey: #909090;
+  --off-white: #EDEEE9;
+  --code: #D8DBCE;
+  --sans-serif: 'Inter', sans-serif;
+  background-color: var(--off-white);
+  position: relative;
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+}
+
 body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background-color: #f9f9f9;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    height: 100vh;
+  background-color: var(--off-white);
+  color: var(--black);
+  font-family: var(--sans-serif);
+  min-height: 100vh;
+  width: 100%;
+  padding: 2.5vh 10vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
 }
 
-header {
-    position: absolute;
-    top: 20px;
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    padding: 0 20px;
+h1 {
+  font-size: clamp(1rem, 6vw, 10rem);
+  margin: 15vh 0 2rem;
 }
 
-.logo {
-    width: 60px;
-    height: 60px;
+a {
+  text-decoration: underline;
+  color: var(--black);
 }
 
-.user-pfp {
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
+code {
+  font-size: 1rem;
+  padding: 0 0.5rem;
+  background-color: var(--code);
+}
+
+.explanation {
+  width: 100%;
+  margin-bottom: 15vh;
+}
+
+.explanation p {
+  font-size: 1rem;
+  max-width: 75ch;
+  margin: 2rem 0;
+}
+
+.explanation ul {
+  display: flex;
+  flex-direction: column;
+}
+
+.explanation ul li {
+  list-style: none;
+  position: relative;
+  margin: 0.5rem 0;
+}
+
+.explanation ul li::before {
+  content: '👉';
+  position: absolute;
+  top: -0.25rem;
+  left: -2rem;
 }
 
 .container {
-    margin-top: 100px;
-    width: 90%;
+  width: 100%;
+  max-width: 768px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem 2rem 1.5rem;
+  background-color: var(--code);
 }
 
-table {
-    width: 100%;
-    border-collapse: collapse;
-    cursor: pointer;
-}
-
-thead th {
-    text-align: left;
-    padding: 10px;
-}
-
-tbody td {
-    background-color: #d3d3d3;
-    padding: 10px;
-}
-
-tbody tr {
-    border-top: 10px solid #f9f9f9;
-    border-bottom: 10px solid #f9f9f9;
-    border-radius: 10px;
-    overflow: hidden;
-}
-
-tbody tr td:first-child {
-    border-top-left-radius: 10px;
-    border-bottom-left-radius: 10px;
-}
-
-tbody tr td:last-child {
-    border-top-right-radius: 10px;
-    border-bottom-right-radius: 10px;
-}
-
-.add-product-button {
-    background-color: #b3a2a2;
-    padding: 20px;
-    margin-top: 20px;
-    text-align: center;
-    cursor: pointer;
-    border-radius: 5px;
-    width: 100px;
-    margin: 0 auto;
-}
-
-/* Overlay CSS */
-.overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.5);
-    display: flex;
-    justify-content: center;
+@media (min-width: 768px) {
+  .container {
+    flex-direction: row;
     align-items: center;
-    visibility: hidden;
+  }
 }
 
-.overlay-content {
-    background: blue;
-    padding: 20px;
-    border-radius: 10px;
-    text-align: center;
-    color: white;
+.cta-form {
+  margin-bottom: 2rem;
+  text-align: center;
 }
 
-.overlay-header {
-    margin-bottom: 20px;
+@media (min-width: 768px) {
+  .cta-form {
+    margin-bottom: 0;
+    margin-right: 2rem;
+    text-align: left;
+  }
 }
 
-.overlay-body {
+.cta-form h2 {
+  font-size: 1.5rem;
+  width: 100%;
+  max-width: 25ch;
+  margin: 0 auto;
+  text-align: center;
+}
+
+@media (min-width: 768px) {
+  .cta-form h2 {
+    text-align: left;
+    margin: 0;
+  }
+}
+
+.cta-form p {
+  margin-top: 1rem;
+  font-size: 1rem;
+  width: 100%;
+  max-width: 24ch;
+}
+
+.form {
+  align-self: center;
+}
+.form__input[type="text"],
+.form__input[type="email"],
+.form__input[type="select"]
+.form__input {
+  width: clamp(120px, 50vw, 420px);
+  height: 2.5rem;
+  padding: 0 1.25rem;
+  border: 1px solid var(--black);
+  border-radius: 2px;
+  margin: 0.625rem auto;
+  transition: all 250ms;
+}
+
+@media (min-width: 768px) {
+  .form__input {
+    width: clamp(120px, 35vw, 420px);
+  }
+}
+
+.form__input:focus {
+  outline: none;
+  border-top-color: rgba(0, 0, 0, 0.1);
+}
+
+.form__input:focus + .form__label, .form__input:not(:placeholder-shown) + .form__label {
+  transform: translateY(-4.50rem) scale(1);
+  color: var(--black);
+}
+
+.form__input::placeholder {
+  display: none;
+  color: transparent;
+  -webkit-user-select: none; /* Safari */
+  -ms-user-select: none; /* IE 10 and IE 11 */
+  user-select: none; /* Standard syntax */
+}
+
+.form__input:not(:placeholder-shown) {
+  border-top-color: rgba(0, 0, 0, 0.5);
+}
+
+.form__label {
+  font-size: 1rem;
+  color: var(--grey);
+  display: block;
+  transform: translate(1.25rem, -2.5rem);
+  transform-origin: 0 0;
+  transition: all 500ms;
+  -webkit-user-select: none; /* Safari */
+  -ms-user-select: none; /* IE 10 and IE 11 */
+  user-select: none; /* Standard syntax */
+  
+  /* THIS PART IS IMPORTANT! */
+  /* This line prevents the label from being selected.*/
+  /* This is crucial because if this line doesn't exist, users can
+     click on the label, instead of the input field. That's bad UX! */
+  pointer-events: none; 
+}
+
+.form-row {
     display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
+    justify-content: space-between;
+    width: 100%;
+  }
+  
+  .form-col {
+    width: 48%;
+    margin-bottom: 2rem;
+  }
 
-.overlay-button {
-    background: white;
-    color: blue;
-    padding: 10px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-.overlay-button:hover {
-    background: lightgray;
-}
-
-form div {
-    margin-bottom: 10px;
-}
+  .form__input[type="select"] {
+    appearance: menulist;
+  }
+  
+  .form__input[type="select"]::-ms-expand {
+    display: none;
+  }
