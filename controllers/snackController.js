@@ -78,10 +78,11 @@ async function updateSnack(req, res) {
   }
 }
 
+
+
 module.exports = {
   createSnack,
   retrieveSnacks,
   getSnacksByCountry,
-  updateSnack
-  
+  updateSnack,
 };

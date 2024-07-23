@@ -1,5 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
-    fetch('http://localhost:3000/Snacks')
+    // Fetch all snacks from the server
+    fetch('http://localhost:3000/snacks')
         .then(response => {
             if (!response.ok) {
                 throw new Error(`Network response was not ok: ${response.statusText} (status code: ${response.status})`);
@@ -7,62 +8,26 @@ document.addEventListener('DOMContentLoaded', () => {
             return response.json();
         })
         .then(data => {
-            console.log('Fetched snacks:', data);
             const snacksContainer = document.getElementById('snacks-container');
             if (data.length === 0) {
                 snacksContainer.innerHTML = '<p>No snacks available for Singapore.</p>';
             } else {
-                snacksContainer.innerHTML = ''; 
+                snacksContainer.innerHTML = '';
                 data.forEach(snack => {
                     const snackDiv = document.createElement('div');
                     snackDiv.classList.add('snack');
+                    snackDiv.dataset.snackId = snack.snackId; // Add data attribute for snack ID
                     snackDiv.innerHTML = `
-                        <img src="${snack.imagePath && snack.imagePath !== 'NULL' ? snack.imagePath : 'placeholder.png'}" alt="${snack.snackName}">
-
-                        <p>Snack ID: ${snack.snackId}</p>
-                        <p>Snack Name: ${snack.snackName}</p>
-                        <p>Description: ${snack.snackDescription}</p>
-                        <p>Price: $${snack.snackPrice}</p>
-                        <p>Ingredients: ${snack.ingredients}</p>
-                        <p>Country: ${snack.country}</p>
-                        <button class="add-to-cart-btn" data-snack-id="${snack.snackId}">Add to Cart</button>
+                        <img src="${snack.imagePath}" alt="${snack.snackName}">
+                        <p>${snack.snackName}</p>
+                        <p>$${snack.snackPrice}</p>
                     `;
                     snackDiv.addEventListener('click', () => {
-                        const details = snackDiv.querySelector('.snack-details');
-                        if (details.style.display === 'none' || details.style.display === '') {
-                            details.style.display = 'block';
-                        } else {
-                            details.style.display = 'none';
-                        }
+                        console.log('Snack clicked:', snackDiv.dataset.snackId); // Debugging line
+                        const snackId = snackDiv.dataset.snackId;
+                        fetchSnackDetails(snackId); // Fetch and display details on click
                     });
                     snacksContainer.appendChild(snackDiv);
-                });
-
-                document.querySelectorAll('.add-to-cart-btn').forEach(button => {
-                    button.addEventListener('click', async (event) => {
-                        const snackId = event.target.getAttribute('data-snack-id');
-                        const email = localStorage.getItem('userEmail'); // Retrieve email from local storage
-                        const quantity = 1; // Assuming adding 1 item at a time
-
-                        try {
-                            const response = await fetch('/cart/add', {
-                                method: 'POST',
-                                headers: {
-                                    'Content-Type': 'application/json'
-                                },
-                                body: JSON.stringify({ email, snackId, quantity })
-                            });
-
-                            if (!response.ok) {
-                                throw new Error(`Error adding to cart: ${response.statusText}`);
-                            }
-
-                            alert('Snack added to cart successfully!');
-                        } catch (error) {
-                            console.error('Error adding to cart:', error);
-                            alert('Failed to add snack to cart.');
-                        }
-                    });
                 });
             }
         })
@@ -70,4 +35,36 @@ document.addEventListener('DOMContentLoaded', () => {
             console.error('Error fetching snacks:', error);
             document.getElementById('snacks-container').innerHTML = '<p>Error loading snacks.</p>';
         });
+
+    // Close button functionality
+    document.getElementById('close-details').addEventListener('click', () => {
+        document.getElementById('snack-details').style.display = 'none';
+    });
 });
+
+async function fetchSnackDetails(country, snackId) {
+    try {
+        const response = await fetch(`http://localhost:3000/snacks/${snackId}`);
+        if (!response.ok) {
+            throw new Error(`Network response was not ok: ${response.statusText} (status code: ${response.status})`);
+        }
+        const snack = await response.json();
+        displaySnackDetails(snack);
+    } catch (error) {
+        console.error('Error fetching snack details:', error);
+        document.getElementById('snack-details').innerHTML = '<p>Error loading snack details.</p>';
+    }
+}
+
+// Function to display snack details
+function displaySnackDetails(snack) {
+    document.getElementById('snack-name').textContent = snack.snackName;
+    document.getElementById('snack-image').src = snack.imagePath;
+    document.getElementById('snack-description').textContent = snack.snackDescription;
+    document.getElementById('snack-price').textContent = `Price: $${snack.snackPrice}`;
+    document.getElementById('snack-ingredients').textContent = `Ingredients: ${snack.ingredients}`;
+    document.getElementById('snack-country').textContent = `Country: ${snack.country}`;
+
+    // Show the snack details section
+    document.getElementById('snack-details').style.display = 'block';
+}
