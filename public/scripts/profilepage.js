@@ -37,3 +37,6 @@ document.getElementById('create-account-btn').addEventListener('click', function
   window.location.href = 'signup.html'; // Redirect to signup.html when button is clicked
 })
 
+document.getElementById('edit-profile-btn').addEventListener('click', function() {
+  window.location.href = 'AccountEditor.html';
+});

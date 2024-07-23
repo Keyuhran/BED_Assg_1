@@ -1,103 +1,56 @@
-document.addEventListener("DOMContentLoaded", () => {
-    fetchUsers();
-});
-
-async function fetchUsers() {
+document.addEventListener("DOMContentLoaded", async () => {
+    const userEmail = localStorage.getItem("email"); // assuming you store the user's email in local storage
+    const user = await retrieveUser(userEmail);
+  
+    if (user) {
+      document.getElementById("name").value = user.name;
+      document.getElementById("email").value = user.email;
+      document.getElementById("address").value = user.address;
+      document.getElementById("unitNo").value = user.unitNo;
+      document.getElementById("postalCode").value = user.postalCode;
+      document.getElementById("country").value = user.country;
+      document.getElementById("phoneNo").value = user.phoneNo;
+      document.getElementById("userBday").value = user.userBday;
+      document.getElementById("role").value = user.role;
+    }
+  
+    const updateBtn = document.getElementById("update-btn");
+    updateBtn.addEventListener("click", updateAccount);
+  });
+  
+  async function updateAccount() {
+    const name = document.getElementById("name").value;
+    const email = document.getElementById("email").value;
+    const address = document.getElementById("address").value;
+    const unitNo = document.getElementById("unitNo").value;
+    const postalCode = document.getElementById("postalCode").value;
+    const country = document.getElementById("country").value;
+    const phoneNo = document.getElementById("phoneNo").value;
+    const userBday = document.getElementById("userBday").value;
+    const role = document.getElementById("role").value;
+  
     try {
-        const response = await fetch("/users"); // Ensure this endpoint is correct
-        if (!response.ok) {
-            throw new Error("Failed to fetch users");
-        }
-        const users = await response.json();
-        console.log("Fetched users:", users); // Log fetched users
-        populateUserTable(users);
+      const response = await fetch("/users/update", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name, email, address, unitNo, postalCode, country, phoneNo, userBday, role }),
+      });
+  
+      if (!response.ok) {
+        throw new Error("Failed to update user");
+      }
+  
+      const result= await response.json();
+      console.log("User updated:", result);
+      alert("Account details updated successfully!");
     } catch (error) {
-        console.error("Error fetching users:", error);
+      console.error("Error updating user:", error);
+      alert("Error updating account details. Please try again.");
     }
-}
-
-function populateUserTable(users) {
-    const userTableBody = document.getElementById("userTableBody");
-    userTableBody.innerHTML = ""; // Clear existing table rows
-
-    users.forEach(user => {
-        console.log("Displaying user:", user); // Log each user being displayed
-        const row = document.createElement("tr");
-        console.log(user.name);
-        row.onclick = () => showOverlay(user.name, user.email);
-
-        row.innerHTML = `
-            <td>${user.name}</td>
-            <td>${user.email}</td>
-            <td>${user.streetname}, ${user.blockno}, ${user.unitno}</td>
-            <td>${user.postalcode}</td>
-            <td>${user.phoneno}</td>
-        `;
-        
-        userTableBody.appendChild(row);
-    });
-}
-
-function showOverlay(accountName, accountId) {
-    document.getElementById('accountName').innerText = accountName;
-    document.getElementById('editAccountName').value = accountName;
-    document.getElementById('editAccountId').value = accountId;
-    document.getElementById('overlay').style.visibility = 'visible';
-}
-
-function hideOverlay() {
-    document.getElementById('overlay').style.visibility = 'hidden';
-}
-
-function showDeleteConfirm() {
-    hideOverlay();
-    document.getElementById('confirmOverlay').style.visibility = 'visible';
-}
-
-function hideConfirmOverlay() {
-    document.getElementById('confirmOverlay').style.visibility = 'hidden';
-}
-
-function confirmDeleteAccount() {
-    alert('Account deleted');
-    hideConfirmOverlay();
-}
-
-function showEditOverlay() {
-    hideOverlay();
-    document.getElementById('editOverlay').style.visibility = 'visible';
-}
-
-function hideEditOverlay() {
-    document.getElementById('editOverlay').style.visibility = 'hidden';
-    showOverlay(document.getElementById('editAccountName').value, document.getElementById('editAccountId').value);
-}
-
-function submitEdit() {
-    // Here you can handle the submission logic, e.g., send data to the server
-    alert('Account details updated');
-    hideEditOverlay();
-}
-
-function editAccount() {
-    showEditOverlay();
-}
-
-// Hide overlays on clicking outside
-document.getElementById('overlay').addEventListener('click', function(event) {
-    if (event.target === this) {
-        hideOverlay();
-    }
-});
-
-document.getElementById('confirmOverlay').addEventListener('click', function(event) {
-    if (event.target === this) {
-        hideConfirmOverlay();
-    }
-});
-
-document.getElementById('editOverlay').addEventListener('click', function(event) {
-    if (event.target === this) {
-        hideEditOverlay();
-    }
-});
+  }
+  
+  async function retrieveUser(email) {
+    const response = await fetch(`/users/email?email=${email}`);
+    const data = await response.json();
+    return data.user;
+  }
