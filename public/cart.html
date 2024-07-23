@@ -4,27 +4,61 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>South Eats Local Snack Store</title>
-    <link rel="stylesheet" href="styles/styles.css">
+    <link rel="stylesheet" href="styles/cart.css">
 </head>
 <body>
     <header>
         <div class="logo">
-          <img src="media/South Eats.png" alt="South Eats Logo">
+            <img src="media/South Eats.png" alt="South Eats Logo">
         </div>
         <nav>
-          <ul>
-            <li><a href="#">Home</a></li>
-            <li><a href="#">Cart</a></li>
-            <li><a href="#">Contact</a></li>
-            <li><a href="#">About</a></li>
-            <li><a href="#">Order History</a></li>
-          </ul>
+            <ul>
+                <li><a href="homepage.html">Home</a></li>
+                <li><a href="#">Cart</a></li>
+                <li><a href="#">Contact</a></li>
+                <li><a href="#">About</a></li>
+                <li><a href="#">Order History</a></li>
+            </ul>
         </nav>
-        <div class="user-icons">  <a href="profilepage.html" class="profile-icon">
-            <img src="media/Profile.jpg" alt="Profile Icon">
-          </a>
-          <a href="cart.html" class="cart-icon">
-            <img src="media/Shopping Cart.png" alt="Cart Icon">
-          </a>
+        <div class="user-icons">
+            <a href="profilepage.html" class="profile-icon">
+                <img src="media/Profile.jpg" alt="Profile Icon">
+            </a>
+            <a href="cart.html" class="cart-icon">
+                <img src="media/Shopping Cart.png" alt="Cart Icon">
+            </a>
         </div>
-      </header>
+    </header>
+    <main>
+        <div id="cart-container"></div>
+    </main>
+    
+    <div class="checkout-payment">
+        <p>Your items will be delivered based on the address entered in your profile!</p>
+        <p id="discount"></p>
+    </div>
+    <div class="total-display">  
+        <div class="total-details">
+            <p>Total: $<span id="total-price">0</span></p>
+            <p id="discount"></p>
+        </div>
+        <button class="checkout-button">Checkout</button>
+    </div>
+
+    <div id="checkoutOverlay" class="overlay">
+        <div class="overlay-content">
+            <h2>Enter Payment Details</h2>
+            <label for="creditCardNumber">Credit Card Number:</label>
+            <input type="text" id="creditCardNumber" maxlength="16" required>
+            <label for="cvv">CVV:</label>
+            <input type="text" id="cvv" maxlength="3" required>
+            <label for="expiryDate">Expiry Date (MM/YY):</label>
+            <input type="text" id="expiryDate" maxlength="5" placeholder="MM/YY" required>
+            <button id="orderNowButton">Order Now!</button>
+            <button id="cancelButton">Cancel</button>
+        </div>
+    </div>
+
+    <script src="scripts/frontendcart.js"></script>
+</body>
+</html>

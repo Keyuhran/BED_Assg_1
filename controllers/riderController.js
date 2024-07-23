@@ -1,5 +1,4 @@
 require('dotenv').config()
-
 const User = require("../models/User");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
@@ -65,24 +64,7 @@ async function createUser(req, res) {
     res.status(500).json({ message: "Internal server error" });
   }
 }
-async function updateUser(req, res) {
-  const email = req.params.email;
-  const { password, name, address, unitNo, postalCode, country, phoneNo, userBday, imagePath, role } = req.body;
 
-  try {
-    const hashedPassword = await bcrypt.hash(password, 10);
-    const updated = await User.updateUser(email, hashedPassword, name, address, unitNo, postalCode, country, phoneNo, userBday, imagePath, role);
-
-    if (updated) {
-      res.status(200).send("User updated successfully!");
-    } else {
-      res.status(404).send("User not found or could not be updated");
-    }
-  } catch (error) {
-    console.error(error);
-    res.status(500).send("Internal server error");
-  }
-}
 
 async function retrieveUser(req, res) {
   const email = req.query.email;
@@ -130,8 +112,7 @@ async function retrieveRider(req, res) {
   }
 }
 
-
- async function deleteUser(req, res) {
+async function deleteUser(req, res) {
   const email = req.query.email;
 
   try {
@@ -150,13 +131,11 @@ async function retrieveRider(req, res) {
   }
 }
 
-
 module.exports = {
   login,
   retrieveUsers,
   createUser,
   retrieveUser,
   retrieveRider,
-  updateUser,
   deleteUser
 };

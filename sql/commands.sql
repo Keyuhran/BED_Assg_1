@@ -1,4 +1,5 @@
 -- Drop existing tables
+DROP TABLE IF EXISTS Orders;
 DROP TABLE IF EXISTS Cart;
 DROP TABLE IF EXISTS Admins;
 DROP TABLE IF EXISTS Riders;
@@ -41,26 +42,38 @@ CREATE TABLE Admins (
 
 -- Create Snacks table
 CREATE TABLE Snacks (
-  SnackId VARCHAR(5) PRIMARY KEY,
-  SnackName VARCHAR(255) NOT NULL,
-  SnackDescription VARCHAR(255),
-  SnackPrice DECIMAL(10,2) NOT NULL,
-  Ingredients VARCHAR(MAX),
-  ImagePath VARCHAR(MAX),
-  Country VARCHAR(255) NOT NULL
+  snackId VARCHAR(255) PRIMARY KEY,
+  snackName VARCHAR(255) NOT NULL,
+  snackDescription VARCHAR(255),
+  snackPrice DECIMAL(10,2) NOT NULL,
+  ingredients VARCHAR(MAX),
+  imagePath VARCHAR(MAX),
+  country VARCHAR(255) NOT NULL
 );
 
 -- Create Cart table
 CREATE TABLE Cart (
     email VARCHAR(255),
-    SnackId VARCHAR(5),
-    Quantity INT,
+    snackIds VARCHAR(255),
+    quantity VARCHAR(255),
+    totalCost DECIMAL(10, 2),
     FOREIGN KEY (email) REFERENCES Users(email),
-    FOREIGN KEY (SnackId) REFERENCES Snacks(SnackId),
-    PRIMARY KEY (email, SnackId)
+    PRIMARY KEY (email, snackIds)
+);
+
+CREATE TABLE Orders (
+    orderId VARCHAR(255) PRIMARY KEY,
+    email VARCHAR(255),
+    snackIds VARCHAR(255),
+    quantity VARCHAR(255),
+    dateAdded DATETIME,
+    dateCompleted DATETIME,
+    status VARCHAR(255),
+    FOREIGN KEY (email) REFERENCES Users(email)
 );
 
 -- Insert Snacks
+
 INSERT INTO Snacks (SnackId, SnackName, SnackDescription, SnackPrice, Ingredients, ImagePath, Country) VALUES
 ('MY001', 'Kuih Seri Muka', 'A traditional two-layered dessert with a base of glutinous rice and a top layer of pandan custard. The glutinous rice is sticky and slightly salty, while the custard is sweet and flavored with pandan leaves.', 0.50, 'Glutinous rice, coconut milk, pandan leaves, sugar, salt', 'https://i.ytimg.com/vi/lja78jksL0A/hq720.jpg?sqp=-oaymwEhCK4FEIIDSFryq4qpAxMIARUAAAAAGAElAADIQj0AgKJD&rs=AOn4CLBoIA6leCfATyGeselIGEawOB1Y_A', 'Malaysia'),
 ('MY002', 'Apam Balik', 'A thick pancake turnover that is crispy on the outside and soft on the inside. It is stuffed with a mixture of ground peanuts, sweet corn, and sugar. It is a popular street food snack.', 0.75, 'Flour, eggs, sugar, peanuts, sweet corn, butter', 'https://upload.wikimedia.org/wikipedia/commons/0/08/Giant_Apam_Balik.jpg', 'Malaysia'),
