@@ -78,10 +78,30 @@ async function updateSnack(req, res) {
   }
 }
 
+// snackController.js
+const getSnackByCountryAndId = async (req, res) => {
+  const { country, snackId } = req.params;
+  
+  try {
+      // Assuming you have a method to fetch the snack from the database
+      const snack = await Snack.findOne({ country, snackId });
+      
+      if (!snack) {
+          return res.status(404).json({ error: 'Snack not found' });
+      }
+      
+      res.json(snack);
+  } catch (error) {
+      console.error('Error fetching snack:', error);
+      res.status(500).json({ error: 'Internal server error' });
+  }
+};
+
+
 module.exports = {
   createSnack,
   retrieveSnacks,
   getSnacksByCountry,
-  updateSnack
-  
+  updateSnack,
+  getSnackByCountryAndId
 };
