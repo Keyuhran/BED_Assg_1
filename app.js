@@ -9,6 +9,7 @@ const userController = require("./controllers/userController");
 // const adminController = require("./controllers/adminController");
 const snackController = require("./controllers/snackController");
 const cartController = require("./controllers/cartController");
+const orderController = require("./controllers/orderController");
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -54,6 +55,9 @@ app.post('/cart/add', cartController.addToCart);
 app.get('/cart', cartController.getCartContents);
 app.post('/cart/remove', cartController.removeFromCart);
 app.post('/cart/update', cartController.updateQuantity);
+
+// Order Routes
+app.post('/order/create', orderController.createOrder);
 
 
 // Start server

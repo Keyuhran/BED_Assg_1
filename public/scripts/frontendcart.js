@@ -172,14 +172,39 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  document.getElementById("orderNowButton").addEventListener("click", () => {
+  document.getElementById("orderNowButton").addEventListener("click", async () => {
     const creditCardNumber = document.getElementById("creditCardNumber").value;
     const cvv = document.getElementById("cvv").value;
     const expiryDate = document.getElementById("expiryDate").value;
 
     if (validateCardDetails(creditCardNumber, cvv, expiryDate)) {
-      alert("Order placed successfully!");
-      window.location.href = "order.html";
+      try {
+        const cartItems = [...document.querySelectorAll(".cart-item")].map(item => {
+          return {
+            snackId: item.querySelector(".decrement-btn").dataset.snackId,
+            quantity: parseInt(item.querySelector(".quantity").textContent)
+          };
+        });
+
+        const response = await fetch("http://localhost:3000/order/create", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`
+          },
+          body: JSON.stringify({ orderItems: cartItems })
+        });
+
+        if (!response.ok) {
+          throw new Error(`Error creating order: ${response.statusText}`);
+        }
+
+        alert("Order placed successfully!");
+        window.location.href = "order.html";
+      } catch (error) {
+        console.error("Error placing order:", error);
+        alert("Failed to place order.");
+      }
     } else {
       alert("Card entered incorrectly.");
     }

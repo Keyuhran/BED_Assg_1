@@ -64,7 +64,7 @@ CREATE TABLE Cart (
 CREATE TABLE Orders (
     orderId VARCHAR(255) PRIMARY KEY,
     email VARCHAR(255),
-    snackIds VARCHAR(255),
+    snackId VARCHAR(255),
     quantity VARCHAR(255),
     dateAdded DATETIME,
     dateCompleted DATETIME,

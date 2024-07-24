@@ -125,9 +125,34 @@ async function updateQuantity(req, res) {
   }
 }
 
+async function orderNow(req, res) {
+  try {
+    const token = req.headers.authorization.split(' ')[1];
+    const decoded = jwt.verify(token, secretKey);
+    const email = decoded.email;
+
+    const cartContents = await Cart.getCartContents(email);
+    if (!cartContents) {
+      return res.status(400).send("Cart is empty");
+    }
+
+    const orderItems = cartContents.map(item => ({
+      snackId: item.snackIds,
+      quantity: item.quantity,
+    }));
+
+    req.body.orderItems = orderItems;
+    await orderController.createOrder(req, res);
+  } catch (error) {
+    console.error("Error creating order:", error.message, error.stack); // Log the error details
+    res.status(500).send("Internal server error");
+  }
+}
+
 module.exports = {
   addToCart,
   getCartContents,
   removeFromCart,
-  updateQuantity
+  updateQuantity,
+  orderNow
 };
