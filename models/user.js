@@ -132,13 +132,12 @@ class User {
 
 
 
-  static async updateUser(email, password, name, address, unitNo, postalCode, country, phoneNo, userBday, imagePath, role) {
+  static async updateUser(email, name, address, unitNo, postalCode, country, phoneNo, userBday, imagePath, role) {
     const connection = await sql.connect(dbConfig);
   
     const sqlQuery = `
       UPDATE Users
-      SET password = @Password,
-          name = @Name,
+      SET name = @Name,
           address = @Address,
           unitNo = @UnitNo,
           postalCode = @PostalCode,
@@ -152,7 +151,6 @@ class User {
   
     const request = connection.request();
     request.input("Email", sql.VarChar, email);
-    request.input("Password", sql.VarChar, password);
     request.input("Name", sql.VarChar, name);
     request.input("Address", sql.VarChar, address);
     request.input("UnitNo", sql.VarChar, unitNo);
