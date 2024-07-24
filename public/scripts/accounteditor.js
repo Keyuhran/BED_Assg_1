@@ -1,22 +1,47 @@
-document.addEventListener("DOMContentLoaded", async () => {
-    const userEmail = localStorage.getItem("email"); // assuming you store the user's email in local storage
-    const user = await retrieveUser(userEmail);
+document.addEventListener('DOMContentLoaded', async function() {
+    const currentUser = localStorage.getItem("userEmail");
+    console.log("Current User:", currentUser);
   
-    if (user) {
-      document.getElementById("name").value = user.name;
-      document.getElementById("email").value = user.email;
-      document.getElementById("address").value = user.address;
-      document.getElementById("unitNo").value = user.unitNo;
-      document.getElementById("postalCode").value = user.postalCode;
-      document.getElementById("country").value = user.country;
-      document.getElementById("phoneNo").value = user.phoneNo;
-      document.getElementById("userBday").value = user.userBday;
-      document.getElementById("role").value = user.role;
+    try {
+      const response = await fetch(`/users/${currentUser}`);
+  
+      if (!response.ok) {
+        throw new Error(`Failed to retrieve user data: ${response.status}`);
+      }
+  
+      const userData = await response.json();
+      displayUserData(userData);
+    } catch (error) {
+      console.error('Error retrieving user data:', error);
     }
-  
-    const updateBtn = document.getElementById("update-btn");
-    updateBtn.addEventListener("click", updateAccount);
   });
+  
+  function displayUserData(userData) {
+    const usernameElement = document.querySelector('.username');
+    const emailElement = document.querySelector('.email');
+    const addressElement = document.querySelector('.address');
+    const postalElement = document.querySelector('.postalcode');
+    const blocknoElement = document.querySelector('.blockno');
+    const unitnoElement = document.querySelector('.unitno');
+    const phonenoElement = document.querySelector('.phoneno');
+    const dobElement = document.querySelector('.dob');
+    const roleElement = document.querySelector('.role')
+  
+    usernameElement.textContent = userData.name;
+    emailElement.textContent = userData.email;
+    addressElement.textContent = userData.address;
+    postalElement.textContent = userData.postalCode;
+    blocknoElement.textContent = userData.blockNo;
+    unitnoElement.textContent = userData.unitNo;
+    phonenoElement.textContent = userData.phoneNo;
+    dobElement.textContent = userData.userBday;
+    roleElement.textContent = userData.role;
+  
+  }
+  
+  
+  const updateBtn = document.getElementById("update-btn");
+  updateBtn.addEventListener("click", updateAccount);
   
   async function updateAccount() {
     const name = document.getElementById("name").value;
