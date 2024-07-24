@@ -58,7 +58,8 @@ app.post('/cart/remove', cartController.removeFromCart);
 app.post('/cart/update', cartController.updateQuantity);
 
 // Order Routes
-app.post('/orders', orderController.createOrder);
+app.post("/orders", orderController.createOrder);
+app.get("/orders/user", orderController.getUserOrders);
 
 // Start server
 const server = app.listen(port, async () => {
