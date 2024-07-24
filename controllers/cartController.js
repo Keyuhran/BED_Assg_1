@@ -2,11 +2,12 @@ const Cart = require("../models/cart");
 const jwt = require("jsonwebtoken");
 const sql = require("mssql");
 const dbConfig = require("../dbConfig");
+const orderController = require("./orderController");
 const secretKey = process.env.secretKey;
 
 async function addToCart(req, res) {
   try {
-    const token = req.headers.authorization.split(' ')[1];
+    const token = req.headers.authorization.split(" ")[1];
     const decoded = jwt.verify(token, secretKey);
     const email = decoded.email; // Get email from the decoded token
     const snackId = req.body.snackId;
@@ -15,12 +16,12 @@ async function addToCart(req, res) {
     console.log("Adding to cart for user:", email);
 
     if (!email || !snackId || !quantity) {
-      return res.status(400).send('Snack ID and quantity are required');
+      return res.status(400).send("Snack ID and quantity are required");
     }
 
     const snackPrice = await getSnackPrice(snackId); // Function to get the snack price from the database
     if (snackPrice === null) {
-      return res.status(400).send('Invalid Snack ID');
+      return res.status(400).send("Invalid Snack ID");
     }
 
     const success = await Cart.addToCart(email, snackId, quantity, snackPrice);
@@ -38,7 +39,7 @@ async function addToCart(req, res) {
 async function getSnackPrice(snackId) {
   try {
     const connection = await sql.connect(dbConfig);
-    const sqlQuery = 'SELECT SnackPrice FROM Snacks WHERE snackId = @SnackId';
+    const sqlQuery = "SELECT SnackPrice FROM Snacks WHERE snackId = @SnackId";
     const request = connection.request();
     request.input("SnackId", sql.VarChar, snackId);
     const result = await request.query(sqlQuery);
@@ -57,7 +58,7 @@ async function getSnackPrice(snackId) {
 
 async function getCartContents(req, res) {
   try {
-    const token = req.headers.authorization.split(' ')[1];
+    const token = req.headers.authorization.split(" ")[1];
     const decoded = jwt.verify(token, secretKey);
     const email = decoded.email; // Get email from the decoded token
 
@@ -75,7 +76,7 @@ async function getCartContents(req, res) {
 
 async function removeFromCart(req, res) {
   try {
-    const token = req.headers.authorization.split(' ')[1];
+    const token = req.headers.authorization.split(" ")[1];
     const decoded = jwt.verify(token, secretKey);
     const email = decoded.email; // Get email from the decoded token
     const snackId = req.body.snackId;
@@ -83,7 +84,7 @@ async function removeFromCart(req, res) {
     console.log("Removing from cart for user:", email);
 
     if (!email || !snackId) {
-      return res.status(400).send('Snack ID is required');
+      return res.status(400).send("Snack ID is required");
     }
 
     const success = await Cart.removeFromCart(email, snackId);
@@ -100,7 +101,7 @@ async function removeFromCart(req, res) {
 
 async function updateQuantity(req, res) {
   try {
-    const token = req.headers.authorization.split(' ')[1];
+    const token = req.headers.authorization.split(" ")[1];
     const decoded = jwt.verify(token, secretKey);
     const email = decoded.email; // Get email from the decoded token
     const snackId = req.body.snackId;
@@ -109,11 +110,16 @@ async function updateQuantity(req, res) {
     console.log("Updating quantity for user:", email);
 
     if (!email || !snackId || quantity < 1) {
-      return res.status(400).send('Valid snack ID and quantity are required');
+      return res.status(400).send("Valid snack ID and quantity are required");
     }
 
     const snackPrice = await getSnackPrice(snackId); // Function to get the snack price from the database
-    const success = await Cart.updateQuantity(email, snackId, quantity, snackPrice);
+    const success = await Cart.updateQuantity(
+      email,
+      snackId,
+      quantity,
+      snackPrice
+    );
     if (success) {
       res.status(200).send("Quantity updated successfully");
     } else {
@@ -127,7 +133,7 @@ async function updateQuantity(req, res) {
 
 async function orderNow(req, res) {
   try {
-    const token = req.headers.authorization.split(' ')[1];
+    const token = req.headers.authorization.split(" ")[1];
     const decoded = jwt.verify(token, secretKey);
     const email = decoded.email;
 
@@ -136,9 +142,9 @@ async function orderNow(req, res) {
       return res.status(400).send("Cart is empty");
     }
 
-    const orderItems = cartContents.map(item => ({
+    const orderItems = cartContents.map((item) => ({
       snackId: item.snackIds,
-      quantity: item.quantity,
+      quantity: parseInt(item.quantity), // Ensure quantity is an integer
     }));
 
     req.body.orderItems = orderItems;
@@ -154,5 +160,5 @@ module.exports = {
   getCartContents,
   removeFromCart,
   updateQuantity,
-  orderNow
+  orderNow,
 };

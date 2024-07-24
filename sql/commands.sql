@@ -62,15 +62,17 @@ CREATE TABLE Cart (
 );
 
 CREATE TABLE Orders (
-    orderId VARCHAR(255) PRIMARY KEY,
+    orderId VARCHAR(255),
     email VARCHAR(255),
     snackId VARCHAR(255),
-    quantity VARCHAR(255),
+    quantity INT,
     dateAdded DATETIME,
     dateCompleted DATETIME,
     status VARCHAR(255),
-    FOREIGN KEY (email) REFERENCES Users(email)
+    FOREIGN KEY (email) REFERENCES Users(email),
+    PRIMARY KEY (orderId, snackId)
 );
+
 
 INSERT INTO Snacks (SnackId, SnackName, SnackDescription, SnackPrice, Ingredients, ImagePath, Country) VALUES
 ('MY001', 'Kuih Seri Muka', 'A traditional two-layered dessert with a base of glutinous rice and a top layer of pandan custard. The glutinous rice is sticky and slightly salty, while the custard is sweet and flavored with pandan leaves.', 0.50, 'Glutinous rice, coconut milk, pandan leaves, sugar, salt', 'https://i.ytimg.com/vi/lja78jksL0A/hq720.jpg?sqp=-oaymwEhCK4FEIIDSFryq4qpAxMIARUAAAAAGAElAADIQj0AgKJD&rs=AOn4CLBoIA6leCfATyGeselIGEawOB1Y_A', 'Malaysia'),
