@@ -172,14 +172,41 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  document.getElementById("orderNowButton").addEventListener("click", () => {
+  document.getElementById("orderNowButton").addEventListener("click", async () => {
     const creditCardNumber = document.getElementById("creditCardNumber").value;
     const cvv = document.getElementById("cvv").value;
     const expiryDate = document.getElementById("expiryDate").value;
-
+  
     if (validateCardDetails(creditCardNumber, cvv, expiryDate)) {
-      alert("Order placed successfully!");
-      window.location.href = "order.html";
+      const token = localStorage.getItem("token"); // Retrieve token from local storage
+      const cartItems = []; // Collect cart items here
+  
+      document.querySelectorAll(".cart-item").forEach((item) => {
+        const snackId = item.querySelector(".remove-from-cart-btn").getAttribute("data-snack-id");
+        const quantity = parseInt(item.querySelector(".quantity").textContent);
+        cartItems.push({ snackId, quantity });
+      });
+  
+      try {
+        const response = await fetch("http://localhost:3000/orders", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`,
+          },
+          body: JSON.stringify({ orderItems: cartItems }),
+        });
+  
+        if (!response.ok) {
+          throw new Error(`Error creating order: ${response.statusText}`);
+        }
+  
+        alert("Order placed successfully!");
+        window.location.href = "order.html";
+      } catch (error) {
+        console.error("Error creating order:", error);
+        alert("Failed to place order.");
+      }
     } else {
       alert("Card entered incorrectly.");
     }
