@@ -25,7 +25,7 @@ app.use('/styles', express.static(path.join(__dirname, 'styles')));
 app.post("/users/createUser", userController.createUser);
 app.post("/users/login", userController.login);
 app.get("/users", userController.retrieveUsers);
-app.get("/users/email", userController.retrieveUser);
+app.get("/users/:email", userController.retrieveUser);
 app.delete("/users/email", userController.deleteUser);
 app.put("/users/:email", userController.updateUser)
 

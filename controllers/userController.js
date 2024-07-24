@@ -67,17 +67,16 @@ async function createUser(req, res) {
 }
 async function updateUser(req, res) {
   const email = req.params.email;
-  const { password, name, address, unitNo, postalCode, country, phoneNo, userBday, imagePath, role } = req.body;
+  const { name, address, unitNo, postalCode, country, phoneNo, userBday, imagePath, role } = req.body;
 
   try {
-    const hashedPassword = await bcrypt.hash(password, 10);
-    const updated = await User.updateUser(email, hashedPassword, name, address, unitNo, postalCode, country, phoneNo, userBday, imagePath, role);
+    const updated = await User.updateUser(email, name, address, unitNo, postalCode, country, phoneNo, userBday, imagePath, role);
 
-    if (updated) {
-      res.status(200).send("User updated successfully!");
-    } else {
-      res.status(404).send("User not found or could not be updated");
+    if (!updated) {
+      throw new Error("User not found or could not be updated");
     }
+
+    res.status(200).send("User updated successfully!");
   } catch (error) {
     console.error(error);
     res.status(500).send("Internal server error");
@@ -85,30 +84,31 @@ async function updateUser(req, res) {
 }
 
 async function retrieveUser(req, res) {
-  const email = req.query.email;
+  const email = req.params.email;
 
   try {
     const user = await User.retrieveUser(email);
-    if (user) {
-      res.json({
-        email: user.email,
-        password: user.password,
-        name: user.name,
-        address: user.address,
-        unitNo: user.unitNo,
-        postalCode: user.postalCode,
-        country: user.country,
-        phoneNo: user.phoneNo,
-        userBday: user.userBday,
-        imagePath: user.imagePath,
-        role: user.role,
-      });
-    } else {
-      res.status(404).send("User not found");
+
+    if (!user) {
+      throw new Error("User not found");
     }
+
+    res.json({
+      email: user.email,
+      password: user.password,
+      name: user.name,
+      address: user.address,
+      unitNo: user.unitNo,
+      postalCode: user.postalCode,
+      country: user.country,
+      phoneNo: user.phoneNo,
+      userBday: user.userBday,
+      imagePath: user.imagePath,
+      role: user.role,
+    });
   } catch (error) {
     console.error(error);
-    res.status(500).send("Error retrieving data");
+    res.status(404).send("User not found");
   }
 }
 
