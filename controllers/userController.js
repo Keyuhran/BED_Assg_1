@@ -85,7 +85,7 @@ async function updateUser(req, res) {
 }
 
 async function retrieveUser(req, res) {
-  const email = req.query.email;
+  const email = req.params.email;
 
   try {
     const user = await User.retrieveUser(email);
