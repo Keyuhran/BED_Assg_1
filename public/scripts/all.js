@@ -1,5 +1,4 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // Fetch all snacks from the server
     fetch('http://localhost:3000/snacks')
         .then(response => {
             if (!response.ok) {
@@ -16,7 +15,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 data.forEach(snack => {
                     const snackDiv = document.createElement('div');
                     snackDiv.classList.add('snack');
-                    snackDiv.dataset.snackId = snack.snackId; // Add data attribute for snack ID
+                    snackDiv.dataset.snackId = snack.snackId;
+                    snackDiv.dataset.country = snack.country; // Add data attribute for country
                     snackDiv.innerHTML = `
                         <img src="${snack.imagePath}" alt="${snack.snackName}">
                         <p>${snack.snackName}</p>
@@ -25,7 +25,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     snackDiv.addEventListener('click', () => {
                         console.log('Snack clicked:', snackDiv.dataset.snackId); // Debugging line
                         const snackId = snackDiv.dataset.snackId;
-                        fetchSnackDetails(snackId); // Fetch and display details on click
+                        const country = snackDiv.dataset.country;
+                        fetchSnackDetails(country, snackId); // Fetch and display details on click
                     });
                     snacksContainer.appendChild(snackDiv);
                 });
@@ -44,11 +45,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
 async function fetchSnackDetails(country, snackId) {
     try {
-        const response = await fetch(`http://localhost:3000/snacks/${snackId}`);
+        const response = await fetch(`http://localhost:3000/snacks/${country}/${snackId}`);
         if (!response.ok) {
             throw new Error(`Network response was not ok: ${response.statusText} (status code: ${response.status})`);
         }
         const snack = await response.json();
+        console.log('Fetched snack details:', snack); // Debugging line
         displaySnackDetails(snack);
     } catch (error) {
         console.error('Error fetching snack details:', error);
@@ -56,7 +58,7 @@ async function fetchSnackDetails(country, snackId) {
     }
 }
 
-// Function to display snack details
+
 function displaySnackDetails(snack) {
     document.getElementById('snack-name').textContent = snack.snackName;
     document.getElementById('snack-image').src = snack.imagePath;
@@ -65,6 +67,5 @@ function displaySnackDetails(snack) {
     document.getElementById('snack-ingredients').textContent = `Ingredients: ${snack.ingredients}`;
     document.getElementById('snack-country').textContent = `Country: ${snack.country}`;
 
-    // Show the snack details section
     document.getElementById('snack-details').style.display = 'block';
 }

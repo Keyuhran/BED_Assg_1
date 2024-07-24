@@ -47,6 +47,7 @@ app.put("/users/:email", userController.updateUser)
 app.post("/snacks", snackController.createSnack);
 app.get("/snacks", snackController.retrieveSnacks);
 app.get('/snacks/:country', snackController.getSnacksByCountry);
+app.get("/snacks/:country/:snackId", snackController.getSnackByCountryAndId);
 app.put("/snacks/:snackId", snackController.updateSnack);
 
 
