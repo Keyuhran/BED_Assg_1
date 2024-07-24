@@ -16,27 +16,17 @@ document.addEventListener('DOMContentLoaded', async function() {
     }
   });
   
-  function displayUserData(userData) {
-    const usernameElement = document.querySelector('.username');
-    const emailElement = document.querySelector('.email');
-    const addressElement = document.querySelector('.address');
-    const postalElement = document.querySelector('.postalcode');
-    const blocknoElement = document.querySelector('.blockno');
-    const unitnoElement = document.querySelector('.unitno');
-    const phonenoElement = document.querySelector('.phoneno');
-    const dobElement = document.querySelector('.dob');
-    const roleElement = document.querySelector('.role')
-  
-    usernameElement.textContent = userData.name;
-    emailElement.textContent = userData.email;
-    addressElement.textContent = userData.address;
-    postalElement.textContent = userData.postalCode;
-    blocknoElement.textContent = userData.blockNo;
-    unitnoElement.textContent = userData.unitNo;
-    phonenoElement.textContent = userData.phoneNo;
-    dobElement.textContent = userData.userBday;
-    roleElement.textContent = userData.role;
-  
+async function displayUserData(userData) {
+    document.getElementById("name").value = userData.name;
+    document.getElementById("email").value = userData.email;
+    document.getElementById("address").value = userData.address;
+    document.getElementById("unitNo").value = userData.unitNo;
+    document.getElementById("postalCode").value = userData.postalCode;
+    document.getElementById("country").value = userData.country;
+    document.getElementById("phoneNo").value = userData.phoneNo;
+    const userBday = new Date(userData.userBday).toISOString().split('T')[0];
+    document.getElementById("userBday").value = userBday;
+    document.getElementById("role").value = userData.role;
   }
   
   
@@ -55,7 +45,7 @@ document.addEventListener('DOMContentLoaded', async function() {
     const role = document.getElementById("role").value;
   
     try {
-      const response = await fetch("/users/update", {
+      const response = await fetch(`/users/${email}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ name, email, address, unitNo, postalCode, country, phoneNo, userBday, role }),
@@ -65,7 +55,7 @@ document.addEventListener('DOMContentLoaded', async function() {
         throw new Error("Failed to update user");
       }
   
-      const result= await response.json();
+      const result = await response.json();
       console.log("User updated:", result);
       alert("Account details updated successfully!");
     } catch (error) {
@@ -73,6 +63,7 @@ document.addEventListener('DOMContentLoaded', async function() {
       alert("Error updating account details. Please try again.");
     }
   }
+
   
   async function retrieveUser(email) {
     const response = await fetch(`/users/email?email=${email}`);

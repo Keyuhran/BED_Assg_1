@@ -67,11 +67,10 @@ async function createUser(req, res) {
 }
 async function updateUser(req, res) {
   const email = req.params.email;
-  const { password, name, address, unitNo, postalCode, country, phoneNo, userBday, imagePath, role } = req.body;
+  const { name, address, unitNo, postalCode, country, phoneNo, userBday, imagePath, role } = req.body;
 
   try {
-    const hashedPassword = await bcrypt.hash(password, 10);
-    const updated = await User.updateUser(email, hashedPassword, name, address, unitNo, postalCode, country, phoneNo, userBday, imagePath, role);
+    const updated = await User.updateUser(email, name, address, unitNo, postalCode, country, phoneNo, userBday, imagePath, role);
 
     if (!updated) {
       throw new Error("User not found or could not be updated");
