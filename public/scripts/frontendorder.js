@@ -42,6 +42,10 @@ document.addEventListener("DOMContentLoaded", () => {
             )
             .join("");
 
+          const riderInfo = order.riderId
+            ? `<p><strong>Rider ID:</strong> ${order.riderId}</p>`
+            : `<p><strong>Rider ID:</strong> Waiting for rider to pick up your order</p>`;
+
           orderItemDiv.innerHTML = `
             <div class="details-container">
               <p><strong>Order ID:</strong> ${order.orderId}</p>
@@ -49,6 +53,7 @@ document.addEventListener("DOMContentLoaded", () => {
               ${snacksHTML}
               <p><strong>Address:</strong> ${order.address}</p>
               <p><strong>Status:</strong> ${order.status}</p>
+              ${riderInfo}
             </div>
           `;
           orderContainer.appendChild(orderItemDiv);
