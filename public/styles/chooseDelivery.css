@@ -1,0 +1,165 @@
+/* General Styles */
+body, html {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    color: #333;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* Header Styles */
+.header {
+    background-color: white;
+    box-shadow: 0 4px 2px -2px gray;
+    padding: 10px 0;
+}
+
+.header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1120px;
+    margin: 0 auto;
+    padding: 0 24px;
+}
+
+.logo-section {
+    display: flex;
+    align-items: center;
+}
+
+.company-logo {
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+}
+
+.account-section {
+    display: flex;
+    align-items: center;
+}
+
+.nav-links {
+    display: flex;
+    margin-right: 16px;
+}
+
+.nav-item {
+    padding: 4px 12px;
+    border: 1px solid lightgray;
+    border-radius: 10px;
+    margin-right: 8px;
+}
+
+.nav-link {
+    color: black;
+    text-decoration: none;
+}
+
+.nav-link:hover {
+    text-decoration: underline;
+}
+
+.account-button {
+    background-color: transparent;
+    padding: 4px;
+    border: none;
+}
+
+.account-icon {
+    width: 30px;
+    height: 30px;
+}
+
+/* Main Content Styles */
+.main-content {
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.main-container {
+    max-width: 1120px;
+    margin: 32px auto;
+    padding: 16px;
+    text-align: center;
+}
+
+.main-title {
+    font-size: 36px;
+    font-weight: bold;
+    margin-bottom: 24px;
+}
+
+/* Delivery List Styles */
+.delivery-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.delivery-item {
+    border: 1px solid lightgray;
+    border-radius: 8px;
+    padding: 16px;
+    text-align: left;
+}
+
+.choose-button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.choose-button:hover {
+    background-color: #0056b3;
+}
+
+/* Footer Styles */
+.footer {
+    background-color: #1a202c;
+    color: white;
+    padding: 24px;
+}
+
+.footer-container {
+    max-width: 1120px;
+    margin: 0 auto;
+    display: flex;
+    gap: 16px;
+}
+
+.footer-column {
+    flex-grow: 1;
+}
+
+.footer-column h3 {
+    font-size: 18px;
+    font-weight: 500;
+    margin-bottom: 8px;
+}
+
+.footer-link {
+    color: white;
+    text-decoration: none;
+}
+
+.footer-link:hover {
+    text-decoration: underline;
+}
+
+.footer-column nav {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}

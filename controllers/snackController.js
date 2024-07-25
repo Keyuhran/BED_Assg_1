@@ -92,12 +92,27 @@ const getSnackByCountryAndId = async (req, res) => {
     res.status(500).json({ error: 'Internal server error' });
   }
 };
+async function deleteSnack(req, res) {
+  const snackId = req.params.snackId;
 
+  try {
+    const success = await Snack.deleteSnack(snackId);
+    if (success) {
+      res.status(200).send("Snack deleted successfully");
+    } else {
+      res.status(404).send("Snack not found");
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Error deleting Snack");
+  }
+}
 
 module.exports = {
   createSnack,
   retrieveSnacks,
   getSnacksByCountry,
   updateSnack,
-  getSnackByCountryAndId
+  getSnackByCountryAndId,
+  deleteSnack
 };

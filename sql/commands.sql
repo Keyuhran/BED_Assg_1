@@ -72,7 +72,9 @@ CREATE TABLE Orders (
     riderId VARCHAR(255),
     status VARCHAR(255),
     FOREIGN KEY (email) REFERENCES Users(email),
+
     FOREIGN KEY (riderId) REFERENCES Riders(riderId),
+
     PRIMARY KEY (orderId, snackId)
 );
 
