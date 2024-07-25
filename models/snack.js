@@ -80,6 +80,25 @@ class Snack {
       throw error;
     }
   }
+
+  static async getSnackByCountryAndId(country, snackId) {
+    try {
+      const connection = await sql.connect(dbConfig);
+      const sqlQuery = 'SELECT * FROM Snacks WHERE country = @country AND snackId = @snackId';
+      const request = connection.request();
+      request.input("country", sql.VarChar, country);
+      request.input("snackId", sql.VarChar, snackId);
+      const result = await request.query(sqlQuery);
+      connection.close();
+      return result.recordset[0]; 
+    } catch (error) {
+      console.error("Error fetching snack by country and ID:", error);
+      throw error;
+    }
+  }
+  
 }
+
+
 
 module.exports = Snack;
