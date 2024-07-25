@@ -18,7 +18,7 @@ CREATE TABLE Users (
     phoneNo VARCHAR(255),
     userBday DATE,
     imagePath VARCHAR(MAX),
-    role VARCHAR(255) -- Changed column name to 'role' for consistency
+    role VARCHAR(255) 
 );
 
 -- Create Riders table
@@ -54,11 +54,12 @@ CREATE TABLE Snacks (
 -- Create Cart table
 CREATE TABLE Cart (
     email VARCHAR(255),
-    snackIds VARCHAR(255),
-    quantity VARCHAR(255),
-    totalCost DECIMAL(10, 2),
+    snackId VARCHAR(255),
+    quantity INT,
+    -- totalCost DECIMAL(10, 2), - derived column
     FOREIGN KEY (email) REFERENCES Users(email),
-    PRIMARY KEY (email, snackIds)
+    FOREIGN KEY (snackId) REFERENCES Snacks(snackId),
+    PRIMARY KEY (email, snackId)
 );
 
 CREATE TABLE Orders (
@@ -68,9 +69,12 @@ CREATE TABLE Orders (
     quantity VARCHAR(255),
     dateAdded DATETIME,
     dateCompleted DATETIME,
+    riderId VARCHAR(255),
     status VARCHAR(255),
-    FOREIGN KEY (email) REFERENCES Users(email)
+    FOREIGN KEY (email) REFERENCES Users(email),
+    FOREIGN KEY (riderId)  REFERENCES Riders(riderId)
 );
+
 
 -- Insert Snacks
 INSERT INTO Snacks (snackId, snackName, snackDescription, snackPrice, ingredients, imagePath, country) VALUES
