@@ -30,20 +30,12 @@ document.addEventListener("DOMContentLoaded", () => {
           cartItemDiv.innerHTML = `
             <div style="display: flex; align-items: center;">
               <div>
-                <p>Snack ID: ${item.snackIds}</p>
+                <p>Snack ID: ${item.snackId}</p>
                 <p>Snack Name: ${item.snackName}</p>
-                <p>Quantity: <button class="decrement-btn" data-snack-id="${
-                  item.snackIds
-                }">-</button> <span class="quantity">${item.quantity}</span> <button class="increment-btn" data-snack-id="${
-                item.snackIds
-              }">+</button></p>
+                <p>Quantity: <button class="decrement-btn" data-snack-id="${item.snackId}">-</button> <span class="quantity">${item.quantity}</span> <button class="increment-btn" data-snack-id="${item.snackId}">+</button></p>
                 <p>Price: $<span class="price">${item.snackPrice.toFixed(2)}</span></p>
-                <p>Total Cost: $<span class="total-cost">${item.totalCost.toFixed(
-                  2
-                )}</span></p>
-                <button class="remove-from-cart-btn" data-snack-id="${
-                  item.snackIds
-                }">Remove</button>
+                <p>Total Cost: $<span class="total-cost">${(item.quantity * item.snackPrice).toFixed(2)}</span></p>
+                <button class="remove-from-cart-btn" data-snack-id="${item.snackId}">Remove</button>
               </div>
               <div>
                 <img src="${item.imagePath && item.imagePath !== 'NULL' ? item.imagePath : 'placeholder.png'}" alt="${item.snackName}" style="max-width: 150px; margin-left: 20px;">
