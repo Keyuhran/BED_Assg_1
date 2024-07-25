@@ -48,6 +48,7 @@ app.put("/users/:email", userController.updateUser)
 app.post("/snacks", snackController.createSnack);
 app.get("/snacks", snackController.retrieveSnacks);
 app.get('/snacks/:country', snackController.getSnacksByCountry);
+app.get("/snacks/:country/:snackId", snackController.getSnackByCountryAndId);
 app.put("/snacks/:snackId", snackController.updateSnack);
 
 
@@ -58,7 +59,8 @@ app.post('/cart/remove', cartController.removeFromCart);
 app.post('/cart/update', cartController.updateQuantity);
 
 // Order Routes
-app.post('/orders', orderController.createOrder);
+app.post("/orders", orderController.createOrder);
+app.get("/orders/user", orderController.getUserOrders);
 
 // Start server
 const server = app.listen(port, async () => {

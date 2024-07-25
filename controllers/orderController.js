@@ -32,14 +32,27 @@ async function createOrder(req, res) {
       return res.status(400).send("User not found.");
     }
 
-    const { name, address, unitNo, postalCode, country, phoneNo } = userResult.recordset[0];
+    const { name, address, unitNo, postalCode, country, phoneNo } =
+      userResult.recordset[0];
     const orderId = uuidv4();
     const dateAdded = new Date().toISOString();
     const status = "Pending";
 
     for (const item of orderItems) {
       const { snackId, quantity } = item;
-      await Order.createOrder(orderId, email, snackId, quantity, dateAdded, name, address, unitNo, postalCode, country, phoneNo);
+      await Order.createOrder(
+        orderId,
+        email,
+        snackId,
+        quantity,
+        dateAdded,
+        name,
+        address,
+        unitNo,
+        postalCode,
+        country,
+        phoneNo
+      );
     }
 
     res.status(201).send("Order created successfully");
@@ -48,7 +61,25 @@ async function createOrder(req, res) {
     res.status(500).send("Internal server error");
   }
 }
+async function getUserOrders(req, res) {
+  try {
+    const token = req.headers.authorization.split(" ")[1];
+    const decoded = jwt.verify(token, secretKey);
+    const email = decoded.email; // Get email from the decoded token
+
+    const orders = await Order.getOrdersByEmail(email);
+    if (orders) {
+      res.json(orders);
+    } else {
+      res.status(404).send("No orders found.");
+    }
+  } catch (error) {
+    console.error("Error fetching user orders:", error.message, error.stack); // Log the error details
+    res.status(500).send("Internal server error");
+  }
+}
 
 module.exports = {
   createOrder,
+  getUserOrders,
 };
