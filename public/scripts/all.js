@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     const snackDiv = document.createElement('div');
                     snackDiv.classList.add('snack');
                     snackDiv.dataset.snackId = snack.snackId;
-                    snackDiv.dataset.country = snack.country; // Add data attribute for country
+                    snackDiv.dataset.country = snack.country;
                     snackDiv.innerHTML = `
                         <img src="${snack.imagePath}" alt="${snack.snackName}">
                         <p>${snack.snackName}</p>
@@ -39,7 +39,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Close button functionality
     document.getElementById('close-details').addEventListener('click', () => {
-        document.getElementById('snack-details').style.display = 'none';
+        document.getElementById('snack-details-modal').style.display = 'none';
     });
 });
 
@@ -58,7 +58,6 @@ async function fetchSnackDetails(country, snackId) {
     }
 }
 
-
 function displaySnackDetails(snack) {
     document.getElementById('snack-name').textContent = snack.snackName;
     document.getElementById('snack-image').src = snack.imagePath;
@@ -67,5 +66,5 @@ function displaySnackDetails(snack) {
     document.getElementById('snack-ingredients').textContent = `Ingredients: ${snack.ingredients}`;
     document.getElementById('snack-country').textContent = `Country: ${snack.country}`;
 
-    document.getElementById('snack-details').style.display = 'block';
+    document.getElementById('snack-details-modal').style.display = 'block';
 }
