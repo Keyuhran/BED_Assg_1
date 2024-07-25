@@ -18,7 +18,7 @@ CREATE TABLE Users (
     phoneNo VARCHAR(255),
     userBday DATE,
     imagePath VARCHAR(MAX),
-    role VARCHAR(255) -- Changed column name to 'role' for consistency
+    role VARCHAR(255) 
 );
 
 -- Create Riders table
@@ -54,30 +54,33 @@ CREATE TABLE Snacks (
 -- Create Cart table
 CREATE TABLE Cart (
     email VARCHAR(255),
-    snackIds VARCHAR(255),
-    quantity VARCHAR(255),
-    totalCost DECIMAL(10, 2),
+    snackId VARCHAR(255),
+    quantity INT,
+    -- totalCost DECIMAL(10, 2), - derived column
     FOREIGN KEY (email) REFERENCES Users(email),
-    PRIMARY KEY (email, snackIds)
+    FOREIGN KEY (snackId) REFERENCES Snacks(snackId),
+    PRIMARY KEY (email, snackId)
 );
 
 CREATE TABLE Orders (
-    orderId VARCHAR(255),
+    orderId VARCHAR(255) PRIMARY KEY,
     email VARCHAR(255),
     snackId VARCHAR(255),
     quantity INT,
     dateAdded DATETIME,
     dateCompleted DATETIME,
+    riderId VARCHAR(255),
     status VARCHAR(255),
     FOREIGN KEY (email) REFERENCES Users(email),
-    
+    FOREIGN KEY (riderId)  REFERENCES Riders(riderId)
 );
 
 
-INSERT INTO Snacks (SnackId, SnackName, SnackDescription, SnackPrice, Ingredients, ImagePath, Country) VALUES
-('MY001', 'Kuih Seri Muka', 'A traditional two-layered dessert with a base of glutinous rice and a top layer of pandan custard. The glutinous rice is sticky and slightly salty, while the custard is sweet and flavored with pandan leaves.', 0.50, 'Glutinous rice, coconut milk, pandan leaves, sugar, salt', 'https://i.ytimg.com/vi/lja78jksL0A/hq720.jpg?sqp=-oaymwEhCK4FEIIDSFryq4qpAxMIARUAAAAAGAElAADIQj0AgKJD&rs=AOn4CLBoIA6leCfATyGeselIGEawOB1Y_A', 'Malaysia'),
-('MY002', 'Apam Balik', 'A thick pancake turnover that is crispy on the outside and soft on the inside. It is stuffed with a mixture of ground peanuts, sweet corn, and sugar. It is a popular street food snack.', 0.75, 'Flour, eggs, sugar, peanuts, sweet corn, butter', 'https://upload.wikimedia.org/wikipedia/commons/0/08/Giant_Apam_Balik.jpg', 'Malaysia'),
-('MY003', 'Keropok Lekor', 'A traditional Malay snack made from fish and sago flour. These fish crackers are deep-fried until crispy and are usually served with a sweet and spicy chili sauce.', 1.00, 'Fish, sago flour, salt, sugar, chili, oil', 'https://upload.wikimedia.org/wikipedia/commons/6/6d/Keropok_Lekor_Perhentians.jpg', 'Malaysia'),
+-- Insert Snacks
+INSERT INTO Snacks (snackId, snackName, snackDescription, snackPrice, ingredients, imagePath, country) VALUES
+('MY001', 'Kuih Seri Muka', 'A traditional two-layered dessert with a base of glutinous rice and a top layer of pandan custard. The glutinous rice is sticky and slightly salty, while the custard is sweet and flavored with pandan leaves.', 0.50, 'Glutinous rice, coconut milk, pandan leaves, sugar, salt', NULL, 'Malaysia'),
+('MY002', 'Apam Balik', 'A thick pancake turnover that is crispy on the outside and soft on the inside. It is stuffed with a mixture of ground peanuts, sweet corn, and sugar. It is a popular street food snack.', 0.75, 'Flour, eggs, sugar, peanuts, sweet corn, butter', NULL, 'Malaysia'),
+('MY003', 'Keropok Lekor', 'A traditional Malay snack made from fish and sago flour. These fish crackers are deep-fried until crispy and are usually served with a sweet and spicy chili sauce.', 1.00, 'Fish, sago flour, salt, sugar, chili, oil', NULL, 'Malaysia'),
 ('SG001', 'Kaya Toast', 'Toasted bread spread with kaya, a rich and creamy coconut jam, and a thick slice of butter. This snack is often enjoyed with a cup of coffee or tea.', 1.20, 'Bread, kaya (coconut jam), butter', 'https://i.ytimg.com/vi/11kTX7LpFlA/maxresdefault.jpg', 'Singapore'),
 ('SG002', 'Popiah', 'Fresh spring rolls filled with a mix of cooked turnip, carrots, beans, and shrimp. These rolls are often served with a sweet and spicy sauce.', 1.50, 'Turnip, carrots, beans, shrimp, spring roll wrappers, sweet sauce, spicy sauce', 'https://staticcookist.akamaized.net/wp-content/uploads/sites/22/2022/05/popiah-malaysian-spring-rolls-1.jpg', 'Singapore'),
 ('SG003', 'Satay', 'Grilled skewered meat served with a savory peanut sauce. The meat, usually chicken or beef, is marinated in a mixture of spices and then grilled over an open flame.', 2.00, 'Chicken or beef, spices, peanuts, coconut milk, sugar, soy sauce', 'https://thebigmansworld.com/wp-content/uploads/2023/10/chicken-satay-recipe.jpg', 'Singapore'),
