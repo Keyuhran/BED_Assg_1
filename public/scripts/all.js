@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
         .then(data => {
             const snacksContainer = document.getElementById('snacks-container');
             if (data.length === 0) {
-                snacksContainer.innerHTML = '<p>No snacks available for Singapore.</p>';
+                snacksContainer.innerHTML = '<p>No snacks available.</p>';
             } else {
                 snacksContainer.innerHTML = '';
                 data.forEach(snack => {
@@ -66,5 +66,47 @@ function displaySnackDetails(snack) {
     document.getElementById('snack-ingredients').textContent = `Ingredients: ${snack.ingredients}`;
     document.getElementById('snack-country').textContent = `Country: ${snack.country}`;
 
+    // Remove previous add to cart button if it exists
+    const existingButton = document.getElementById('add-to-cart-button');
+    if (existingButton) {
+        existingButton.remove();
+    }
+
+    const addToCartButton = document.createElement('button');
+    addToCartButton.id = 'add-to-cart-button';
+    addToCartButton.textContent = 'Add to Cart';
+    addToCartButton.addEventListener('click', () => {
+        addToCart(snack.snackId, 1); // Add the snack to the cart with a quantity of 1
+    });
+
+    const modalContent = document.querySelector('.modal-content');
+    modalContent.appendChild(addToCartButton);
+
     document.getElementById('snack-details-modal').style.display = 'block';
+}
+
+function addToCart(snackId, quantity) {
+    const token = localStorage.getItem('token');
+    fetch('http://localhost:3000/cart/add', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({ snackId, quantity })
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error(`Network response was not ok: ${response.statusText} (status code: ${response.status})`);
+        }
+        return response.json();
+    })
+    .then(data => {
+        console.log('Item added to cart:', data);
+        alert('Item added to cart');
+    })
+    .catch(error => {
+        console.error('Error adding item to cart:', error);
+        alert('Error adding item to cart');
+    });
 }
