@@ -102,13 +102,13 @@ async function deleteSnack(req, res) {
   try {
     const success = await Snack.deleteSnack(snackId);
     if (success) {
-      res.status(200).send("User deleted successfully");
+      res.status(200).send("Snack deleted successfully");
     } else {
-      res.status(404).send("User not found");
+      res.status(404).send("Snack not found");
     }
   } catch (error) {
     console.error(error);
-    res.status(500).send("Error deleting user");
+    res.status(500).send("Error deleting Snack");
   }
 }
 
