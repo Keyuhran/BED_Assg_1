@@ -50,6 +50,7 @@ app.get("/snacks", snackController.retrieveSnacks);
 app.get('/snacks/:country', snackController.getSnacksByCountry);
 app.get("/snacks/:country/:snackId", snackController.getSnackByCountryAndId);
 app.put("/snacks/:snackId", snackController.updateSnack);
+app.delete("/snacks/:snackId", snackController.deleteSnack);
 
 
 // Cart Routes
