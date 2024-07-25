@@ -1,0 +1,181 @@
+/* General Styles */
+body, html {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    color: #333;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* Header Styles */
+.header {
+    background-color: white;
+    box-shadow: 0 4px 2px -2px gray;
+    padding: 10px 0;
+}
+
+.header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1120px;
+    margin: 0 auto;
+    padding: 0 24px;
+}
+
+.logo-section {
+    display: flex;
+    align-items: center;
+}
+
+.company-logo {
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+}
+
+.account-section {
+    display: flex;
+    align-items: center;
+}
+
+.nav-links {
+    display: flex;
+    margin-right: 16px;
+}
+
+.nav-item {
+    padding: 4px 12px;
+    border: 1px solid lightgray;
+    border-radius: 10px;
+    margin-right: 8px;
+}
+
+.nav-link {
+    color: black;
+    text-decoration: none;
+}
+
+.nav-link:hover {
+    text-decoration: underline;
+}
+
+.account-button {
+    background-color: transparent;
+    padding: 4px;
+    border: none;
+}
+
+.account-icon {
+    width: 30px;
+    height: 30px;
+}
+
+/* Main Content Styles */
+.main-content {
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.main-container {
+    max-width: 1120px;
+    margin: 32px auto;
+    padding: 16px;
+    text-align: center;
+}
+
+.main-title {
+    font-size: 36px;
+    font-weight: bold;
+    margin-bottom: 24px;
+}
+
+/* Carousel Styles */
+.carousel {
+    position: relative;
+    width: 100%;
+    margin: 0 auto;
+    overflow: hidden;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.carousel-inner {
+    display: flex;
+    transition: transform 0.5s ease-in-out;
+}
+
+.carousel-item {
+    min-width: 100%;
+    height: 100vh; /* Set the height of the carousel to fill the viewport height */
+}
+
+.carousel-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Ensure the image covers the entire item */
+}
+
+.carousel-control {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 50%;
+    cursor: pointer;
+    z-index: 1;
+}
+
+.carousel-control.left {
+    left: 0;
+}
+
+.carousel-control.right {
+    right: 0;
+}
+
+/* Footer Styles */
+.footer {
+    background-color: #1a202c;
+    color: white;
+    padding: 24px;
+}
+
+.footer-container {
+    max-width: 1120px;
+    margin: 0 auto;
+    display: flex;
+    gap: 16px;
+}
+
+.footer-column {
+    flex-grow: 1;
+}
+
+.footer-column h3 {
+    font-size: 18px;
+    font-weight: 500;
+    margin-bottom: 8px;
+}
+
+.footer-link {
+    color: white;
+    text-decoration: none;
+}
+
+.footer-link:hover {
+    text-decoration: underline;
+}
+
+.footer-column nav {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
