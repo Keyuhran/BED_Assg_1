@@ -6,7 +6,7 @@ class Order {
     try {
       const pool = await sql.connect(dbConfig);
       const sqlQuery = `
-        SELECT o.orderId, o.snackId, o.quantity, o.dateAdded, o.status, 
+        SELECT o.orderId, o.snackId, o.quantity, o.status, 
                u.address, u.unitNo, u.postalCode, u.country, 
                s.snackName, s.imagePath, o.riderId
         FROM Orders o
@@ -31,7 +31,6 @@ class Order {
             orderId: order.orderId,
             address: `${order.address}, ${order.unitNo}, ${order.postalCode}, ${order.country}`,
             status: order.status,
-            dateAdded: order.dateAdded,
             riderId: order.riderId,
             snacks: []
           };
@@ -47,6 +46,28 @@ class Order {
       return Object.values(ordersMap);
     } catch (error) {
       console.error("Error fetching orders by email:", error);
+      throw error;
+    }
+  }
+
+  static async createOrder(orderId, email, snackId, quantity, name, address, unitNo, postalCode, country, phoneNo) {
+    try {
+      const pool = await sql.connect(dbConfig);
+      const sqlQuery = `
+        INSERT INTO Orders (orderId, email, snackId, quantity, status, riderId)
+        VALUES (@OrderId, @Email, @SnackId, @Quantity, @Status, NULL)
+      `;
+      const request = pool.request();
+      request.input("OrderId", sql.VarChar, orderId);
+      request.input("Email", sql.VarChar, email);
+      request.input("SnackId", sql.VarChar, snackId);
+      request.input("Quantity", sql.Int, quantity);
+      request.input("Status", sql.VarChar, "Pending");
+
+      await request.query(sqlQuery);
+      pool.close();
+    } catch (error) {
+      console.error("Error creating order:", error);
       throw error;
     }
   }

@@ -67,16 +67,13 @@ CREATE TABLE Orders (
     email VARCHAR(255),
     snackId VARCHAR(255),
     quantity INT,
-    dateAdded DATETIME,
-    dateCompleted DATETIME,
     riderId VARCHAR(255),
     status VARCHAR(255),
     FOREIGN KEY (email) REFERENCES Users(email),
-
     FOREIGN KEY (riderId) REFERENCES Riders(riderId),
-
     PRIMARY KEY (orderId, snackId)
 );
+
 
 
 -- Insert Snacks
