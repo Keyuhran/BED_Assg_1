@@ -9,7 +9,7 @@ async function createOrder(req, res) {
   try {
     const token = req.headers.authorization.split(" ")[1];
     const decoded = jwt.verify(token, secretKey);
-    const email = decoded.email;
+    const email = decoded.email; // Get email from the decoded token
     const orderItems = req.body.orderItems;
 
     if (!orderItems || orderItems.length === 0) {
@@ -31,9 +31,9 @@ async function createOrder(req, res) {
       return res.status(400).send("User not found.");
     }
 
-    const { name, address, unitNo, postalCode, country, phoneNo } = userResult.recordset[0];
+    const { name, address, unitNo, postalCode, country, phoneNo } =
+      userResult.recordset[0];
     const orderId = uuidv4();
-    const dateAdded = new Date().toISOString();
     const status = "Pending";
 
     for (const item of orderItems) {
@@ -43,10 +43,6 @@ async function createOrder(req, res) {
         email,
         snackId,
         quantity,
-        dateAdded,
-        null,
-        null,
-        status,
         name,
         address,
         unitNo,
@@ -58,7 +54,7 @@ async function createOrder(req, res) {
 
     res.status(201).send("Order created successfully");
   } catch (error) {
-    console.error("Error creating order:", error.message, error.stack);
+    console.error("Error creating order:", error.message, error.stack); // Log the error details
     res.status(500).send("Internal server error");
   }
 }
@@ -67,7 +63,7 @@ async function getUserOrders(req, res) {
   try {
     const token = req.headers.authorization.split(" ")[1];
     const decoded = jwt.verify(token, secretKey);
-    const email = decoded.email;
+    const email = decoded.email; // Get email from the decoded token
 
     const orders = await Order.getOrdersByEmail(email);
     if (orders) {
@@ -76,7 +72,7 @@ async function getUserOrders(req, res) {
       res.status(404).send("No orders found.");
     }
   } catch (error) {
-    console.error("Error fetching user orders:", error.message, error.stack);
+    console.error("Error fetching user orders:", error.message, error.stack); // Log the error details
     res.status(500).send("Internal server error");
   }
 }
