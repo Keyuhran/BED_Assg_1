@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
-    fetch('http://localhost:3000/snacks/Singapore')
+    fetch('http://localhost:3000/snacks/Laos')
         .then(response => {
             if (!response.ok) {
                 throw new Error(`Network response was not ok: ${response.statusText} (status code: ${response.status})`);
