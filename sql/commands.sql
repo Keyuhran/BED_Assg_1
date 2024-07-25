@@ -70,7 +70,7 @@ CREATE TABLE Orders (
     dateCompleted DATETIME,
     status VARCHAR(255),
     FOREIGN KEY (email) REFERENCES Users(email),
-    PRIMARY KEY (orderId, snackId)
+    
 );
 
 
