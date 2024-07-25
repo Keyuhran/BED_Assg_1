@@ -90,7 +90,7 @@ class Snack {
       request.input("snackId", sql.VarChar, snackId);
       const result = await request.query(sqlQuery);
       connection.close();
-      return result.recordset[0]; 
+      return result.recordset[0];
     } catch (error) {
       console.error("Error fetching snack by country and ID:", error);
       throw error;
