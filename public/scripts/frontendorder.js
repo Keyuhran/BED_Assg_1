@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
-  const token = localStorage.getItem("token"); // Retrieve token from local storage
+  const token = localStorage.getItem("token");
 
   fetch("http://localhost:3000/orders/user", {
     method: "GET",
@@ -26,24 +26,36 @@ document.addEventListener("DOMContentLoaded", () => {
         orders.forEach((order) => {
           const orderItemDiv = document.createElement("div");
           orderItemDiv.classList.add("order-item");
+
+          const snacksHTML = order.snacks
+            .map(
+              (snack) => `
+                <div class="snack-details">
+                  <div class="snack-info">
+                    <p>Snack Name: ${snack.snackName}</p>
+                    <p>Quantity: ${snack.quantity}</p>
+                  </div>
+                  <img src="${snack.imagePath}" alt="${snack.snackName}" />
+                </div>
+                <hr />
+              `
+            )
+            .join("");
+
+          const riderInfo = order.riderId
+            ? `<p><strong>Rider ID:</strong> ${order.riderId}</p>`
+            : `<p><strong>Rider ID:</strong> Waiting for rider to pick up your order</p>`;
+
           orderItemDiv.innerHTML = `
-              <div class="details-container">
-                <p>Order ID: ${order.orderId}</p>
-                <p>Snack Name: ${order.snackName}</p>
-                <p>Snack ID: ${order.snackId}</p>
-                <p>Quantity: ${order.quantity}</p>
-                <p>Address: ${order.address}</p>
-                <p>Date Added: ${order.dateAdded}</p>
-                <p>Status: ${order.status}</p>
-              </div>
-              <div class="image-container">
-                <img src="${
-                  order.imagePath && order.imagePath !== "NULL"
-                    ? order.imagePath
-                    : "placeholder.png"
-                }" alt="${order.snackName}" style="max-width: 150px;">
-              </div>
-            `;
+            <div class="details-container">
+              <p><strong>Order ID:</strong> ${order.orderId}</p>
+              <hr />
+              ${snacksHTML}
+              <p><strong>Address:</strong> ${order.address}</p>
+              <p><strong>Status:</strong> ${order.status}</p>
+              ${riderInfo}
+            </div>
+          `;
           orderContainer.appendChild(orderItemDiv);
         });
       }

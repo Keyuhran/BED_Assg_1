@@ -2,20 +2,19 @@ const sql = require("mssql");
 const dbConfig = require("../dbConfig");
 
 class Cart {
-  constructor(email, snackIds, quantity, snackName, snackPrice, totalCost, imagePath) {
+  constructor(email, snackId, quantity, snackName, snackPrice, imagePath) {
     this.email = email;
-    this.snackIds = snackIds;
+    this.snackId = snackId;
     this.quantity = quantity;
     this.snackName = snackName;
     this.snackPrice = snackPrice;
-    this.totalCost = totalCost;
-    this.imagePath = imagePath; // Add imagePath here
+    this.imagePath = imagePath;
   }
 
   static async checkForCart(email) {
     try {
       const pool = await sql.connect(dbConfig);
-      const sqlQuery = `SELECT * FROM Cart WHERE Email = @Email`;
+      const sqlQuery = `SELECT * FROM Cart WHERE email = @Email`;
       const request = pool.request();
       request.input("Email", sql.VarChar, email);
       const result = await request.query(sqlQuery);
@@ -26,7 +25,7 @@ class Cart {
       }
 
       return result.recordset.map(
-        (cart) => new Cart(cart.Email, cart.snackIds, cart.Quantity, cart.SnackName, cart.SnackPrice, cart.TotalCost, cart.imagePath)
+        (cart) => new Cart(cart.email, cart.snackId, cart.quantity, cart.snackName, cart.snackPrice, cart.imagePath)
       );
     } catch (error) {
       console.error("Error checking cart:", error);
@@ -34,26 +33,23 @@ class Cart {
     }
   }
 
-  static async addToCart(email, snackIds, quantity, snackPrice) {
+  static async addToCart(email, snackId, quantity) {
     try {
       const pool = await sql.connect(dbConfig);
-      const totalCost = quantity * snackPrice;
       const sqlQuery = `
         MERGE Cart AS target
-        USING (VALUES (@Email, @SnackIds, @Quantity, @TotalCost)) AS source (Email, SnackIds, Quantity, TotalCost)
-        ON (target.Email = source.Email AND target.SnackIds = source.SnackIds)
+        USING (VALUES (@Email, @SnackId, @Quantity)) AS source (Email, SnackId, Quantity)
+        ON (target.email = source.email AND target.snackId = source.snackId)
         WHEN MATCHED THEN 
-            UPDATE SET target.Quantity = target.Quantity + source.Quantity, target.TotalCost = target.Quantity * @SnackPrice
+            UPDATE SET target.quantity = target.quantity + source.quantity
         WHEN NOT MATCHED THEN
-            INSERT (Email, SnackIds, Quantity, TotalCost) 
-            VALUES (source.Email, source.SnackIds, source.Quantity, source.TotalCost);
+            INSERT (email, snackId, quantity) 
+            VALUES (source.email, source.snackId, source.quantity);
       `;
       const request = pool.request();
       request.input("Email", sql.VarChar, email);
-      request.input("SnackIds", sql.VarChar, snackIds);
+      request.input("SnackId", sql.VarChar, snackId);
       request.input("Quantity", sql.Int, quantity);
-      request.input("TotalCost", sql.Decimal(10, 2), totalCost);
-      request.input("SnackPrice", sql.Decimal(10, 2), snackPrice);
       const result = await request.query(sqlQuery);
       pool.close();
 
@@ -64,20 +60,18 @@ class Cart {
     }
   }
 
-  static async updateQuantity(email, snackIds, quantity, snackPrice) {
+  static async updateQuantity(email, snackId, quantity) {
     try {
       const pool = await sql.connect(dbConfig);
-      const totalCost = quantity * snackPrice;
       const sqlQuery = `
         UPDATE Cart
-        SET Quantity = @Quantity, TotalCost = @TotalCost
-        WHERE Email = @Email AND SnackIds = @SnackIds
+        SET quantity = @Quantity
+        WHERE email = @Email AND snackId = @SnackId
       `;
       const request = pool.request();
       request.input("Email", sql.VarChar, email);
-      request.input("SnackIds", sql.VarChar, snackIds);
+      request.input("SnackId", sql.VarChar, snackId);
       request.input("Quantity", sql.Int, quantity);
-      request.input("TotalCost", sql.Decimal(10, 2), totalCost);
       const result = await request.query(sqlQuery);
       pool.close();
 
@@ -92,10 +86,10 @@ class Cart {
     try {
       const pool = await sql.connect(dbConfig);
       const sqlQuery = `
-        SELECT c.Email, c.SnackIds, c.Quantity, s.SnackName, s.SnackPrice, s.imagePath, c.TotalCost 
+        SELECT c.email, c.snackId, c.quantity, s.snackName, s.snackPrice, s.imagePath 
         FROM Cart c
-        JOIN Snacks s ON c.SnackIds = s.snackId
-        WHERE c.Email = @Email
+        JOIN Snacks s ON c.snackId = s.snackId
+        WHERE c.email = @Email
       `;
       const request = pool.request();
       request.input("Email", sql.VarChar, email);
@@ -108,13 +102,12 @@ class Cart {
 
       return result.recordset.map(
         (cart) => new Cart(
-          cart.Email,
-          cart.SnackIds,
-          cart.Quantity,
-          cart.SnackName,
-          cart.SnackPrice,
-          cart.TotalCost,
-          cart.imagePath // Add imagePath here
+          cart.email,
+          cart.snackId,
+          cart.quantity,
+          cart.snackName,
+          cart.snackPrice,
+          cart.imagePath
         )
       );
     } catch (error) {
@@ -123,13 +116,13 @@ class Cart {
     }
   }
 
-  static async removeFromCart(email, snackIds) {
+  static async removeFromCart(email, snackId) {
     try {
       const pool = await sql.connect(dbConfig);
-      const sqlQuery = 'DELETE FROM Cart WHERE Email = @Email AND SnackIds = @SnackIds';
+      const sqlQuery = 'DELETE FROM Cart WHERE email = @Email AND snackId = @SnackId';
       const request = pool.request();
       request.input("Email", sql.VarChar, email);
-      request.input("SnackIds", sql.VarChar, snackIds);
+      request.input("SnackId", sql.VarChar, snackId);
       const result = await request.query(sqlQuery);
       pool.close();
 

@@ -56,12 +56,12 @@ CREATE TABLE Cart (
     email VARCHAR(255),
     snackId VARCHAR(255),
     quantity INT,
-    -- totalCost DECIMAL(10, 2), - derived column
     FOREIGN KEY (email) REFERENCES Users(email),
     FOREIGN KEY (snackId) REFERENCES Snacks(snackId),
     PRIMARY KEY (email, snackId)
 );
 
+-- Create Orders table
 CREATE TABLE Orders (
     orderId VARCHAR(255),
     email VARCHAR(255),
@@ -72,7 +72,9 @@ CREATE TABLE Orders (
     riderId VARCHAR(255),
     status VARCHAR(255),
     FOREIGN KEY (email) REFERENCES Users(email),
-    FOREIGN KEY (riderId)  REFERENCES Riders(riderId),
+
+    FOREIGN KEY (riderId) REFERENCES Riders(riderId),
+
     PRIMARY KEY (orderId, snackId)
 );
 
