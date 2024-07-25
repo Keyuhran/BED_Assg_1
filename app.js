@@ -9,6 +9,7 @@ const userController = require("./controllers/userController");
 // const adminController = require("./controllers/adminController");
 const snackController = require("./controllers/snackController");
 const cartController = require("./controllers/cartController");
+const orderController = require("./controllers/orderController");
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -24,8 +25,9 @@ app.use('/styles', express.static(path.join(__dirname, 'styles')));
 app.post("/users/createUser", userController.createUser); //(Kieran)
 app.post("/users/login", userController.login); //(Kieran)
 app.get("/users", userController.retrieveUsers); //(Haziq)
-app.get("/users/email", userController.retrieveUser); //(Kieran)
+app.get("/users/:email", userController.retrieveUser); //(Kieran)
 app.delete("/users/email", userController.deleteUser);//(Haziq)
+app.put("/users/:email", userController.updateUser)
 
 
 // // Rider Routes(Haziq)
@@ -49,6 +51,7 @@ app.delete("/users/email", userController.deleteUser);//(Haziq)
 app.post("/snacks", snackController.createSnack);
 app.get("/snacks", snackController.retrieveSnacks);
 app.get('/snacks/:country', snackController.getSnacksByCountry);
+app.get("/snacks/:country/:snackId", snackController.getSnackByCountryAndId);
 app.put("/snacks/:snackId", snackController.updateSnack);
 
 
@@ -58,6 +61,9 @@ app.get('/cart', cartController.getCartContents);
 app.post('/cart/remove', cartController.removeFromCart);
 app.post('/cart/update', cartController.updateQuantity);
 
+// Order Routes
+app.post("/orders", orderController.createOrder);
+app.get("/orders/user", orderController.getUserOrders);
 
 // Start server
 const server = app.listen(port, async () => {

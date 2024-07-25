@@ -126,6 +126,51 @@ class User {
   static async hashPassword(password) {
     return await bcrypt.hash(password, 10);
   }
+
+
+
+
+
+
+  static async updateUser(email, name, address, unitNo, postalCode, country, phoneNo, userBday, imagePath, role) {
+    const connection = await sql.connect(dbConfig);
+  
+    const sqlQuery = `
+      UPDATE Users
+      SET name = @Name,
+          address = @Address,
+          unitNo = @UnitNo,
+          postalCode = @PostalCode,
+          country = @Country,
+          phoneNo = @PhoneNo,
+          userBday = @UserBday,
+          imagePath = @ImagePath,
+          role = @Role
+      WHERE email = @Email
+    `;
+  
+    const request = connection.request();
+    request.input("Email", sql.VarChar, email);
+    request.input("Name", sql.VarChar, name);
+    request.input("Address", sql.VarChar, address);
+    request.input("UnitNo", sql.VarChar, unitNo);
+    request.input("PostalCode", sql.VarChar, postalCode);
+    request.input("Country", sql.VarChar, country);
+    request.input("PhoneNo", sql.VarChar, phoneNo);
+    request.input("UserBday", sql.Date, userBday);
+    request.input("ImagePath", sql.VarChar, imagePath);
+    request.input("Role", sql.VarChar, role);
+  
+    const result = await request.query(sqlQuery);
+    connection.close();
+  
+    return result.rowsAffected[0] === 1; // Check if 1 row was updated (success)
+  }
+  
+
+  
 }
+
+
 
 module.exports = User;

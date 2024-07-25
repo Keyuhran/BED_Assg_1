@@ -1,95 +1,53 @@
-<!DOCTYPE html>
-<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Account Editor</title>
-    <link rel="stylesheet" href="styles/accounteditor.css">
+    <link rel="stylesheet" type="text/css" href="styles/accounteditor.css">
 </head>
 <body>
-    <header>
-        <img src="./media/South Eats.png" alt="Logo" class="logo">
-        <img src="./media/Profile.jpg" alt="User PFP" class="user-pfp">
-    </header>
     <div class="container">
-        <table>
-            <thead>
-                <tr>
-                    <th>Account Name</th>
-                    <th>Account ID</th>
-                    <th>Details</th>
-                    <th>Country</th>
-                    <th>Number</th>
-                </tr>
-            </thead>
-            <tbody id="userTableBody">
-                <!-- Table rows will be populated here by JavaScript -->
-            </tbody>
-        </table>
-    </div>
-
-    <!-- Initial Overlay -->
-    <div id="overlay" class="overlay">
-        <div class="overlay-content">
-            <div class="overlay-header">
-                <h2 id="accountName">Account Name</h2>
-            </div>
-            <div class="overlay-body">
-                <button class="overlay-button" onclick="showDeleteConfirm()">DELETE</button>
-                <button class="overlay-button" onclick="showEditOverlay()">EDIT</button>
-            </div>
+      
+      <form action="" class="form">
+        
+        <div class="form-col">
+            <input type="text" placeholder="Name" class="form__input" id="name" />
+            <label for="name" class="form__label">Name</label>
         </div>
-    </div>
-
-    <!-- Confirmation Overlay -->
-    <div id="confirmOverlay" class="overlay">
-        <div class="overlay-content">
-            <div class="overlay-header">
-                <h2>Confirm Deletion</h2>
-            </div>
-            <div class="overlay-body">
-                <p>This action is non-reversible. Are you sure you want to delete?</p>
-                <button class="overlay-button" onclick="confirmDeleteAccount()">Yes, Delete</button>
-                <button class="overlay-button" onclick="hideConfirmOverlay()">Cancel</button>
-            </div>
+        <div class="form-col">
+            <input type="email" placeholder="Email" class="form__input" id="email" />
+            <label for="email" class="form__label">Email</label>
         </div>
-    </div>
-
-    <!-- Edit Overlay -->
-    <div id="editOverlay" class="overlay">
-        <div class="overlay-content">
-            <div class="overlay-header">
-                <h2>Edit Account</h2>
-            </div>
-            <div class="overlay-body">
-                <form id="editForm">
-                    <div>
-                        <label for="editAccountName">Account Name</label>
-                        <input type="text" id="editAccountName" name="editAccountName" readonly>
-                    </div>
-                    <div>
-                        <label for="editAccountId">Email</label>
-                        <input type="text" id="editAccountId" name="editAccountId" readonly>
-                    </div>
-                    <div>
-                        <label for="editCountry">Country</label>
-                        <input type="text" id="editCountry" name="editCountry">
-                    </div>
-                    <div>
-                        <label for="editDetails">Details</label>
-                        <input type="text" id="editDetails" name="editDetails">
-                    </div>
-                    <div>
-                        <label for="editNumber">Number</label>
-                        <input type="text" id="editNumber" name="editNumber">
-                    </div>
-                    <button type="button" onclick="submitEdit()">Submit</button>
-                    <button type="button" onclick="hideEditOverlay()">Cancel</button>
-                </form>
-            </div>
+        <div class="form-col">
+            <input type="text" placeholder="Address" class="form__input" id="address" />
+            <label for="address" class="form__label">Address</label>
         </div>
+        <div class="form-col">
+            <input type="text" placeholder="Unit Number" class="form__input" id="unitNo" />
+            <label for="unitNo" class="form__label">Unit Number</label>
+        </div>
+        <div class="form-col">
+            <input type="text" placeholder="Postal Code" class="form__input" id="postalCode" />
+            <label for="postalCode" class="form__label">Postal Code</label>
+        </div>
+        <div class="form-col">
+            <input type="text" placeholder="Country" class="form__input" id="country" />
+            <label for="country" class="form__label">Country</label>
+        </div>
+        <div class="form-col">
+            <input type="tel" placeholder="Phone Number" class="form__input" id="phoneNo" />
+            <label for="phoneNo" class="form__label">Phone Number</label>
+        </div>
+        <div class="form-col">
+            <input type="date" placeholder="Birthday" class="form__input" id="userBday" />
+            <label for="userBday" class="form__label">Birthday</label>
+        </div>
+        <div class="form-col">
+            <select class="form__input" id="role">
+                <option value="User">user</option>
+                <option value="Rider">rider</option>
+                <option value="Admin">admin</option>
+            </select>
+            <label for="role" class="form__label">Role</label>
+        </div>
+        <button id="update-btn">Update Account</button>
+        
     </div>
-
     <script src="scripts/accounteditor.js"></script>
 </body>
-</html>

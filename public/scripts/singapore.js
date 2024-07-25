@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
-    fetch('http://localhost:3000/Snacks/Singapore')
+    fetch('http://localhost:3000/snacks/singapore')
         .then(response => {
             if (!response.ok) {
                 throw new Error(`Network response was not ok: ${response.statusText} (status code: ${response.status})`);
@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (data.length === 0) {
                 snacksContainer.innerHTML = '<p>No snacks available for Singapore.</p>';
             } else {
-                snacksContainer.innerHTML = ''; 
+                snacksContainer.innerHTML = '';
                 data.forEach(snack => {
                     const snackDiv = document.createElement('div');
                     snackDiv.classList.add('snack');
@@ -32,7 +32,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 document.querySelectorAll('.add-to-cart-btn').forEach(button => {
                     button.addEventListener('click', async (event) => {
                         const snackId = event.target.getAttribute('data-snack-id');
-                        const email = localStorage.getItem('userEmail'); // Retrieve email from local storage
                         const token = localStorage.getItem('token'); // Retrieve token from local storage
                         const quantity = 1; // Assuming adding 1 item at a time
 
@@ -43,7 +42,7 @@ document.addEventListener('DOMContentLoaded', () => {
                                     'Content-Type': 'application/json',
                                     'Authorization': `Bearer ${token}`
                                 },
-                                body: JSON.stringify({ email, snackId, quantity })
+                                body: JSON.stringify({ snackId, quantity })
                             });
 
                             if (!response.ok) {

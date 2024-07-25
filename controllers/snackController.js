@@ -1,16 +1,9 @@
 const Snack = require("../models/snack");
-const bcrypt = require("bcryptjs");
-
 
 async function createSnack(req, res) {
-  const snackId = req.body.snackId;
-  console.log(req.body);
-  const snackName = req.body.snackName;
-  const snackDescription = req.body.snackDescription;
-  const snackPrice = req.body.snackPrice;
-  const ingredients = req.body.ingredients;
-  const imagePath = req.body.imagePath;
-  const country = req.body.country;
+  const { snackId, snackName, snackDescription, snackPrice, ingredients, imagePath, country } = req.body;
+
+  console.log(req.body); // Debugging line to log the request body
 
   try {
     const newSnack = await Snack.createSnack(snackId, snackName, snackDescription, snackPrice, ingredients, imagePath, country);
@@ -21,47 +14,46 @@ async function createSnack(req, res) {
       res.status(400).send("Error adding snack");
     }
   } catch (error) {
-    console.error(error);
+    console.error("Error creating snack:", error);
     res.status(500).send("Internal server error");
   }
 }
 
-
 async function retrieveSnacks(req, res) {
-
   try {
     const snacks = await Snack.retrieveSnacks();
 
     if (snacks) {
-      console.log('Snack details in controller:', snacks); // Added for debugging
-
+      console.log('Snack details in controller:', snacks); // Debugging line
       res.json(snacks);
     } else {
       res.status(404).send("Snacks not found");
     }
   } catch (error) {
-    console.error(error);
+    console.error("Error retrieving snacks:", error);
     res.status(500).send("Error retrieving data");
   }
 }
 
-const getSnacksByCountry = async (req, res) => {
-  const country = req.params.country; // Retrieve the country from the URL parameter
-  console.log(country);
+async function getSnacksByCountry(req, res) {
+  const country = req.params.country;
+  console.log(country); // Debugging line to log the country parameter
+
   try {
     const snacks = await Snack.getSnacksByCountry(country);
-    if (!snacks) {
-      return res.status(404).send("Snacks not found");
+    if (snacks && snacks.length > 0) {
+      res.json(snacks);
+    } else {
+      res.status(404).send("Snacks not found");
     }
-    res.json(snacks);
   } catch (error) {
-    console.error(error);
+    console.error("Error retrieving snacks by country:", error);
     res.status(500).send("Error retrieving snacks");
   }
-};
+}
 
 async function updateSnack(req, res) {
-  const snackId = req.params.snackId; // Retrieve the snackId from the URL parameter
+  const snackId = req.params.snackId;
   const { snackName, snackDescription, snackPrice, ingredients, imagePath, country } = req.body;
 
   try {
@@ -81,14 +73,35 @@ async function updateSnack(req, res) {
       res.status(404).send("Snack not found or could not be updated");
     }
   } catch (error) {
-    console.error(error);
+    console.error("Error updating snack:", error);
     res.status(500).send("Internal server error");
   }
 }
+
+// snackController.js
+const getSnackByCountryAndId = async (req, res) => {
+  const { country, snackId } = req.params;
+  
+  try {
+      // Assuming you have a method to fetch the snack from the database
+      const snack = await Snack.findOne({ country, snackId });
+      
+      if (!snack) {
+          return res.status(404).json({ error: 'Snack not found' });
+      }
+      
+      res.json(snack);
+  } catch (error) {
+      console.error('Error fetching snack:', error);
+      res.status(500).json({ error: 'Internal server error' });
+  }
+};
+
 
 module.exports = {
   createSnack,
   retrieveSnacks,
   getSnacksByCountry,
-  updateSnack
+  updateSnack,
+  getSnackByCountryAndId
 };

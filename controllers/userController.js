@@ -65,33 +65,50 @@ async function createUser(req, res) {
     res.status(500).json({ message: "Internal server error" });
   }
 }
+async function updateUser(req, res) {
+  const email = req.params.email;
+  const { name, address, unitNo, postalCode, country, phoneNo, userBday, imagePath, role } = req.body;
 
+  try {
+    const updated = await User.updateUser(email, name, address, unitNo, postalCode, country, phoneNo, userBday, imagePath, role);
+
+    if (!updated) {
+      throw new Error("User not found or could not be updated");
+    }
+
+    res.status(200).send("User updated successfully!");
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Internal server error");
+  }
+}
 
 async function retrieveUser(req, res) {
-  const email = req.query.email;
+  const email = req.params.email;
 
   try {
     const user = await User.retrieveUser(email);
-    if (user) {
-      res.json({
-        email: user.email,
-        password: user.password,
-        name: user.name,
-        address: user.address,
-        unitNo: user.unitNo,
-        postalCode: user.postalCode,
-        country: user.country,
-        phoneNo: user.phoneNo,
-        userBday: user.userBday,
-        imagePath: user.imagePath,
-        role: user.role,
-      });
-    } else {
-      res.status(404).send("User not found");
+
+    if (!user) {
+      throw new Error("User not found");
     }
+
+    res.json({
+      email: user.email,
+      password: user.password,
+      name: user.name,
+      address: user.address,
+      unitNo: user.unitNo,
+      postalCode: user.postalCode,
+      country: user.country,
+      phoneNo: user.phoneNo,
+      userBday: user.userBday,
+      imagePath: user.imagePath,
+      role: user.role,
+    });
   } catch (error) {
     console.error(error);
-    res.status(500).send("Error retrieving data");
+    res.status(404).send("User not found");
   }
 }
 
@@ -113,7 +130,8 @@ async function retrieveRider(req, res) {
   }
 }
 
-async function deleteUser(req, res) {
+
+ async function deleteUser(req, res) {
   const email = req.query.email;
 
   try {
@@ -132,11 +150,13 @@ async function deleteUser(req, res) {
   }
 }
 
+
 module.exports = {
   login,
   retrieveUsers,
   createUser,
   retrieveUser,
   retrieveRider,
+  updateUser,
   deleteUser
 };
