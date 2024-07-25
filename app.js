@@ -44,9 +44,6 @@ app.put("/users/:email", userController.updateUser)
 // app.get("/admins/email", adminController.retrieveAdmin);
 // app.delete("/admins/email", adminController.deleteAdmin); 
 
-//Order Routes  (Daryl)
-
-
 // Snack Routes
 app.post("/snacks", snackController.createSnack);
 app.get("/snacks", snackController.retrieveSnacks);

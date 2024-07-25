@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SouthEats Rider</title>
-    <link rel="stylesheet" href="styles/riderHomePage.css">
+    <title>Choose Delivery - SouthEats Rider</title>
+    <link rel="stylesheet" href="styles/chooseDelivery.css">
 </head>
 <body>
 
@@ -17,7 +17,7 @@
                 <div class="account-section">
                     <nav class="nav-links">
                         <span class="nav-item">
-                            <a href="chooseDelivery.html" class="nav-link">Choose Delivery</a>
+                            <a href="riderHomePage.html" class="nav-link">Home</a>
                         </span>
                         <span class="nav-item">
                             <a href="pastDeliveries.html" class="nav-link">Past Deliveries</a>
@@ -35,31 +35,28 @@
 
         <main class="main-content">
             <div class="main-container">
-                <h1 class="main-title">Welcome Back!</h1>
+                <h1 class="main-title">Choose Delivery</h1>
 
-                <div class="carousel">
-                    <div class="carousel-inner">
-                        <div class="carousel-item active">
-                            <img src="media/Singapore.png" alt="Slide 1">
-                        </div>
-                        <div class="carousel-item">
-                            <img src="media/Cambodia.png" alt="Slide 2">
-                        </div>
-                        <div class="carousel-item">
-                            <img src="media/EastTimor.png" alt="Slide 3">
-                        </div>
-                        <div class="carousel-item">
-                            <img src="media/Indonesia.png" alt="Slide 4">
-                        </div>
-                        <div class="carousel-item">
-                            <img src="media/Laos.png" alt="Slide 5">
-                        </div>
-                        <div class="carousel-item">
-                            <img src="media/Malaysia.png" alt="Slide 6">
-                        </div>
+                <div class="delivery-list">
+                    <div class="delivery-item">
+                        <h2>Delivery #1</h2>
+                        <p>Pickup: Location A</p>
+                        <p>Drop-off: Location B</p>
+                        <button class="choose-button">Choose</button>
                     </div>
-                    <div class="carousel-control left" onclick="moveSlide(-1)"></div>
-                    <div class="carousel-control right" onclick="moveSlide(1)"></div>
+                    <div class="delivery-item">
+                        <h2>Delivery #2</h2>
+                        <p>Pickup: Location C</p>
+                        <p>Drop-off: Location D</p>
+                        <button class="choose-button">Choose</button>
+                    </div>
+                    <div class="delivery-item">
+                        <h2>Delivery #3</h2>
+                        <p>Pickup: Location E</p>
+                        <p>Drop-off: Location F</p>
+                        <button class="choose-button">Choose</button>
+                    </div>
+                    <!-- Add more delivery items as needed -->
                 </div>
             </div>
         </main>
@@ -94,6 +91,6 @@
         </footer>
     </div>
 
-    <script src="scripts/riderHomePage.js"></script>
+    <script src="scripts/chooseDelivery.js"></script>
 </body>
 </html>
