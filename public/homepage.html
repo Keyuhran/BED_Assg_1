@@ -31,15 +31,24 @@
       </header>
     <main>
         <section class="advert-display">
-            <div class="advert">Advert/Display</div>
+            <div class="carousel-container">
+                <div class="carousel-slide">
+                    <img src="media/Singapore.png" alt="Advert 1">
+                    <img src="media/Malaysia.png" alt="Advert 2">
+                    <img src="media/Thailand.png" alt="Advert 3">
+                    <!-- Add more images as needed -->
+                </div>
+            </div>
             <div class="dots">
-                <span class="dot"></span>
-                <span class="dot"></span>
-                <span class="dot"></span>
+                <span class="dot" onclick="currentSlide(1)"></span>
+                <span class="dot" onclick="currentSlide(2)"></span>
+                <span class="dot" onclick="currentSlide(3)"></span>
+                <!-- Add more dots as needed -->
             </div>
         </section>
         
-gi        <section class="shop-by-country">
+        
+<section class="shop-by-country">
             <h2>Shop by Country</h2>
             <div class="countries">
                 <a href="countries/Brunei.html" class="country">
