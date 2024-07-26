@@ -5,6 +5,7 @@ DROP TABLE IF EXISTS Admins;
 DROP TABLE IF EXISTS Riders;
 DROP TABLE IF EXISTS Users;
 DROP TABLE IF EXISTS Snacks;
+DROP TABLE IF EXISTS Feedback;
 
 -- Create Users table
 CREATE TABLE Users (
@@ -73,6 +74,17 @@ CREATE TABLE Orders (
     FOREIGN KEY (riderId) REFERENCES Riders(riderId),
     PRIMARY KEY (orderId, snackId)
 );
+
+-- Create Feedback table
+CREATE TABLE Feedback (
+    feedbackId INT IDENTITY(1,1) PRIMARY KEY,
+    email VARCHAR(255),
+    name VARCHAR(255),
+    title VARCHAR(255),
+    message TEXT,
+    FOREIGN KEY (email) REFERENCES Users(email)
+);
+
 
 
 
