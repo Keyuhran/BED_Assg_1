@@ -31,11 +31,7 @@
         </div>
       </header>
 
-    <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
    
     <style>
         .min-h-screen {
@@ -303,61 +299,48 @@
         }
     </style>
 </head>
-<body class="min-h-screen flex flex-col bg-background-100">
-
-    
-    <main class="flex-1">
-        <div class="max-w-7xl mx-auto my-8 space-y-8">
-            <div class="rounded-lg border border-background-200">
-                <div class="bg-background-50 p-4 border-b border-background-200">
-                    <div class="text-lg">Get in Touch With us!</div>
-                    <div>Fill out the form below to contact us.</div>
-                </div>
-                <div class="p-4">
-                    <form>
-
-                        <div class="mt-4">
-                            <label for="message" class="block text-sm font-medium text-foreground-700">Title</label>
-                            <textarea id="message" rows="4" class="mt-1 block w-full rounded-md border border-background-300 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" placeholder="Enter Title here"></textarea>
-                        </div>
-                    </form>
-                </div>
-                <div class="p-4">
-                    <form>
-
-                        <div class="mt-4">
-                            <label for="message" class="block text-sm font-medium text-foreground-700">Message</label>
-                            <textarea id="message" rows="4" class="mt-1 block w-full rounded-md border border-background-300 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" placeholder="Enter your message here"></textarea>
-                        </div>
-                    </form>
-                </div>
-                <div class="bg-background-50 p-4 justify-between flex items-center border-t border-background-200">
-                    <div class="flex items-center space-x-4">  
-                        <div>
-                            <p class="text-sm font-medium text-foreground-700">Our Location</p>
-                            <p class="flex items-center space-x-2 text-sm text-foreground-500">
-                                <span><svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a4 4 0 11-8 0 4 4 0 018 0z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 21s8-4 8-10-4-6-8-6-4 2 4 6 4 8 4 10" /></svg> 234 Company HQ, Singapore, 689121, <br>   &nbsp; &nbsp;&nbsp;  New bridge Road, #01-20</span>
-                            </p>
-                        </div>
-                        <div>
-                            <p class="text-sm font-medium text-foreground-700">Contact Info</p>
-                            <p class="text-sm text-foreground-500">
-                                <span class="flex items-center space-x-2"><svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2 3.5s1.635.527 3.292 2.158a.75.75 0 010 1.003c-.041.044.082.209.228.25.147.041.307-.048.396-.137.358-.358 1.026-.104 1.38.406l.714 1.126c.354.556.155.758-.275 1.191-1.1 1.102-.252 2.148.586 2.148.448 0 .589.638.926 1.928.134.526.182.79.18.896A1.25 1.25 0 0010 15.25c.359.373.554 1.133 0 1.467A17.875 17.875 0 015.312 21a.75.75 0 01-.262-1.064 1.25 1.25 0 01-.349-1.785 20 20 0 01.378-.516s-%2.102.mrI,0-2.46C3.0052-2.991-.4698 4.3%204%-10l3J3jb%2Ch637" /></svg> +65 8951 9482 </span>  
-                                <span class="flex items-center space-x-2"><svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7 4a1 1 0 001 0l7-4m-7 4a8 8 0 01-8 8m16 0a8 8 0 01-8 8m0-16.917L3.156 7.17c-.456-.204-.975.03-1.03.531a.75.75 0 00.532 1.03L12 12.917M2 10.5v4.25a.75.75 0 01-1.5 0v-5.75a5.5 5.5 0 0111 0V11" /></svg> southeatadmin@gmail.com</span>
-                            </p>
-                        </div>
+<main class="flex-1">
+    <div class="max-w-7xl mx-auto my-8 space-y-8">
+        <div class="rounded-lg border border-background-200">
+            <div class="bg-background-50 p-4 border-b border-background-200">
+                <div class="text-lg">Get in Touch With us!</div>
+                <div>Fill out the form below to contact us.</div>
+            </div>
+            <div class="p-4">
+                <form id="feedback-form">
+                    <div class="mt-4">
+                        <label for="title" class="block text-sm font-medium text-foreground-700">Title</label>
+                        <textarea id="title" rows="2" class="mt-1 block w-full rounded-md border border-background-300 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" placeholder="Enter Title here"></textarea>
+                    </div>
+                    <div class="mt-4">
+                        <label for="message" class="block text-sm font-medium text-foreground-700">Message</label>
+                        <textarea id="message" rows="4" class="mt-1 block w-full rounded-md border border-background-300 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" placeholder="Enter your message here"></textarea>
                     </div>
                     <button type="submit" class="bg-primary-600 border border-transparent rounded-md shadow-sm py-2 px-4 text-sm font-semibold text-primary-50 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                         Submit
                     </button>
+                </form>
+            </div>
+            <div class="bg-background-50 p-4 justify-between flex items-center border-t border-background-200">
+                <div class="flex items-center space-x-4">  
+                    <div>
+                        <p class="text-sm font-medium text-foreground-700">Our Location</p>
+                        <p class="flex items-center space-x-2 text-sm text-foreground-500">
+                            <span><svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a4 4 0 11-8 0 4 4 0 018 0z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 21s8-4 8-10-4-6-8-6-4 2 4 6 4 8 4 10" /></svg> 234 Company HQ, Singapore, 689121, <br>   &nbsp; &nbsp;&nbsp;  New bridge Road, #01-20</span>
+                        </p>
+                    </div>
+                    <div>
+                        <p class="text-sm font-medium text-foreground-700">Contact Info</p>
+                        <p class="text-sm text-foreground-500">
+                            <span class="flex items-center space-x-2"><svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2 3.5s1.635.527 3.292 2.158a.75.75 0 010 1.003c-.041.044.082.209.228.25.147.041.307-.048.396-.137.358-.358 1.026-.104 1.38.406l.714 1.126c.354.556.155.758-.275 1.191-1.1 1.102-.252 2.148.586 2.148.448 0 .589.638.926 1.928.134.526.182.79.18.896A1.25 1.25 0 0010 15.25c.359.373.554 1.133 0 1.467A17.875 17.875 0 015.312 21a.75.75 0 01-.262-1.064 1.25 1.25 0 01-.349-1.785 20 20 0 01.378-.516s-%2.102.mrI,0-2.46C3.0052-2.991-.4698 4.3%204%-10l3J3jb%2Ch637" /></svg> +65 8951 9482 </span>  
+                            <span class="flex items-center space-x-2"><svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7 4a1 1 0 001 0l7-4m-7 4a8 8 0 01-8 8m16 0a8 8 0 01-8 8m0-16.917L3.156 7.17c-.456-.204-.975.03-1.03.531a.75.75 0 00.532 1.03L12 12.917M2 10.5v4.25a.75.75 0 01-1.5 0v-5.75a5.5 5.5 0 0111 0V11" /></svg> southeatadmin@gmail.com</span>
+                        </p>
+                    </div>
                 </div>
             </div>
         </div>
-    </main>
-
-
-</body>
-</html>
-
+    </div>
+</main>
+<script src="../scripts/feedback.js"></script>
 </body>
 </html>

@@ -10,6 +10,7 @@ const userController = require("./controllers/userController");
 const snackController = require("./controllers/snackController");
 const cartController = require("./controllers/cartController");
 const orderController = require("./controllers/orderController");
+const feedbackController = require("./controllers/feedbackController");
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -63,6 +64,9 @@ app.post('/cart/update', cartController.updateQuantity);
 app.post("/orders", orderController.createOrder);
 app.get("/orders/user", orderController.getUserOrders);
 
+// Feedback Routes
+app.post("/feedback", feedbackController.submitFeedback); // Ensure this line is here
+app.get("/feedback", feedbackController.getFeedback); 
 // Start server
 const server = app.listen(port, async () => {
   try {
