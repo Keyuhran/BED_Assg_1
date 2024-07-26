@@ -1,0 +1,132 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    height: 100%;
+    overflow: hidden;
+}
+
+header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px;
+    border-bottom: 1px solid #ddd;
+    flex-wrap: wrap;
+}
+
+.logo img {
+    height: 50px;
+}
+
+nav ul {
+    list-style: none;
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+nav ul li {
+    flex: 1;
+}
+
+nav ul li a {
+    text-decoration: none;
+    color: black;
+    border: 2px solid #999;
+    border-radius: 10px;
+    padding: 10px 15px;
+    display: block;
+    text-align: center;
+}
+
+.user-icons {
+    display: flex;
+    gap: 10px;
+}
+
+.profile-icon img,
+.cart-icon img {
+    height: 30px;
+}
+
+main {
+    overflow-y: auto;
+    height: calc(100vh - 80px);
+    padding: 20px;
+}
+
+#content-container {
+    max-width: 1128px;
+    margin: 0 auto;
+    padding: 16px;
+    background-color: #fff;
+}
+
+.section {
+    margin-top: 32px;
+    padding: 16px;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+}
+
+.section h2 {
+    font-size: 20px;
+    font-weight: 700;
+    padding-bottom: 16px;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.founder {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-top: 16px;
+}
+
+.founder-image {
+    position: relative;
+    display: inline-block;
+    width: 150px;
+    height: 150px;
+    overflow: hidden;
+    border-radius: 50%;
+    background: #e0e0e0;
+}
+
+.founder img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.founder .overlay {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    color: #fff;
+    background: rgba(0, 0, 0, 0.5);
+}
+
+.founder h3 {
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.founder p {
+    font-size: 16px;
+    color: #6b7280;
+    margin-top: 5px;
+}
+
+.founder p.description {
+    margin-top: 10px;
+}

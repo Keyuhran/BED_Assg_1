@@ -1,0 +1,61 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    height: 100%;
+    overflow: hidden; 
+}
+
+header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px;
+    border-bottom: 1px solid #ddd;
+    flex-wrap: wrap;
+}
+
+.logo img {
+    height: 50px;
+}
+
+nav ul {
+    list-style: none;
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+nav ul li {
+    flex: 1;
+}
+
+nav ul li a {
+    text-decoration: none;
+    color: black;
+    border: 2px solid #999;
+    border-radius: 10px;
+    padding: 10px 15px;
+    display: block;
+    text-align: center;
+}
+
+.user-icons {
+    display: flex;
+    gap: 10px;
+}
+
+.profile-icon img,
+.cart-icon img {
+    height: 30px;
+}
+
+main {
+    overflow-y: auto; 
+    height: calc(100vh - 270px); 
+    padding: 20px;
+}

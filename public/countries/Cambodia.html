@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>All Snacks Available</title>
+  <link rel="stylesheet" href="../styles/country.css">
+</head>
+<body>
+  <header>
+    <div class="logo">
+        <img src="../media/South Eats.png" alt="South Eats Logo">
+    </div>
+    <nav>
+        <ul>
+            <li><a href="../homepage.html">Home</a></li>
+            <li><a href="../cart.html">Cart</a></li>
+            <li><a href="../contact.html">Contact</a></li>
+            <li><a href="../about.html">About</a></li>
+            <li><a href="../order.html">Order </a></li>
+        </ul>
+    </nav>
+    <div class="user-icons">
+        <a href="profilepage.html" class="profile-icon">
+            <img src="../media/Profile.jpg" alt="Profile Icon">
+        </a>
+        <a href="cart.html" class="cart-icon">
+            <img src="../media/Shopping Cart.png" alt="Cart Icon">
+        </a>
+    </div>
+</header>
+  <h1>All Cambodian Snacks</h1>
+  <div id="snacks-container"></div>
+  
+  <!-- Snack Details Modal/Section -->
+  <div id="snack-details-modal" class="modal">
+    <div class="modal-content">
+      <span class="close" id="close-details">&times;</span>
+      <h2 id="snack-name"></h2>
+      <img id="snack-image" src="" alt="">
+      <p id="snack-description"></p>
+      <p id="snack-price"></p>
+      <p id="snack-ingredients"></p>
+      <p id="snack-country"></p>
+    </div>
+  </div>
+
+  <script src="../scripts/cambodia.js"></script>
+</body>
+</html>

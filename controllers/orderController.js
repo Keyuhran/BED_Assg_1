@@ -1,5 +1,4 @@
 const Order = require("../models/order");
-const Cart = require("../models/cart");
 const jwt = require("jsonwebtoken");
 const { v4: uuidv4 } = require("uuid");
 const sql = require("mssql");
@@ -35,7 +34,6 @@ async function createOrder(req, res) {
     const { name, address, unitNo, postalCode, country, phoneNo } =
       userResult.recordset[0];
     const orderId = uuidv4();
-    const dateAdded = new Date().toISOString();
     const status = "Pending";
 
     for (const item of orderItems) {
@@ -45,7 +43,6 @@ async function createOrder(req, res) {
         email,
         snackId,
         quantity,
-        dateAdded,
         name,
         address,
         unitNo,
@@ -61,6 +58,7 @@ async function createOrder(req, res) {
     res.status(500).send("Internal server error");
   }
 }
+
 async function getUserOrders(req, res) {
   try {
     const token = req.headers.authorization.split(" ")[1];

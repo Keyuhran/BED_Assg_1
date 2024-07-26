@@ -55,50 +55,69 @@ nav ul li a {
 }
 
 main {
+    
     overflow-y: auto; 
-    height: calc(100vh - 80px); 
-
-}
-div.sticky {
-    position: sticky;
-    top: 0;
-    font-size: 20px;
-    font-family: "Open Sans", sans-serif;
-    font-optical-sizing: auto;
-    font-weight: 600;
-    font-style: normal;
-    font-variation-settings:
-      "wdth" 100;
+    height: calc(100vh - 100px); 
+    
 }
 
 #order-container {
     display: flex;
     flex-direction: column;
-    gap: 15px;
+    gap: 60px;
     max-width: 800px;
     margin: 0 auto;
 }
 
 .order-item {
-    border: 1px solid #e7fc01;
+    border: 2.5px solid #fceb01;
     padding: 15px;
     border-radius: 8px;
     background-color: #f8f8f8;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 10px;
-}
-
-.order-item .details-container {
-    flex: 1;
     display: flex;
     flex-direction: column;
     gap: 10px;
 }
 
-.order-item .image-container {
+.order-item .details-container {
     display: flex;
-    justify-content: center;
-    align-items: center;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.order-item p {
+    margin: 0;
+    font-size: 20px;
+}
+
+.order-item .snack-details {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.order-item .snack-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.order-item .snack-details img {
+    height: 80px;
+    width: 80px;
+    object-fit: cover;
+}
+
+.order-item .snack-details p {
+    margin: 0;
+}
+
+.order-item .snack-details p + p {
+    margin-top: 5px;
+}
+
+hr {
+    border: none;
+    border-top: 1px solid #ddd;
+    margin: 10px 0;
 }

@@ -90,9 +90,29 @@ class Snack {
       request.input("snackId", sql.VarChar, snackId);
       const result = await request.query(sqlQuery);
       connection.close();
-      return result.recordset[0]; 
+      return result.recordset[0];
     } catch (error) {
       console.error("Error fetching snack by country and ID:", error);
+      throw error;
+    }
+  }
+  static async deleteSnack(snackId) {
+    try {
+      const connection = await sql.connect(dbConfig);
+      const sqlQuery = `DELETE FROM Snacks WHERE snackId = @snackId;`;
+  
+      const request = connection.request();
+      request.input("snackId", sql.VarChar, snackId);
+  
+      const result = await request.query(sqlQuery);
+      connection.close();
+  
+      console.log("Delete results:", result);
+  
+      // Check if any rows were affected
+      return result.rowsAffected && result.rowsAffected.length > 0 && result.rowsAffected[0] > 0;
+    } catch (error) {
+      console.error("Error deleting snack:", error);
       throw error;
     }
   }

@@ -3,40 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>South Eats Local Snack Store</title>
-    <link rel="stylesheet" href="../styles/order.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@100..900&family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
-
+    <title>Orders</title>
+    <link rel="stylesheet" href="./styles/order.css">
 </head>
 <body>
     <header>
         <div class="logo">
-            <img src="media/South Eats.png" alt="South Eats Logo">
+            <img src="../media/South Eats.png" alt="South Eats Logo">
         </div>
         <nav>
             <ul>
-                <li><a href="homepage.html">Home</a></li>
-                <li><a href="cart.html">Cart</a></li>
-                <li><a href="#">Contact</a></li>
-                <li><a href="#">About</a></li>
-                <li><a href="#">Order</a></li>
+                <li><a href="../homepage.html">Home</a></li>
+                <li><a href="../cart.html">Cart</a></li>
+                <li><a href="../contact.html">Contact</a></li>
+                <li><a href="../about.html">About</a></li>
+                <li><a href="../order.html">Order </a></li>
             </ul>
         </nav>
         <div class="user-icons">
             <a href="profilepage.html" class="profile-icon">
-                <img src="media/Profile.jpg" alt="Profile Icon">
+                <img src="../media/Profile.jpg" alt="Profile Icon">
             </a>
             <a href="cart.html" class="cart-icon">
-                <img src="media/Shopping Cart.png" alt="Cart Icon">
+                <img src="../media/Shopping Cart.png" alt="Cart Icon">
             </a>
         </div>
     </header>
     <main>
-        <div class="sticky">Your Orders</div>
+        <h1>Your Orders</h1>
         <div id="order-container"></div>
+        <script src="../scripts/frontendorder.js"></script>
     </main>
-    <script src="../scripts/frontendorder.js"></script>
 </body>
 </html>

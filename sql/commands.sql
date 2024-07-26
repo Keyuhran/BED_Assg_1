@@ -5,6 +5,7 @@ DROP TABLE IF EXISTS Admins;
 DROP TABLE IF EXISTS Riders;
 DROP TABLE IF EXISTS Users;
 DROP TABLE IF EXISTS Snacks;
+DROP TABLE IF EXISTS Feedback;
 
 -- Create Users table
 CREATE TABLE Users (
@@ -56,25 +57,35 @@ CREATE TABLE Cart (
     email VARCHAR(255),
     snackId VARCHAR(255),
     quantity INT,
-    -- totalCost DECIMAL(10, 2), - derived column
     FOREIGN KEY (email) REFERENCES Users(email),
     FOREIGN KEY (snackId) REFERENCES Snacks(snackId),
     PRIMARY KEY (email, snackId)
 );
 
+-- Create Orders table
 CREATE TABLE Orders (
     orderId VARCHAR(255),
     email VARCHAR(255),
     snackId VARCHAR(255),
     quantity INT,
-    dateAdded DATETIME,
-    dateCompleted DATETIME,
     riderId VARCHAR(255),
     status VARCHAR(255),
     FOREIGN KEY (email) REFERENCES Users(email),
-    FOREIGN KEY (riderId)  REFERENCES Riders(riderId),
+    FOREIGN KEY (riderId) REFERENCES Riders(riderId),
     PRIMARY KEY (orderId, snackId)
 );
+
+-- Create Feedback table
+CREATE TABLE Feedback (
+    feedbackId INT IDENTITY(1,1) PRIMARY KEY,
+    email VARCHAR(255),
+    name VARCHAR(255),
+    title VARCHAR(255),
+    message TEXT,
+    FOREIGN KEY (email) REFERENCES Users(email)
+);
+
+
 
 
 -- Insert Snacks
