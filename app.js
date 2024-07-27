@@ -30,10 +30,10 @@ app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 // User Routes
 app.post("/users/createUser", userController.createUser); //(Kieran)
 app.post("/users/login", userController.login); //(Kieran)
-app.get("/users", userController.retrieveUsers); //(Haziq)
+app.get("/users", userController.retrieveUsers); //(Kieran)
 app.get("/users/:email", userController.retrieveUser); //(Kieran)
 app.delete("/users/email", userController.deleteUser);//(Haziq)
-app.put("/users/:email", userController.updateUser)
+app.put("/users/:email", userController.updateUser)//(Kieran)
 
 
 // Rider Routes(Haziq)
