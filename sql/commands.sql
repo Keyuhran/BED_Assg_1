@@ -91,10 +91,9 @@ CREATE TABLE Feedback (
 CREATE TABLE Reviews (
     reviewId INT IDENTITY(1,1) PRIMARY KEY,
     email VARCHAR(255),
-    title VARCHAR(255),
+    name VARCHAR(255),
     message TEXT,
     riderId VARCHAR(255),
-    stars INT,
     FOREIGN KEY (email) REFERENCES Users(email),
     FOREIGN KEY (riderId) REFERENCES Riders(riderId)
 );
