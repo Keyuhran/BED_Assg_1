@@ -1,5 +1,5 @@
 require('dotenv').config()
-const User = require("../models/User");
+const Rider = require("../models/rider");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
@@ -8,25 +8,25 @@ async function login(req, res) {
     const { email, password } = req.body; 
     console.log("Login attempt with email:", email); 
 
-    const user = await User.retrieveUser(email);
-    console.log(user);
-    if (!user) {
+    const rider = await Rider.retrieveRider(email);
+    console.log(rider);
+    if (!rider) {
       console.log("User not found for email:", email);
       return res.status(401).send("Invalid email or password");
     }
 
-    const isMatch = await bcrypt.compare(password, user.password);
+    const isMatch = await bcrypt.compare(password, rider.password);
 
     if (isMatch) {
       const payload = {
-        email: user.email,
-        role: user.role
+        email: rider.email,
+        role: rider.role
       };
 
       const token = jwt.sign(payload, process.env.secretKey, { expiresIn: "1h" }); 
 
       console.log("Login successful for email:", email); 
-      res.json({ message: "Login successful!", token, email: user.email, role: user.role }); 
+      res.json({ message: "Login successful!", token, email: rider.email, role: rider.role }); 
     } else {
       console.log("Password does not match for email:", email);
       res.status(401).send("Invalid email or password");
@@ -37,25 +37,13 @@ async function login(req, res) {
   }
 }
 
-async function retrieveUsers(req, res) {
-  try {
-    const users = await User.retrieveUsers();
-    res.json(users);
-  } catch (error) {
-    console.error(error);
-    res.status(500).send("Error retrieving users");
-  }
-}
-
-async function createUser(req, res) {
-  const { email, password, name, address, unitNo, postalCode, country, phoneNo, userBday, imagePath, role } = req.body;
+async function createRider(req, res) {
+  const { riderId, email, joinDate, password, name, address, unitNo, postalCode, country, phoneNo, userBday, imagePath} = req.body;
 
   try {
-    const hashedPassword = await bcrypt.hash(password, 10);
-    const newUser = await User.createUser(email, hashedPassword, name, address, unitNo, postalCode, country, phoneNo, userBday, imagePath, role);
-
+    const newUser = await Rider.createRider(riderId, email, joinDate, password, name, address, unitNo, postalCode, country, phoneNo, userBday, imagePath);
     if (newUser) {
-      res.status(201).json({ message: "User created successfully!" });
+      res.status(201).json({ message: "Rider created successfully!" });
     } else {
       res.status(400).json({ message: "Error creating user" });
     }
@@ -66,27 +54,28 @@ async function createUser(req, res) {
 }
 
 
-async function retrieveUser(req, res) {
+async function retrieveRider(req, res) {
   const email = req.query.email;
 
   try {
-    const user = await User.retrieveUser(email);
-    if (user) {
+    const rider = await Rider.retrieveRider(email);
+    if (rider) {
       res.json({
-        email: user.email,
-        password: user.password,
-        name: user.name,
-        address: user.address,
-        unitNo: user.unitNo,
-        postalCode: user.postalCode,
-        country: user.country,
-        phoneNo: user.phoneNo,
-        userBday: user.userBday,
-        imagePath: user.imagePath,
-        role: user.role,
+        riderId: rider.riderId,
+        email: rider.email,
+        name: rider.name,
+        address: rider.address,
+        unitNo: rider.unitNo,
+        postalCode: rider.postalCode,
+        country: rider.country,
+        phoneNo: rider.phoneNo,
+        userBday: rider.userBday,
+        imagePath: rider.imagePath,
+        role: rider.role,
+        joinDate: rider.joinDate,
       });
     } else {
-      res.status(404).send("User not found");
+      res.status(404).send("Rider not found");
     }
   } catch (error) {
     console.error(error);
@@ -94,15 +83,15 @@ async function retrieveUser(req, res) {
   }
 }
 
-async function retrieveRider(req, res) {
+async function retrieveRiders(req, res) {
 
   try {
-    const users = await User.retrieveRider();
+    const riders = await Rider.retrieveRiders();
 
-    if (users) {
-      console.log('Rider details in controller:', users); // Added for debugging
+    if (riders) {
+      console.log('Rider details in controller:', riders); // Added for debugging
 
-      res.json(users);
+      res.json(riders);
     } else {
       res.status(404).send("Riders not found");
     }
@@ -112,30 +101,48 @@ async function retrieveRider(req, res) {
   }
 }
 
-async function deleteUser(req, res) {
+async function updateRiderEmail(req, res) {
+  const {newEmail, oldEmail} = req.body;
+
+  try{
+    const rider = await Rider.retrieveRider(oldEmail);
+    console.log("Attempting to update rider:", rider.name);
+    const success = await Rider.updateRiderEmail(newEmail, oldEmail);
+    if (success) {
+      res.status(200).send("Rider updated successfully");
+    } else {
+      res.status(404),send("Rider not found");
+    }
+  } catch (error){
+    console.error(error);
+    res.status(500).send("Error updating rider");
+  }
+}
+
+async function deleteRider(req, res) {
   const email = req.query.email;
 
   try {
-    const user = await User.retrieveUser(email);
-    console.log("Attempting to delete user:", user.name);
-    console.log(user.name);
-    const success = await User.deleteUser(email);
+    const rider = await Rider.retrieveRider(email);
+    console.log("Attempting to delete rider:", rider.name);
+    console.log(rider.name);
+    const success = await Rider.deleteRider(email);
     if (success) {
-      res.status(200).send("User deleted successfully");
+      res.status(200).send("Rider deleted successfully");
     } else {
-      res.status(404).send("User not found");
+      res.status(404).send("Rider not found");
     }
   } catch (error) {
     console.error(error);
-    res.status(500).send("Error deleting user");
+    res.status(500).send("Error deleting rider");
   }
 }
 
 module.exports = {
   login,
-  retrieveUsers,
-  createUser,
-  retrieveUser,
+  retrieveRiders,
+  createRider,
+  updateRiderEmail,
   retrieveRider,
-  deleteUser
+  deleteRider
 };

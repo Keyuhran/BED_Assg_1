@@ -5,11 +5,12 @@ const cors = require('cors');
 const sql = require("mssql");
 const dbConfig = require("./dbConfig");
 const userController = require("./controllers/userController");
-// const riderController = require("./controllers/riderController");
-// const adminController = require("./controllers/adminController");
+const riderController = require("./controllers/riderController");
+const adminController = require("./controllers/adminController");
 const snackController = require("./controllers/snackController");
 const cartController = require("./controllers/cartController");
 const orderController = require("./controllers/orderController");
+const feedbackController = require("./controllers/feedbackController");
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -30,19 +31,19 @@ app.delete("/users/email", userController.deleteUser);//(Haziq)
 app.put("/users/:email", userController.updateUser)
 
 
-// // Rider Routes(Haziq)
-// app.post("/riders/createRider", riderController.createRider);
-// app.post("/riders/login", riderController.login);
-// app.get("/riders", riderController.retrieveRiders);
-// app.get("/riders/email", riderController.retrieveRider);
-// app.delete("/riders/email", riderController.deleteRider);
+// Rider Routes(Haziq)
+app.post("/riders/createRider", riderController.createRider);
+app.get("/riders", riderController.retrieveRiders);
+app.get("/riders/email", riderController.retrieveRider);
+app.delete("/riders/email", riderController.deleteRider);
+app.put("/riders/update", riderController.updateRiderEmail);
 
-// // Admin Routes(haziq)
-// app.post("/admins/createAdmin", adminController.createAdmin);
-// app.post("/admins/login", adminController.login);
-// app.get("/admins", adminController.retrieveAdmins);
-// app.get("/admins/email", adminController.retrieveAdmin);
-// app.delete("/admins/email", adminController.deleteAdmin); 
+// Admin Routes(haziq)
+app.post("/admins/createAdmin", adminController.createAdmin);
+app.get("/admins", adminController.retrieveAdmins);
+app.get("/admins/email", adminController.retrieveAdmin);
+app.delete("/admins/email", adminController.deleteAdmin); 
+app.put("/admins/update", adminController.updateAdminEmail);
 
 // Snack Routes
 app.post("/snacks", snackController.createSnack);
@@ -63,6 +64,9 @@ app.post('/cart/update', cartController.updateQuantity);
 app.post("/orders", orderController.createOrder);
 app.get("/orders/user", orderController.getUserOrders);
 
+// Feedback Routes
+app.post("/feedback", feedbackController.submitFeedback); // Ensure this line is here
+app.get("/feedback", feedbackController.getFeedback); 
 // Start server
 const server = app.listen(port, async () => {
   try {
