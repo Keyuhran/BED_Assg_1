@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UserProfileEditScreen</title>
+    <link rel="stylesheet" href="styles/gig_accounteditor.css">
+</head>
+<body>
+    <div class="container">
+        <h1 class="title">Edit Your Profile</h1>
+        <form class="profile-form">
+            <div class="input-wrapper">
+                <label for="email">Email</label>
+                <input id="email" type="email" class="form-input" placeholder=" " />
+            </div>
+            <div class="input-wrapper">
+                <label for="name">Name</label>
+                <input id="name" type="text" class="form-input" placeholder=" " />
+            </div>
+            <div class="input-wrapper">
+                <label for="address">Address</label>
+                <input id="address" type="text" class="form-input" placeholder=" " />
+            </div>
+            <div class="input-wrapper">
+                <label for="unit">Unit Number</label>
+                <input id="unitNo" type="text" class="form-input" placeholder=" " />
+            </div>
+            <div class="input-wrapper">
+                <label for="postal">Postal Code</label>
+                <input id="postalCode" type="text" class="form-input" placeholder=" " />
+            </div>
+            <div class="input-wrapper">
+                <label for="country">Country</label>
+                <input id="country" type="text" class="form-input" placeholder=" " />
+            </div>
+            <div class="input-wrapper date-wrapper">
+                <label for="birthday">Birthday</label>
+                <input id="userBday" type="text" class="form-input" placeholder="YYYY/MM/DD" />
+            </div>
+            <div class="input-wrapper">
+                <label for="role">Role</label>
+                <select id="role" class="form-input">
+                    <option value="User">User</option>
+                    <option value="Admin">Admin</option>
+                    <option value="Rider">Rider</option>
+                </select>
+            </div>
+            <button id="update-btn">Update Account</button>
+        </form>
+    </div>
+    <script src="scripts/accounteditor.js"></script>
+</body>
+</html>

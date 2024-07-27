@@ -24,7 +24,7 @@ html {
   }
   
   body {
-    background-image: linear-gradient(rgba(255, 0, 0, 0.568), rgba(255, 255, 0, 0.507));
+    background-image: #fff;/
   }
   
   .container {
