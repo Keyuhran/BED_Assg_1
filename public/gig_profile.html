@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Information Summary Screen</title>
+    <link rel="stylesheet" href="styles/gig_profile.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header Section -->
+        <div class="header">
+            <h1 class="title">Personal Information</h1>
+            <button class="edit-btn" id="edit-profile-btn">Edit</button>
+            <button class="logout-btn" id="logout-btn">Logout</button>
+        </div>
+        <!-- Main Content Area -->
+        <div class="content">
+            <div class="top-box">
+                <p class="top-box-text">Welcome back,</p>
+                <p class="top-box-text-large" id="welcome-username">Kieran</p>
+            </div>
+            <div class="card details-card">
+                <div class="card-header">
+                    <h2 class="card-title">Your Details</h2>
+                </div>
+                <div class="card-content">
+                    <div class="info-section">
+                        <p class="info-title">Name</p>
+                        <p class="info-text" id="fullname">Jane Smith</p>
+                    </div>
+                    <div class="info-section">
+                        <p class="info-title">Email</p>
+                        <p class="info-text" id="email">example@gmail.com</p>
+                    </div>
+                    <div class="info-section">
+                        <p class="info-title">Address</p>
+                        <p class="info-text" id="address">123 Main St, Apt 301</p>
+                        <p class="info-text" id="postalcode">New York, NY 10001</p>
+                        <p class="info-text" id="country">United States</p>
+                    </div>
+                    <div class="info-section">
+                        <p class="info-title">Phone</p>
+                        <p class="info-text" id="phoneno">(123) 456-7890</p>
+                    </div>
+                    <div class="info-section">
+                        <p class="info-title">Date of Birth</p>
+                        <p class="info-text" id="dob">June 15, 1985</p>
+                    </div>
+                    <div class="info-section">
+                        <p class="info-title">Role</p>
+                        <p class="info-text" id="role">Product Designer</p>
+                    </div>
+                    <div class="info-section">
+                        <p class="info-title">Unit No</p>
+                        <p class="info-text" id="unitno"></p>
+                    </div>
+                    <div class="info-section">
+                        <p class="info-text" id="blockno"></p>
+                    </div>
+                   
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="scripts/profilepage.js"></script>
+</body>
+</html>

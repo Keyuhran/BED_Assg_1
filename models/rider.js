@@ -39,7 +39,22 @@ class Rider {
       return null;
     }
 
-    return result.recordset;
+    return result.recordset.map(
+      (rider) => new Rider(
+        rider.riderId,
+        rider.email,
+        rider.name,
+        rider.address,
+        rider.unitNo,
+        rider.postalCode,
+        rider.country,
+        rider.phoneNo,
+        rider.userBday,
+        rider.imagePath,
+        rider.role,
+        rider.joinDate
+      )
+    );
   }
 
   static async createRider(riderId, email, joinDate, password, name, address, unitNo, postalCode, country, phoneNo, userBday, imagePath) {
@@ -109,41 +124,45 @@ class Rider {
     return rider;
   } 
 
-  static async updateRider(email) {
+  static async updateRiderEmail(newEmail, oldEmail) {
     const connection = await sql.connect(dbConfig);
-    const sqlQuery = `Update Cart
-    set email  = @Email, SnackId =  @SnackId, Quantity = @Quantity
-    where email = @Email;
-    Update Admins
-    set admindId = @AdminId, email = @Email,  department = @Department, branch = @Branch, position = @Position, joinDate = @JoinDate
-    where email = @Email;
-    Update Riders
-    set riderId = @RiderId, email = @Email, joinDate = @JoinDate
-    where email = @Email;
-    Update Users
-    set email = @Email, password = @Password, name = @Name, address = @Address, unitNo = @unitNo, postalCode = @PostalCode, country = @Country, phoneNo = @PhoneNo, userBday = @UserBday, imagePath =  @ImagePath, role = @Role
-    where email = @Email`;
+    const sqlQuery = `
+    BEGIN TRANSACTION;
+
+    -- Disable the constraint
+    ALTER TABLE Riders NOCHECK CONSTRAINT FK__Riders__email__1D7B6025;
+
+    -- Update email in Users table
+    UPDATE Users
+    SET email = @NewEmail
+    WHERE email = @OldEmail;
+
+    -- Update email in Riders table
+    UPDATE Riders
+    SET email = @NewEmail
+    WHERE email = @OldEmail;
+
+    -- Re-enable the constraint
+    ALTER TABLE Riders WITH CHECK CHECK CONSTRAINT FK__Riders__email__1D7B6025;
+
+    COMMIT TRANSACTION;`;
 
     const request = connection.request();
-    request.input("Email", sql.VarChar, email);
+    request.input("NewEmail", sql.VarChar, newEmail);
+    request.input("OldEmail", sql.VarChar, oldEmail);
 
     const result = await request.query(sqlQuery);
     connection.close();
 
-    if (result.recordset.length === 0) {
-      return null; // Rider not found
-    }
-
-    const rider = result.recordset[0];
-    return rider;
+    console.log("Update results:", result);
+    return result.rowsAffected[1] === 1;
   } 
 
   static async deleteRider(email) {
     const connection = await sql.connect(dbConfig);
-    const sqlQuery = `DELETE FROM Cart WHERE email = @Email;
-                      DELETE FROM Riders WHERE email = @Email;
-                      DELETE FROM Admins WHERE email = @Email;
-                      DELETE FROM Users WHERE email = @Email`;
+    const sqlQuery = `
+      DELETE FROM Riders WHERE email = @Email;
+      DELETE FROM Users WHERE email = @Email`;
 
     const request = connection.request();
     request.input("Email", sql.VarChar, email);
@@ -152,7 +171,7 @@ class Rider {
     connection.close();
 
     console.log("Delete results:", result); //To see result
-    return result.rowsAffected[3] === 1; // Check if a row was deleted
+    return result.rowsAffected[1] === 1; // Check if a row was deleted
   }
 }
 

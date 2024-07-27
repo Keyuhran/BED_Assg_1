@@ -13,6 +13,7 @@ signupForm.addEventListener('submit', async (event) => {
   const country = document.getElementById('setcountry').value;
   const phoneNo = document.getElementById('setnumber').value;
   const userBday = document.getElementById('setbirthday').value;
+  const role = document.getElementById('setrole').value;
 
   const formData = {
     email,
@@ -25,7 +26,7 @@ signupForm.addEventListener('submit', async (event) => {
     phoneNo,
     userBday,
     imagePath: null,
-    role: 'user'
+    role
   };
 
   try {

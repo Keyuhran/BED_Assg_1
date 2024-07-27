@@ -1,11 +1,13 @@
 -- Drop existing tables
+DROP TABLE IF EXISTS Feedback;
+DROP TABLE IF EXISTS Reviews;
 DROP TABLE IF EXISTS Orders;
 DROP TABLE IF EXISTS Cart;
 DROP TABLE IF EXISTS Admins;
 DROP TABLE IF EXISTS Riders;
 DROP TABLE IF EXISTS Users;
 DROP TABLE IF EXISTS Snacks;
-DROP TABLE IF EXISTS Feedback;
+
 
 -- Create Users table
 CREATE TABLE Users (
@@ -85,7 +87,17 @@ CREATE TABLE Feedback (
     FOREIGN KEY (email) REFERENCES Users(email)
 );
 
-
+-- Create Reviews Table
+CREATE TABLE Reviews (
+    reviewId INT IDENTITY(1,1) PRIMARY KEY,
+    email VARCHAR(255),
+    title VARCHAR(255),
+    message TEXT,
+    riderId VARCHAR(255),
+    stars INT,
+    FOREIGN KEY (email) REFERENCES Users(email),
+    FOREIGN KEY (riderId) REFERENCES Riders(riderId)
+);
 
 
 -- Insert Snacks
