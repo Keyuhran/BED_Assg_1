@@ -20,6 +20,8 @@
                     <th>Details</th>
                     <th>Country</th>
                     <th>Price</th>
+                    <th>Ingredients</th>
+                    <th>Actions</th>
                 </tr>
             </thead>
             <tbody id="product-table-body">
@@ -42,12 +44,20 @@
                         <input type="text" id="newProductName" name="newProductName">
                     </div>
                     <div>
+                        <label for="newProductId">Product ID</label>
+                        <input type="text" id="newProductId" name="newProductId" readonly>
+                    </div>
+                    <div>
                         <label for="newCountry">Country</label>
                         <select id="newCountry" name="newCountry"></select>
                     </div>
                     <div>
                         <label for="newDetails">Details</label>
                         <input type="text" id="newDetails" name="newDetails">
+                    </div>
+                    <div>
+                        <label for="newIngredients">Ingredients</label>
+                        <input type="text" id="newIngredients" name="newIngredients">
                     </div>
                     <div>
                         <label for="newPrice">Price</label>
@@ -59,45 +69,6 @@
                     </div>
                     <button type="button" onclick="addNewProduct()">Add</button>
                     <button type="button" onclick="hideNewProductOverlay()">Cancel</button>
-                </form>
-            </div>
-        </div>
-    </div>
-
-    <!-- Edit Product Overlay -->
-    <div id="editProductOverlay" class="overlay">
-        <div class="overlay-content">
-            <div class="overlay-header">
-                <h2>Edit Product</h2>
-            </div>
-            <div class="overlay-body">
-                <form id="editProductForm">
-                    <div>
-                        <label for="editProductName">Product Name</label>
-                        <input type="text" id="editProductName" name="editProductName">
-                    </div>
-                    <div>
-                        <label for="editProductId">Product ID</label>
-                        <input type="text" id="editProductId" name="editProductId" readonly>
-                    </div>
-                    <div>
-                        <label for="editCountry">Country</label>
-                        <select id="editCountry" name="editCountry"></select>
-                    </div>
-                    <div>
-                        <label for="editDetails">Details</label>
-                        <input type="text" id="editDetails" name="editDetails">
-                    </div>
-                    <div>
-                        <label for="editPrice">Price</label>
-                        <input type="text" id="editPrice" name="editPrice">
-                    </div>
-                    <div>
-                        <label for="editImage">Edit Image</label>
-                        <input type="file" id="editImage" name="editImage">
-                    </div>
-                    <button type="button" onclick="updateProduct()">Save</button>
-                    <button type="button" onclick="hideEditProductOverlay()">Cancel</button>
                 </form>
             </div>
         </div>

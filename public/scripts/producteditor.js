@@ -12,8 +12,9 @@ document.addEventListener('DOMContentLoaded', () => {
                     <td>${snack.snackDescription}</td>
                     <td>${snack.country}</td>
                     <td>${snack.snackPrice}</td>
+                    <td>${snack.ingredients}</td>
                     <td>
-                        <button class="edit" onclick="showEditProductOverlay('${snack.snackId}', '${snack.snackName}', '${snack.snackDescription}', '${snack.country}', '${snack.snackPrice}')">Edit</button>
+                        <button class="edit" onclick="showEditProductOverlay('${snack.snackId}', '${snack.snackName}', '${snack.snackDescription}', '${snack.country}', '${snack.snackPrice}', '${snack.ingredients}')">Edit</button>
                         <button class="delete" onclick="deleteProduct('${snack.snackId}')">Delete</button>
                     </td>
                 `;
@@ -47,12 +48,13 @@ function hideNewProductOverlay() {
     document.getElementById('newProductOverlay').style.display = 'none';
 }
 
-function showEditProductOverlay(snackId, snackName, snackDescription, country, snackPrice) {
+function showEditProductOverlay(snackId, snackName, snackDescription, country, snackPrice, ingredients) {
     document.getElementById('editProductId').value = snackId;
     document.getElementById('editProductName').value = snackName;
     document.getElementById('editDetails').value = snackDescription;
     document.getElementById('editCountry').value = country;
     document.getElementById('editPrice').value = snackPrice;
+    document.getElementById('editIngredients').value = ingredients;
     document.getElementById('editProductOverlay').style.display = 'flex';
 }
 
@@ -64,10 +66,11 @@ async function addNewProduct() {
     const newProductName = document.getElementById('newProductName').value;
     const newCountry = document.getElementById('newCountry').value;
     const newDetails = document.getElementById('newDetails').value;
+    const newIngredients = document.getElementById('newIngredients').value;
     const newPrice = document.getElementById('newPrice').value;
     const newImage = document.getElementById('newImage').files[0];
 
-    if (!newProductName || !newCountry || !newDetails || !newPrice) {
+    if (!newProductName || !newCountry || !newDetails || !newPrice || !newIngredients) {
         alert('Please fill out all fields.');
         return;
     }
@@ -76,20 +79,11 @@ async function addNewProduct() {
     formData.append('snackName', newProductName);
     formData.append('snackDescription', newDetails);
     formData.append('snackPrice', newPrice);
+    formData.append('ingredients', newIngredients);
     formData.append('country', newCountry);
-    formData.append('ingredients', "Some ingredients"); // You can adjust this as needed
     if (newImage) {
         formData.append('imagePath', newImage);
     }
-
-    // Log form data
-    console.log('Form data:', {
-        snackName: newProductName,
-        snackDescription: newDetails,
-        snackPrice: newPrice,
-        country: newCountry,
-        imagePath: newImage ? newImage.name : null
-    });
 
     try {
         const response = await fetch('http://localhost:3000/snacks', {
@@ -116,9 +110,10 @@ async function updateProduct() {
     const editDetails = document.getElementById('editDetails').value;
     const editCountry = document.getElementById('editCountry').value;
     const editPrice = document.getElementById('editPrice').value;
+    const editIngredients = document.getElementById('editIngredients').value;
     const editImage = document.getElementById('editImage').files[0];
 
-    if (!editProductId || !editProductName || !editCountry || !editDetails || !editPrice) {
+    if (!editProductId || !editProductName || !editCountry || !editDetails || !editPrice || !editIngredients) {
         alert('Please fill out all fields.');
         return;
     }
@@ -128,6 +123,7 @@ async function updateProduct() {
     formData.append('snackName', editProductName);
     formData.append('snackDescription', editDetails);
     formData.append('snackPrice', editPrice);
+    formData.append('ingredients', editIngredients);
     formData.append('country', editCountry);
     if (editImage) {
         formData.append('imagePath', editImage);
