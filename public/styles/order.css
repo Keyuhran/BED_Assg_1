@@ -6,8 +6,10 @@
 
 body {
     font-family: Arial, sans-serif;
-    height: 100%;
-    overflow: hidden; 
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background-color: #f8f8f8;
 }
 
 header {
@@ -17,6 +19,7 @@ header {
     padding: 20px;
     border-bottom: 1px solid #ddd;
     flex-wrap: wrap;
+    background-color: #fff;
 }
 
 .logo img {
@@ -55,25 +58,29 @@ nav ul li a {
 }
 
 main {
-    
-    overflow-y: auto; 
-    height: calc(100vh - 100px); 
-    
+    flex: 1;
+    padding: 20px;
+    overflow-y: auto;
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 20px;
 }
 
 #order-container {
-    display: flex;
-    flex-direction: column;
-    gap: 60px;
     max-width: 800px;
     margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
 }
 
 .order-item {
-    border: 2.5px solid #fceb01;
+    border: 1px solid #e7fc01;
     padding: 15px;
     border-radius: 8px;
-    background-color: #f8f8f8;
+    background-color: #fff;
     display: flex;
     flex-direction: column;
     gap: 10px;
@@ -82,7 +89,7 @@ main {
 .order-item .details-container {
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 10px;
 }
 
 .order-item p {
@@ -120,4 +127,39 @@ hr {
     border: none;
     border-top: 1px solid #ddd;
     margin: 10px 0;
+}
+
+footer {
+    background-color: white;
+    border-top: 1px solid #e2e8f0;
+    text-align: center;
+    padding: 1rem;
+    flex-shrink: 0;
+}
+
+footer div {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 1rem;
+}
+
+footer img {
+    margin-bottom: 1rem;
+    height: 3rem;
+    width: 3rem;
+    border-radius: 50%;
+}
+
+footer nav {
+    margin-bottom: 1rem;
+}
+
+footer nav a {
+    margin-right: 1rem;
+    color: #4a5568;
+    text-decoration: none;
+}
+
+footer p {
+    margin: 0;
 }
