@@ -17,33 +17,29 @@ document.addEventListener('DOMContentLoaded', async function() {
 });
 
 function displayUserData(userData) {
-  const usernameElement = document.querySelector('.username');
-  const emailElement = document.querySelector('.email');
-  const addressElement = document.querySelector('.address');
-  const postalElement = document.querySelector('.postalcode');
-  const blocknoElement = document.querySelector('.blockno');
-  const unitnoElement = document.querySelector('.unitno');
-  const phonenoElement = document.querySelector('.phoneno');
-  const dobElement = document.querySelector('.dob');
-  const roleElement = document.querySelector('.role')
-
-  usernameElement.textContent = userData.name;
-  emailElement.textContent = userData.email;
-  addressElement.textContent = userData.address;
-  postalElement.textContent = userData.postalCode;
-  blocknoElement.textContent = userData.blockNo;
-  unitnoElement.textContent = userData.unitNo;
-  phonenoElement.textContent = userData.phoneNo;
-  dobElement.textContent = userData.userBday;
-  roleElement.textContent = userData.role;
-
+  document.getElementById('welcome-username').textContent = userData.name || 'N/A';
+  document.getElementById('fullname').textContent = userData.name || 'N/A';
+  document.getElementById('email').textContent = userData.email || 'N/A';
+  document.getElementById('address').textContent = userData.address || 'N/A';
+  document.getElementById('postalcode').textContent = userData.postalCode || 'N/A';
+  document.getElementById('country').textContent = userData.country || 'N/A'; // Added for new HTML
+  document.getElementById('phoneno').textContent = userData.phoneNo || 'N/A';
+  document.getElementById('dob').textContent = formatDate(userData.userBday) || 'N/A';
+  document.getElementById('role').textContent = userData.role || 'N/A';
+  document.getElementById('unitno').textContent = userData.unitNo || 'N/A';   // Added for new HTML
+}
+// Function to format the date string
+function formatDate(dateString) {
+  if (!dateString) return 'N/A'; // Check if the dateString is null or undefined
+  const date = new Date(dateString);
+  return date.toLocaleDateString(); // Format date as 'MM/DD/YYYY' or use your desired format
 }
 
 document.getElementById('edit-profile-btn').addEventListener('click', function() {
-  window.location.href = 'AccountEditor.html'; // Redirect to edit profile page
+  window.location.href = 'gig_AccountEditor.html'; // Redirect to edit profile page
 });
 
-document.getElementById('logout-btn').addEventListener('click', function() {
+document.getElementById('logout-btn')?.addEventListener('click', function() {
   localStorage.removeItem('userEmail');
-  window.location.href = 'index.html'; // Redirect to logout page (assuming index.html is your login page)
+  window.location.href = 'index.html'; // Redirect to login page (assuming index.html is your login page)
 });
