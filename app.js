@@ -67,32 +67,33 @@ app.get("/orders/user", orderController.getUserOrders);
 // Feedback Routes
 app.post("/feedback", feedbackController.submitFeedback); // Ensure this line is here
 app.get("/feedback", feedbackController.getFeedback); 
+
 // Start server
 const server = app.listen(port, async () => {
   try {
     // Connect to the database
     await sql.connect(dbConfig);
-    console.log("Database connection established successfully");
+    console.log("SouthEats Online!");
   } catch (err) {
     console.error("Database connection error:", err);
     // Terminate the application with an error code
     process.exit(1);
   }
   
-  console.log(`Server listening on port ${port}`);
+  console.log(`Southeats running on port ${port}`);
 });
 
 // Graceful shutdown
 process.on("SIGINT", async () => {
-  console.log("Server is gracefully shutting down");
+  console.log("SouthEats going offline");
   try {
     await sql.close();
-    console.log("Database connection closed");
+    console.log("Database connection closed!");
   } catch (err) {
     console.error("Error closing database connection:", err);
   } finally {
     server.close(() => {
-      console.log("Server closed");
+      console.log("SouthEats offline!");
       process.exit(0);
     });
   }
