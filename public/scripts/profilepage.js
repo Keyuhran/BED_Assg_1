@@ -28,11 +28,19 @@ function displayUserData(userData) {
   document.getElementById('role').textContent = userData.role || 'N/A';
   document.getElementById('unitno').textContent = userData.unitNo || 'N/A';   // Added for new HTML
 }
+
 // Function to format the date string
 function formatDate(dateString) {
   if (!dateString) return 'N/A'; // Check if the dateString is null or undefined
   const date = new Date(dateString);
-  return date.toLocaleDateString(); // Format date as 'MM/DD/YYYY' or use your desired format
+
+  // Extract day, month, and year
+  const day = String(date.getDate()).padStart(2, '0');
+  const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are zero-based
+  const year = date.getFullYear();
+
+  // Return formatted date
+  return `${day}/${month}/${year}`;
 }
 
 document.getElementById('edit-profile-btn').addEventListener('click', function() {
