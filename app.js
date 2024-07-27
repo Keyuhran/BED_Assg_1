@@ -1,4 +1,6 @@
 const express = require("express");
+const swaggerUi = require("swagger-ui-express");
+const swaggerDocument = require("./swagger-output.json"); // Import generated spec
 const path = require("path");
 const bodyParser = require("body-parser");
 const cors = require('cors');
@@ -21,6 +23,9 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/styles', express.static(path.join(__dirname, 'styles')));
+
+// Serve the Swagger UI at a specific route
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 // User Routes
 app.post("/users/createUser", userController.createUser); //(Kieran)
