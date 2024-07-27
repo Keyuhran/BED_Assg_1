@@ -2,6 +2,26 @@ const sql = require("mssql");
 const dbConfig = require("../dbConfig");
 
 class Snack {
+  static async getMaxSnackIdByCountry(country) {
+    try {
+      const connection = await sql.connect(dbConfig);
+      const sqlQuery = `SELECT MAX(snackId) as maxSnackId FROM Snacks WHERE country = @country`;
+      const request = connection.request();
+      request.input("country", sql.VarChar, country);
+      const result = await request.query(sqlQuery);
+      connection.close();
+
+      if (result.recordset[0].maxSnackId) {
+        return result.recordset[0].maxSnackId;
+      } else {
+        return null;
+      }
+    } catch (error) {
+      console.error("Error fetching max snackId by country:", error);
+      throw error;
+    }
+  }
+
   static async createSnack(snackId, snackName, snackDescription, snackPrice, ingredients, imagePath, country) {
     try {
       const connection = await sql.connect(dbConfig);
@@ -96,6 +116,7 @@ class Snack {
       throw error;
     }
   }
+
   static async deleteSnack(snackId) {
     try {
       const connection = await sql.connect(dbConfig);
@@ -116,9 +137,6 @@ class Snack {
       throw error;
     }
   }
-  
 }
-
-
 
 module.exports = Snack;

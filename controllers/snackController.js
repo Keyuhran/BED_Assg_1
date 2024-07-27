@@ -1,12 +1,40 @@
 const Snack = require("../models/snack");
+const multer = require('multer');
+const upload = multer({ dest: 'uploads/' }); // Adjust the destination as needed
 
 async function createSnack(req, res) {
-  const { snackId, snackName, snackDescription, snackPrice, ingredients, imagePath, country } = req.body;
+  const { snackName, snackDescription, snackPrice, ingredients, country } = req.body;
+  let imagePath = null;
 
-  console.log(req.body); // Debugging line to log the request body
+  if (req.file) {
+    imagePath = req.file.path; // Assuming you have some logic to save the file and get its path
+  }
+
+  // Log the received values
+  console.log('Received values:', { snackName, snackDescription, snackPrice, ingredients, imagePath, country });
+
+  if (!country) {
+    console.error('Country is undefined');
+    return res.status(400).send('Country is required');
+  }
 
   try {
-    const newSnack = await Snack.createSnack(snackId, snackName, snackDescription, snackPrice, ingredients, imagePath, country);
+    // Fetch the highest snackId for the given country
+    const maxSnackId = await Snack.getMaxSnackIdByCountry(country);
+    let newSnackId;
+
+    if (maxSnackId) {
+      // Increment the highest snackId by 1
+      const currentMaxIdNumber = parseInt(maxSnackId.slice(2));
+      newSnackId = `${country}${String(currentMaxIdNumber + 1).padStart(3, '0')}`;
+    } else {
+      // If no snacks exist for this country, start with '001'
+      newSnackId = `${country}001`;
+    }
+
+    console.log('Generated snackId:', newSnackId); // Debugging line
+
+    const newSnack = await Snack.createSnack(newSnackId, snackName, snackDescription, snackPrice, ingredients, imagePath, country);
 
     if (newSnack) {
       res.status(201).send("Snack created successfully!");
@@ -92,6 +120,7 @@ const getSnackByCountryAndId = async (req, res) => {
     res.status(500).json({ error: 'Internal server error' });
   }
 };
+
 async function deleteSnack(req, res) {
   const snackId = req.params.snackId;
 
