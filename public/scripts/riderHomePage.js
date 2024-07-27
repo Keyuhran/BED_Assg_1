@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
         moveSlide(1);
     }
 
-    setInterval(autoSlide, 7000);
+    setInterval(autoSlide, 4000);
 
     document.querySelector('.carousel-control.left').addEventListener('click', () => {
         moveSlide(-1);
