@@ -34,7 +34,7 @@ app.post("/users/createUser", userController.createUser); //(Kieran)
 app.post("/users/login", userController.login); //(Kieran)
 app.get("/users", userController.retrieveUsers); //(Kieran)
 app.get("/users/:email", userController.retrieveUser); //(Kieran)
-app.delete("/users/email", userController.deleteUser);//(Haziq)
+app.delete("/users/email", userController.deleteUser);//(Kieran)
 app.put("/users/:email", userController.updateUser)//(Kieran)
 
 
