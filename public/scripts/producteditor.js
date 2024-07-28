@@ -75,10 +75,10 @@ async function addNewProduct() {
     const newCountry = document.getElementById('newCountry').value;
     const newDetails = document.getElementById('newDetails').value;
     const newIngredients = document.getElementById('newIngredients').value;
-    const newPrice = document.getElementById('newPrice').value;
+    const newPrice = parseFloat(document.getElementById('newPrice').value);
     const newImagePath = document.getElementById('newImagePath').value;
 
-    if (!newProductName || !newCountry || !newDetails || !newPrice || !newIngredients || !newImagePath) {
+    if (!newProductName || !newCountry || !newDetails || isNaN(newPrice) || !newIngredients || !newImagePath) {
         alert('Please fill out all fields.');
         return;
     }
@@ -101,16 +101,13 @@ async function addNewProduct() {
             body: JSON.stringify(snackData)
         });
 
-        if (!response.ok) {
-            throw new Error(`Network response was not ok: ${response.statusText} (status code: ${response.status})`);
-        }
-
         const data = await response.json();
         alert(data.message);
         hideNewProductOverlay();
         loadSnacks(); // Reload snacks after adding a new product
     } catch (error) {
         console.error('Error adding product:', error);
+        alert('Error adding product. Please try again.');
     }
 }
 
@@ -119,11 +116,11 @@ async function updateProduct() {
     const editProductName = document.getElementById('editProductName').value;
     const editDetails = document.getElementById('editDetails').value;
     const editCountry = document.getElementById('editCountry').value;
-    const editPrice = document.getElementById('editPrice').value;
+    const editPrice = parseFloat(document.getElementById('editPrice').value);
     const editIngredients = document.getElementById('editIngredients').value;
     const editImagePath = document.getElementById('editImagePath').value;
 
-    if (!editProductId || !editProductName || !editCountry || !editDetails || !editPrice || !editIngredients || !editImagePath) {
+    if (!editProductId || !editProductName || !editCountry || !editDetails || isNaN(editPrice) || !editIngredients || !editImagePath) {
         alert('Please fill out all fields.');
         return;
     }
@@ -146,16 +143,13 @@ async function updateProduct() {
             body: JSON.stringify(snackData)
         });
 
-        if (!response.ok) {
-            throw new Error(`Network response was not ok: ${response.statusText} (status code: ${response.status})`);
-        }
-
         const data = await response.json();
         alert(data.message);
         hideEditProductOverlay();
         loadSnacks(); // Reload snacks after updating a product
     } catch (error) {
         console.error('Error updating product:', error);
+        alert('Error updating product. Please try again.');
     }
 }
 
@@ -166,10 +160,6 @@ async function deleteProduct(snackId) {
                 method: 'DELETE'
             });
 
-            if (!response.ok) {
-                throw new Error(`Network response was not ok: ${response.statusText} (status code: ${response.status})`);
-            }
-
             const data = await response.json();
             alert(data.message);
 
@@ -179,10 +169,11 @@ async function deleteProduct(snackId) {
                 productRow.remove();
             }
 
-            // Optionally reload snacks if you want to ensure the list is refreshed
+            // Reload snacks after deleting a product
             loadSnacks();
         } catch (error) {
             console.error('Error deleting product:', error);
+            alert('Error deleting product. Please try again.');
         }
     }
 }
