@@ -30,13 +30,13 @@ app.use('/styles', express.static(path.join(__dirname, 'styles')));
 // Serve the Swagger UI at a specific route
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
-// User Routes
-app.post("/users/createUser", userController.createUser); //(Kieran)
-app.post("/users/login", userController.login); //(Kieran)
-app.get("/users", userController.retrieveUsers); //(Kieran)
-app.get("/users/:email", userController.retrieveUser); //(Kieran)
-app.delete("/users/email", userController.deleteUser);//(Kieran)
-app.put("/users/:email", userController.updateUser)//(Kieran)
+// User Routes (kieran)
+app.post("/users/createUser", userController.createUser);
+app.post("/users/login", userController.login); 
+app.get("/users", userController.retrieveUsers); 
+app.get("/users/:email", userController.retrieveUser); 
+app.delete("/users/email", userController.deleteUser);
+app.put("/users/:email", userController.updateUser)
 
 
 // Rider Routes(Haziq)
@@ -53,18 +53,17 @@ app.get("/admins/email", adminController.retrieveAdmin);
 app.delete("/admins/email", adminController.deleteAdmin); 
 app.put("/admins/update", adminController.updateAdminEmail);
 
-// Review Routes (Haziq)
-app.post("/review/add", reviewController.addReview);
-app.get("/review", reviewController.retrieveReview);
-app.get("/reviews/riderId", reviewController.retrieveReviews);
-app.delete("/review/del", reviewController.delReview);
-app.put("/review/update", reviewController.updateReview);
+// Review Routes(Kieran, Daryl & John)
+app.post("/review/add", reviewController.addReview); //Kieran
+app.get("/review", reviewController.retrieveReview); //Kieran
+app.get("/reviews/riderId", reviewController.retrieveReviews); //Daryl
+app.delete("/review/del", reviewController.delReview); //Daryl
+app.put("/review/update", reviewController.updateReview); //John
 
-// Snack Routes
+// Snack Routes (daryl)
 app.post('/snacks', snackController.createSnack);
 app.get('/snacks', snackController.retrieveSnacks);
-
-app.get('/snacks/:country', snackController.getSnacksByCountry); //john
+app.get('/snacks/:country', snackController.getSnacksByCountry); 
 app.get('/snacks/:country/:snackId', snackController.getSnackByCountryAndId);
 app.put('/snacks/:snackId', snackController.updateSnack);
 app.delete('/snacks/:snackId', snackController.deleteSnack);

@@ -108,10 +108,14 @@ class User {
 
   static async deleteUser(email) {
     const connection = await sql.connect(dbConfig);
-    const sqlQuery = `DELETE FROM Cart WHERE email = @Email;
+    const sqlQuery = `
+                      DELETE FROM Cart WHERE email = @Email;
+                      DELETE FROM Orders WHERE email = @Email;
+                      DELETE FROM Reviews WHERE email = @Email;
+                      DELETE FROM Feedback WHERE email = @Email;
                       DELETE FROM Riders WHERE email = @Email;
                       DELETE FROM Admins WHERE email = @Email;
-                      DELETE FROM Users WHERE email = @Email`;
+                      DELETE FROM Users WHERE email = @Email;`;
 
     const request = connection.request();
     request.input("Email", sql.VarChar, email);
@@ -120,7 +124,7 @@ class User {
     connection.close();
 
     console.log("Delete results:", result); //To see result
-    return result.rowsAffected[3] === 1; // Check if a row was deleted
+    return result.rowsAffected[6] === 1; // Check if a row was deleted
   }
 
   static async hashPassword(password) {
