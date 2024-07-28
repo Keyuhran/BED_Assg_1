@@ -3,63 +3,59 @@ const multer = require('multer');
 const upload = multer({ dest: 'uploads/' }); // Adjust the destination as needed
 
 const countryCodes = {
-    'Indonesia': 'ID',
-    'Laos': 'LA',
-    'Malaysia': 'MM',
-    'Myanmar': 'MY',
-    'Philippines': 'PH',
-    'Singapore': 'SG',
-    'Thailand': 'TH',
-    'Timor-Leste': 'TL',
-    'Vietnam': 'VN'
+  'Indonesia': 'ID',
+  'Laos': 'LA',
+  'Malaysia': 'MM',
+  'Myanmar': 'MY',
+  'Philippines': 'PH',
+  'Singapore': 'SG',
+  'Thailand': 'TH',
+  'Timor-Leste': 'TL',
+  'Vietnam': 'VN'
 };
 
 async function createSnack(req, res) {
-    const { snackName, snackDescription, snackPrice, ingredients, country } = req.body;
-    let imagePath = null;
+  const { snackName, snackDescription, snackPrice, ingredients, country, imagePath } = req.body;
 
-    if (req.file) {
-        imagePath = req.file.path; // Assuming you have some logic to save the file and get its path
-    }
+  console.log('Received values:', { snackName, snackDescription, snackPrice, ingredients, imagePath, country });
 
-    console.log('Received values:', { snackName, snackDescription, snackPrice, ingredients, imagePath, country });
+  if (!country) {
+      console.error('Country is undefined');
+      return res.status(400).send('Country is required');
+  }
 
-    if (!country) {
-        console.error('Country is undefined');
-        return res.status(400).send('Country is required');
-    }
+  try {
+      const countryCode = countryCodes[country];
+      if (!countryCode) {
+          console.error('Invalid country provided');
+          return res.status(400).send('Invalid country provided');
+      }
 
-    try {
-        const countryCode = countryCodes[country];
-        if (!countryCode) {
-            console.error('Invalid country provided');
-            return res.status(400).send('Invalid country provided');
-        }
+      const maxSnackId = await Snack.getMaxSnackIdByCountry(countryCode);
+      let newSnackId;
 
-        const maxSnackId = await Snack.getMaxSnackIdByCountry(countryCode);
-        let newSnackId;
+      if (maxSnackId) {
+          const currentMaxIdNumber = parseInt(maxSnackId.slice(2));
+          newSnackId = `${countryCode}${String(currentMaxIdNumber + 1).padStart(3, '0')}`;
+      } else {
+          newSnackId = `${countryCode}001`;
+      }
 
-        if (maxSnackId) {
-            const currentMaxIdNumber = parseInt(maxSnackId.slice(2));
-            newSnackId = `${countryCode}${String(currentMaxIdNumber + 1).padStart(3, '0')}`;
-        } else {
-            newSnackId = `${countryCode}001`;
-        }
+      console.log('Generated snackId:', newSnackId);
 
-        console.log('Generated snackId:', newSnackId);
+      const newSnack = await Snack.createSnack(newSnackId, snackName, snackDescription, snackPrice, ingredients, imagePath, country);
 
-        const newSnack = await Snack.createSnack(newSnackId, snackName, snackDescription, snackPrice, ingredients, imagePath, country);
-
-        if (newSnack) {
-            res.status(201).json({ message: "Snack created successfully!" });
-        } else {
-            res.status(400).send("Error adding snack");
-        }
-    } catch (error) {
-        console.error("Error creating snack:", error);
-        res.status(500).send("Internal server error");
-    }
+      if (newSnack) {
+          res.status(201).json({ message: "Snack created successfully!" });
+      } else {
+          res.status(400).send("Error adding snack");
+      }
+  } catch (error) {
+      console.error("Error creating snack:", error);
+      res.status(500).send("Internal server error");
+  }
 }
+
 
 async function retrieveSnacks(req, res) {
     try {
@@ -95,29 +91,29 @@ async function getSnacksByCountry(req, res) {
 }
 
 async function updateSnack(req, res) {
-    const snackId = req.params.snackId;
-    const { snackName, snackDescription, snackPrice, ingredients, imagePath, country } = req.body;
+  const snackId = req.params.snackId;
+  const { snackName, snackDescription, snackPrice, ingredients, imagePath, country } = req.body;
 
-    try {
-        const updated = await Snack.updateSnack(
-            snackId,
-            snackName,
-            snackDescription,
-            snackPrice,
-            ingredients,
-            imagePath,
-            country
-        );
+  try {
+      const updated = await Snack.updateSnack(
+          snackId,
+          snackName,
+          snackDescription,
+          snackPrice,
+          ingredients,
+          imagePath,
+          country
+      );
 
-        if (updated) {
-            res.status(200).send("Snack updated successfully!");
-        } else {
-            res.status(404).send("Snack not found or could not be updated");
-        }
-    } catch (error) {
-        console.error("Error updating snack:", error);
-        res.status(500).send("Internal server error");
-    }
+      if (updated) {
+          res.status(200).send("Snack updated successfully!");
+      } else {
+          res.status(404).send("Snack not found or could not be updated");
+      }
+  } catch (error) {
+      console.error("Error updating snack:", error);
+      res.status(500).send("Internal server error");
+  }
 }
 
 const getSnackByCountryAndId = async (req, res) => {
