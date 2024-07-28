@@ -6,6 +6,8 @@ const bodyParser = require("body-parser");
 const cors = require('cors');
 const sql = require("mssql");
 const dbConfig = require("./dbConfig");
+const multer = require('multer');
+const upload = multer();
 const userController = require("./controllers/userController");
 const riderController = require("./controllers/riderController");
 const adminController = require("./controllers/adminController");
@@ -21,6 +23,8 @@ const port = process.env.PORT || 3000;
 app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/styles', express.static(path.join(__dirname, 'styles')));
 
@@ -50,13 +54,16 @@ app.get("/admins/email", adminController.retrieveAdmin);
 app.delete("/admins/email", adminController.deleteAdmin); 
 app.put("/admins/update", adminController.updateAdminEmail);
 
-// Snack Routes (daryl)
-app.post("/snacks", snackController.createSnack);
-app.get("/snacks", snackController.retrieveSnacks);
+
+
+// Snack Routes
+app.post('/snacks', upload.single('imagePath'), snackController.createSnack);
+app.get('/snacks', snackController.retrieveSnacks);
+
 app.get('/snacks/:country', snackController.getSnacksByCountry);
 app.get('/snacks/:country/:snackId', snackController.getSnackByCountryAndId);
-app.put("/snacks/:snackId", snackController.updateSnack);
-app.delete("/snacks/:snackId", snackController.deleteSnack);
+app.put('/snacks/:snackId', upload.single('imagePath'), snackController.updateSnack);
+app.delete('/snacks/:snackId', snackController.deleteSnack);
 
 
 // Cart Routes (John)
