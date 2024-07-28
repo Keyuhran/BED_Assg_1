@@ -99,6 +99,8 @@ CREATE TABLE Reviews (
 );
 
 
+
+
 -- Insert Snacks
 INSERT INTO Snacks (snackId, snackName, snackDescription, snackPrice, ingredients, imagePath, country) VALUES
 ('MY001', 'Kuih Seri Muka', 'A traditional two-layered dessert with a base of glutinous rice and a top layer of pandan custard. The glutinous rice is sticky and slightly salty, while the custard is sweet and flavored with pandan leaves.', 0.50, 'Glutinous rice, coconut milk, pandan leaves, sugar, salt', 'https://resepichenom.com/media/cache/f2/14/f2147b444151d9f243f1f5817986c9f7.jpg', 'Malaysia'),
@@ -168,3 +170,73 @@ INSERT INTO Admins (adminId, email, department, branch, position, joinDate) VALU
 ('12341241', 'kheng@email.com', 'Rider', '2', 'developer', '2020/03/20'),
 ('12341242', 'downey@email.com', 'User', '2', 'manager', '2006/02/09'),
 ('12341243', 'man@email.com', 'Admin', '3', 'manager', '2001/08/10');
+
+-- Insert Reviews
+INSERT INTO Reviews (email, name, message, riderId) VALUES
+('user1@example.com', 'user one', 'Great delivery service!', '12341234'),
+('user1@example.com', 'user one', 'Very professional and quick.', '12341234'),
+('user2@example.com', 'user two', 'Friendly and reliable.', '12341234'),
+('user2@example.com', 'user two', 'Excellent service, would recommend.', '12341234'),
+('user3@example.com', 'user three', 'Timely delivery and polite.', '12341234'),
+('user3@example.com', 'user three', 'Quick and efficient.', '12341234'),
+('user4@example.com', 'user four', 'Great attitude and service.', '12341234'),
+('user4@example.com', 'user four', 'Reliable and friendly.', '12341234'),
+('user5@example.com', 'user five', 'Prompt delivery and courteous.', '12341234'),
+('user5@example.com', 'user five', 'Fantastic service, very happy.', '12341234'),
+
+('user1@example.com', 'user one', 'Amazing delivery experience!', '12341235'),
+('user1@example.com', 'user one', 'Very fast and friendly.', '12341235'),
+('user2@example.com', 'user two', 'Delivered on time, great service.', '12341235'),
+('user2@example.com', 'user two', 'Professional and courteous.', '12341235'),
+('user3@example.com', 'user three', 'Superb service, highly recommend.', '12341235'),
+('user3@example.com', 'user three', 'Very satisfied with the delivery.', '12341235'),
+('user4@example.com', 'user four', 'Efficient and friendly rider.', '12341235'),
+('user4@example.com', 'user four', 'Great service, very reliable.', '12341235'),
+('user5@example.com', 'user five', 'Timely and professional.', '12341235'),
+('user5@example.com', 'user five', 'Excellent delivery, very happy.', '12341235'),
+
+('user1@example.com', 'user one', 'Fantastic delivery service!', '12341236'),
+('user1@example.com', 'user one', 'Very prompt and polite.', '12341236'),
+('user2@example.com', 'user two', 'Great delivery, very satisfied.', '12341236'),
+('user2@example.com', 'user two', 'Professional and reliable.', '12341236'),
+('user3@example.com', 'user three', 'Very efficient delivery.', '12341236'),
+('user3@example.com', 'user three', 'Friendly and quick service.', '12341236'),
+('user4@example.com', 'user four', 'Great service, would recommend.', '12341236'),
+('user4@example.com', 'user four', 'Reliable and friendly delivery.', '12341236'),
+('user5@example.com', 'user five', 'Timely delivery and polite rider.', '12341236'),
+('user5@example.com', 'user five', 'Excellent service, very happy.', '12341236'),
+
+('user1@example.com', 'user one', 'Great and friendly service!', '12341237'),
+('user1@example.com', 'user one', 'Very professional delivery.', '12341237'),
+('user2@example.com', 'user two', 'Quick and reliable.', '12341237'),
+('user2@example.com', 'user two', 'Excellent service, very efficient.', '12341237'),
+('user3@example.com', 'user three', 'Polite and prompt delivery.', '12341237'),
+('user3@example.com', 'user three', 'Very satisfied with the delivery.', '12341237'),
+('user4@example.com', 'user four', 'Great attitude and service.', '12341237'),
+('user4@example.com', 'user four', 'Friendly and reliable rider.', '12341237'),
+('user5@example.com', 'user five', 'Timely and professional delivery.', '12341237'),
+('user5@example.com', 'user five', 'Fantastic service, highly recommend.', '12341237'),
+
+('user1@example.com', 'user one', 'Excellent delivery service!', '12341238'),
+('user1@example.com', 'user one', 'Very prompt and professional.', '12341238'),
+('user2@example.com', 'user two', 'Great service, very reliable.', '12341238'),
+('user2@example.com', 'user two', 'Friendly and efficient delivery.', '12341238'),
+('user3@example.com', 'user three', 'Polite and timely delivery.', '12341238'),
+('user3@example.com', 'user three', 'Great service, very satisfied.', '12341238'),
+('user4@example.com', 'user four', 'Reliable and friendly.', '12341238'),
+('user4@example.com', 'user four', 'Quick and efficient service.', '12341238'),
+('user5@example.com', 'user five', 'Fantastic delivery experience.', '12341238'),
+('user5@example.com', 'user five', 'Highly recommend, excellent service.', '12341238');
+
+-- Insert Orders
+INSERT INTO Orders (orderId, email, snackId, quantity, riderId, status) VALUES
+('ORD001', 'user1@example.com', 'MY001', 2, '12341234', 'Delivered'),
+('ORD002', 'user2@example.com', 'SG002', 1, NULL, 'Pending'),
+('ORD003', 'user3@example.com', 'BN001', 3, '12341235', 'Delivered'),
+('ORD004', 'user4@example.com', 'ID003', 2, '12341236', 'Delivered'),
+('ORD005', 'user5@example.com', 'TH001', 4, NULL, 'Pending'),
+('ORD006', 'user1@example.com', 'PH002', 1, '12341237', 'Delivered'),
+('ORD007', 'user2@example.com', 'LA001', 2, NULL, 'Pending'),
+('ORD008', 'user3@example.com', 'VN003', 1, '12341238', 'Delivered'),
+('ORD009', 'user4@example.com', 'MM001', 3, NULL, 'Pending'),
+('ORD010', 'user5@example.com', 'CB002', 2, '12341234', 'Delivered');

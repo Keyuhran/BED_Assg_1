@@ -13,6 +13,7 @@ const snackController = require("./controllers/snackController");
 const cartController = require("./controllers/cartController");
 const orderController = require("./controllers/orderController");
 const feedbackController = require("./controllers/feedbackController");
+const reviewController = require("./controllers/reviewController");
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -52,7 +53,12 @@ app.get("/admins/email", adminController.retrieveAdmin);
 app.delete("/admins/email", adminController.deleteAdmin); 
 app.put("/admins/update", adminController.updateAdminEmail);
 
-
+// Review Routes (Haziq)
+app.post("/review/add", reviewController.addReview);
+app.get("/review", reviewController.retrieveReview);
+app.get("/reviews/riderId", reviewController.retrieveReviews);
+app.delete("/review/del", reviewController.delReview);
+app.put("/review/update", reviewController.updateReview);
 
 // Snack Routes
 app.post('/snacks', snackController.createSnack);
@@ -63,7 +69,6 @@ app.get('/snacks/:country/:snackId', snackController.getSnackByCountryAndId);
 app.put('/snacks/:snackId', snackController.updateSnack);
 app.delete('/snacks/:snackId', snackController.deleteSnack);
 
-
 // Cart Routes (John)
 app.post('/cart/add', cartController.addToCart);
 app.get('/cart', cartController.getCartContents);
@@ -73,36 +78,40 @@ app.post('/cart/update', cartController.updateQuantity);
 // Order Routes (John)
 app.post("/orders", orderController.createOrder);
 app.get("/orders/user", orderController.getUserOrders);
+app.get("/orders/riderId", orderController.getOrdersByRiders); 
+app.get("/orders/riders", orderController.getAllOrdersForRiders); 
+app.put("/orders/claim", orderController.claimOrder);
 
 // Feedback Routes (John)
 app.post("/feedback", feedbackController.submitFeedback); // Ensure this line is here
 app.get("/feedback", feedbackController.getFeedback); 
+
 // Start server
 const server = app.listen(port, async () => {
   try {
     // Connect to the database
     await sql.connect(dbConfig);
-    console.log("Database connection established successfully");
+    console.log("SouthEats Online!");
   } catch (err) {
     console.error("Database connection error:", err);
     // Terminate the application with an error code
     process.exit(1);
   }
   
-  console.log(`Server listening on port ${port}`);
+  console.log(`Southeats running on port ${port}`);
 });
 
 // Graceful shutdown
 process.on("SIGINT", async () => {
-  console.log("Server is gracefully shutting down");
+  console.log("SouthEats going offline");
   try {
     await sql.close();
-    console.log("Database connection closed");
+    console.log("Database connection closed!");
   } catch (err) {
     console.error("Error closing database connection:", err);
   } finally {
     server.close(() => {
-      console.log("Server closed");
+      console.log("SouthEats offline!");
       process.exit(0);
     });
   }
