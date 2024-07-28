@@ -1,0 +1,174 @@
+html {
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+*, *::before, *::after {
+    box-sizing: inherit;
+    margin: 0;
+    padding: 0;
+}
+
+:root {
+    --primary-bg: #171717;
+    --secondary-bg: #262626;
+    --accent-bg: #e6d43b;
+
+    --primary-color: #fff;
+    --secondary-color: rgba(255, 255, 255, 0.7);
+    --accent-color: #ff5100;
+
+    --border-color: rgba(255, 255, 255, 0.3);
+    --grey-bg: #f0f0f0; /* Added grey background color */
+}
+
+body {
+    background-color: var(--primary-bg);
+}
+
+.container {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px; /* Added padding */
+}
+
+.content {
+    width: 100%;
+    max-width: 800px; /* Adjusted max-width to make it bigger */
+    background-color: var(--grey-bg); /* Grey background */
+    border-radius: 20px; /* Rounded corners for the background rectangle */
+    padding: 20px; /* Added padding */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for better appearance */
+}
+.header {
+    display: flex;
+    align-items: center;
+    border-bottom: 2px solid var(--accent-bg);
+    padding-bottom: 10px;
+    margin-bottom: 40px;
+    position: relative;
+}
+.header .edit-btn, .header .logout-btn {
+    margin-right: 20px; /* Space between buttons */
+}
+.back-arrow { 
+    position: absolute; 
+    top: 40px;  
+    left: 20px; 
+    cursor: pointer; 
+    font-size: 24px; 
+    text-decoration: none; 
+    color: rgb(255, 255, 255); 
+  }
+
+.title {
+    font-size: 2rem; /* Increased font size */
+    font-weight: 600;
+    color: var(--primary-color);
+    margin-right: 30px; /* Added margin-right for spacing between title and button */
+}
+
+.Delete-profile-btn {
+    background-color: var(--accent-bg);
+    color: var(--primary-color);
+    padding: 0.75rem 1.5rem; /* Larger padding for the large button */
+    border: none;
+    border-radius: 0.375rem;
+    cursor: pointer;
+    font-size: 1.25rem; /* Larger font size for better readability */
+    margin-left: auto; /* Pushes the button to the right */
+    display: flex;
+    align-items: center; /* Centers text vertically */
+}
+
+.edit-btn {
+    background-color: var(--accent-bg);
+    color: var(--primary-color);
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 0.375rem;
+    cursor: pointer;
+    font-size: 1rem; /* Increased font size */
+    margin-right: 40px; /* Added margin-right to create space between button and information */
+}
+.logout-btn {
+    background-color: var(--accent-bg); /* Same as edit button for consistency */
+    color: var(--primary-color);
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 0.375rem;
+    cursor: pointer;
+    font-size: 1rem;
+}
+.top-box {
+    display: flex;
+    align-items: center; /* Align items in the center vertically */
+    justify-content: space-between; /* Space between text and button */
+    background-color: var(--primary-bg);
+    border: 2px solid var(--border-color);
+    border-radius: 10px;
+    padding: 25px;
+    margin-bottom: 30px;
+}
+
+.top-box-text {
+    color: var(--accent-bg);
+    font-size: 1.5rem; /* Increased font size */
+    line-height: 1.6; /* Increased line-height for better readability */
+}
+.top-box .top-box-text {
+    margin-right: 15px; /* Space between text and button */
+}
+
+.top-box-text-large {
+    color: var(--primary-color);
+    font-size: 3rem; /* Increased font size */
+    line-height: 1.6; /* Increased line-height for better readability */
+}
+
+.card {
+    background-color: var(--primary-bg);
+    border-radius: 10px;
+    border: 2px solid var(--border-color);
+    padding: 20px; /* Added padding */
+}
+
+.details-card {
+    display: flex;
+    flex-direction: column;
+}
+
+.card-header {
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+}
+
+.card-title {
+    font-size: 1.5rem; /* Increased font size */
+    font-weight: 600;
+    color: var(--accent-bg);
+}
+
+.card-content {
+    display: flex;
+    flex-direction: column;
+    gap: 15px; /* Increased gap between sections */
+}
+
+.info-section {
+    display: flex;
+    flex-direction: column;
+}
+
+.info-title {
+    font-weight: 500;
+    color: var(--primary-color);
+    margin-bottom: 5px;
+}
+
+.info-text {
+    color: var(--secondary-color);
+}

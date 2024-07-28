@@ -50,9 +50,9 @@ loginForm.addEventListener('submit', async (event) => {
     localStorage.setItem('token', data.token);
 
     // Redirect based on role
-    if (data.role === 'admin') {
-      window.location.href = '../AccountEditor.html'; // Redirect to account editor page if admin
-    } else if (data.role === 'rider') {
+    if (data.role === 'Admin') {
+      window.location.href = '../adminhomepage.html'; // Redirect to account editor page if admin
+    } else if (data.role === 'Rider') {
       window.location.href = '../riderHomePage.html'; // Redirect to home page if rider
     } else {
       window.location.href = '../homepage.html'; // Redirect to general home page

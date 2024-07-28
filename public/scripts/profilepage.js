@@ -3,47 +3,71 @@ document.addEventListener('DOMContentLoaded', async function() {
   console.log("Current User:", currentUser);
 
   try {
-    const response = await fetch(`/users/${currentUser}`);
+      const response = await fetch(`/users/${currentUser}`);
 
-    if (!response.ok) {
-      throw new Error(`Failed to retrieve user data: ${response.status}`);
-    }
+      if (!response.ok) {
+          throw new Error(`Failed to retrieve user data: ${response.status}`);
+      }
 
-    const userData = await response.json();
-    displayUserData(userData);
+      const userData = await response.json();
+      displayUserData(userData);
   } catch (error) {
-    console.error('Error retrieving user data:', error);
+      console.error('Error retrieving user data:', error);
   }
 });
 
 function displayUserData(userData) {
-  const usernameElement = document.querySelector('.username');
-  const emailElement = document.querySelector('.email');
-  const addressElement = document.querySelector('.address');
-  const postalElement = document.querySelector('.postalcode');
-  const blocknoElement = document.querySelector('.blockno');
-  const unitnoElement = document.querySelector('.unitno');
-  const phonenoElement = document.querySelector('.phoneno');
-  const dobElement = document.querySelector('.dob');
-  const roleElement = document.querySelector('.role')
+  document.getElementById('welcome-username').textContent = userData.name || 'N/A';
+  document.getElementById('fullname').textContent = userData.name || 'N/A';
+  document.getElementById('email').textContent = userData.email || 'N/A';
+  document.getElementById('address').textContent = userData.address || 'N/A';
+  document.getElementById('postalcode').textContent = userData.postalCode || 'N/A';
+  document.getElementById('country').textContent = userData.country || 'N/A';
+  document.getElementById('phoneno').textContent = userData.phoneNo || 'N/A';
+  document.getElementById('dob').textContent = formatDate(userData.userBday) || 'N/A';
+  document.getElementById('role').textContent = userData.role || 'N/A';
+  document.getElementById('unitno').textContent = userData.unitNo || 'N/A';
+}
 
-  usernameElement.textContent = userData.name;
-  emailElement.textContent = userData.email;
-  addressElement.textContent = userData.address;
-  postalElement.textContent = userData.postalCode;
-  blocknoElement.textContent = userData.blockNo;
-  unitnoElement.textContent = userData.unitNo;
-  phonenoElement.textContent = userData.phoneNo;
-  dobElement.textContent = userData.userBday;
-  roleElement.textContent = userData.role;
-
+function formatDate(dateString) {
+  if (!dateString) return 'N/A';
+  const date = new Date(dateString);
+  const day = String(date.getDate()).padStart(2, '0');
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const year = date.getFullYear();
+  return `${day}/${month}/${year}`;
 }
 
 document.getElementById('edit-profile-btn').addEventListener('click', function() {
   window.location.href = 'AccountEditor.html'; // Redirect to edit profile page
 });
 
-document.getElementById('logout-btn').addEventListener('click', function() {
+document.getElementById('logout-btn')?.addEventListener('click', function() {
   localStorage.removeItem('userEmail');
-  window.location.href = 'index.html'; // Redirect to logout page (assuming index.html is your login page)
+  window.location.href = 'index.html'; // Redirect to login page
+});
+
+document.getElementById('Delete-profile-btn').addEventListener('click', async function() {
+  const confirmation = confirm("Are you sure you want to delete your profile? This action cannot be undone.");
+  
+  if (confirmation) {
+      const currentUser = localStorage.getItem("userEmail");
+      
+      try {
+          const response = await fetch(`/users/email?email=${currentUser}`, {
+              method: 'DELETE'
+          });
+
+          if (!response.ok) {
+              throw new Error(`Failed to delete user: ${response.status}`);
+          }
+
+          alert("Profile deleted successfully.");
+          localStorage.removeItem('userEmail');
+          window.location.href = 'index.html'; // Redirect to login page
+      } catch (error) {
+          console.error('Error deleting user:', error);
+          alert("An error occurred while trying to delete your profile. Please try again.");
+      }
+  }
 });

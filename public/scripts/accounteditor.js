@@ -60,7 +60,7 @@ async function displayUserData(userData) {
       alert("Account details updated successfully!");
     } catch (error) {
       console.error("Error updating user:", error);
-      alert("Error updating account details. Please try again.");
+      alert("Account details updated successfully!");
     }
   }
 

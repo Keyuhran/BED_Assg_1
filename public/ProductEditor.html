@@ -7,30 +7,27 @@
     <link rel="stylesheet" href="styles/producteditor.css">
 </head>
 <body>
-    <header>
-        <img src="logo.png" alt="Logo" class="logo">
-        <img src="user-pfp.png" alt="User PFP" class="user-pfp">
-    </header>
-    <div class="container">
+    
+    <main>
+        <h1>Product Editor</h1>
+        <button onclick="showNewProductOverlay()">Add New Product</button>
         <table>
             <thead>
                 <tr>
-                    <th>Product Name</th>
-                    <th>Product ID</th>
-                    <th>Details</th>
+                    <th>Name</th>
+                    <th>ID</th>
+                    <th>Description</th>
                     <th>Country</th>
                     <th>Price</th>
+                    <th>Ingredients</th>
+                    <th>Actions</th>
                 </tr>
             </thead>
-            <tbody>
-                <!-- Existing Products -->
-                <!-- Rows as before -->
+            <tbody id="product-table-body">
+                <!-- Snacks will be populated here -->
             </tbody>
         </table>
-        <div class="add-product-button" onclick="showNewProductOverlay()">+</div>
-    </div>
-
-    <!-- Existing Overlays -->
+    </main>
 
     <!-- New Product Overlay -->
     <div id="newProductOverlay" class="overlay">
@@ -39,38 +36,53 @@
                 <h2>Add New Product</h2>
             </div>
             <div class="overlay-body">
-                <form id="newProductForm">
-                    <div>
-                        <label for="newProductName">Product Name</label>
-                        <input type="text" id="newProductName" name="newProductName">
-                    </div>
-                    <div>
-                        <label for="newProductId">Product ID</label>
-                        <input type="text" id="newProductId" name="newProductId">
-                    </div>
-                    <div>
-                        <label for="newCountry">Country</label>
-                        <input type="text" id="newCountry" name="newCountry">
-                    </div>
-                    <div>
-                        <label for="newDetails">Details</label>
-                        <input type="text" id="newDetails" name="newDetails">
-                    </div>
-                    <div>
-                        <label for="newPrice">Price</label>
-                        <input type="text" id="newPrice" name="newPrice">
-                    </div>
-                    <div>
-                        <label for="newImage">Add Image</label>
-                        <input type="file" id="newImage" name="newImage">
-                    </div>
-                    <button type="button" onclick="addNewProduct()">Add</button>
+                <form onsubmit="addNewProduct(); return false;">
+                    <label for="newProductName">Name:</label>
+                    <input type="text" id="newProductName" required>
+                    <label for="newCountry">Country:</label>
+                    <select id="newCountry" required></select>
+                    <label for="newDetails">Description:</label>
+                    <textarea id="newDetails" required></textarea>
+                    <label for="newPrice">Price:</label>
+                    <input type="text" id="newPrice" required>
+                    <label for="newIngredients">Ingredients:</label>
+                    <textarea id="newIngredients" required></textarea>
+                    <label for="newImagePath">Image URL:</label>
+                    <input type="text" id="newImagePath" required>
+                    <button type="submit">Add Product</button>
                     <button type="button" onclick="hideNewProductOverlay()">Cancel</button>
                 </form>
             </div>
         </div>
     </div>
 
-    <script src="scripts/producteditor.js"></script>
+    <!-- Edit Product Overlay -->
+    <div id="editProductOverlay" class="overlay">
+        <div class="overlay-content">
+            <div class="overlay-header">
+                <h2>Edit Product</h2>
+            </div>
+            <div class="overlay-body">
+                <form onsubmit="updateProduct(); return false;">
+                    <input type="hidden" id="editProductId">
+                    <label for="editProductName">Name:</label>
+                    <input type="text" id="editProductName" required>
+                    <label for="editCountry">Country:</label>
+                    <select id="editCountry" required></select>
+                    <label for="editDetails">Description:</label>
+                    <textarea id="editDetails" required></textarea>
+                    <label for="editPrice">Price:</label>
+                    <input type="text" id="editPrice" required>
+                    <label for="editIngredients">Ingredients:</label>
+                    <textarea id="editIngredients" required></textarea>
+                    <label for="editImagePath">Image URL:</label>
+                    <input type="text" id="editImagePath" required>
+                    <button type="submit">Update Product</button>
+                    <button type="button" onclick="hideEditProductOverlay()">Cancel</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script src="../scripts/producteditor.js"></script>
 </body>
 </html>
