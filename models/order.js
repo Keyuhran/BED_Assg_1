@@ -71,6 +71,97 @@ class Order {
       throw error;
     }
   }
+
+  static async getOrdersByRiders(riderId){
+    const connection = await sql.connect(dbConfig);
+    const sqlQuery = `
+    SELECT
+    Orders.orderId,
+    Orders.email,
+    Users.name,
+    Users.address,
+    Users.unitNo,
+    Users.postalCode,
+    Users.phoneNo,
+    Orders.snackId,
+    Orders.quantity,
+    Orders.riderId
+    FROM
+    Orders
+    INNER JOIN
+    Users ON Orders.email = Users.email
+    WHERE
+    riderId = @RiderId
+    `;
+
+    const request = connection.request();
+    request.input("RiderId", sql.VarChar, riderId);
+
+    const result = await request.query(sqlQuery);
+    connection.close();
+
+    if (result.recordset.length === 0) {
+      console.log("No orders to retrieve");
+      return null;
+    }
+
+    return result.recordset;
+  }
+
+  static async getAllOrdersForRiders(){
+    const connection = await sql.connect(dbConfig);
+    const sqlQuery = `
+    SELECT
+    Orders.orderId,
+    Orders.email,
+    Users.name,
+    Users.address,
+    Users.unitNo,
+    Users.postalCode,
+    Orders.snackId,
+    Orders.quantity,
+    Orders.riderId
+    FROM
+    Orders
+    INNER JOIN
+    Users ON Orders.email = Users.email
+    WHERE
+    Orders.riderId IS NULL;
+    `;
+
+    const request = connection.request();
+
+    const result = await request.query(sqlQuery);
+    connection.close();
+    console.log(result);
+
+    if (result.recordset.length === 0) {
+      console.log("No orders to retrieve");
+      return null;
+    }
+
+    return result.recordset;
+  }
+
+  static async claimOrder(orderId, riderId, snackId) {
+    const connection = await sql.connect(dbConfig);
+    const sqlQuery = `
+    UPDATE Orders
+	  SET riderId = @RiderId
+	  WHERE orderId = @OrderId AND snackId = @SnackId and riderId IS NULL;
+    `;
+
+    const request = connection.request();
+    request.input("RiderId", sql.VarChar, riderId);
+    request.input("OrderId", sql.VarChar, orderId);
+    request.input("SnackId", sql.VarChar, snackId);
+
+    const result = await request.query(sqlQuery);
+    connection.close();
+
+    console.log("Claiming results:", result);
+    return result.rowsAffected[0] === 1;
+  }
 }
 
 module.exports = Order;

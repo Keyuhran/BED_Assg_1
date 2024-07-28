@@ -17,7 +17,7 @@ class Review {
         Values(@Email, @Name, @Message, @RiderId)
         `;
 
-        const request = connection.request;
+        const request = connection.request();
         request.input("Email", sql.VarChar, email);
         request.input("Name", sql.VarChar, name);
         request.input("Message", sql.Text, message);
@@ -111,7 +111,7 @@ class Review {
         connection.close();
 
         console.log("Update results:", result);
-        return result.rowsAffected[0] === 1;
+        return result.rowsAffected[0] === 1;    
     }
 }
 

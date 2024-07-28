@@ -228,3 +228,15 @@ INSERT INTO Reviews (email, name, message, riderId) VALUES
 ('user5@example.com', 'user five', 'Fantastic delivery experience.', '12341238'),
 ('user5@example.com', 'user five', 'Highly recommend, excellent service.', '12341238');
 
+-- Insert Orders
+INSERT INTO Orders (orderId, email, snackId, quantity, riderId, status) VALUES
+('ORD001', 'user1@example.com', 'MY001', 2, '12341234', 'Delivered'),
+('ORD002', 'user2@example.com', 'SG002', 1, NULL, 'Pending'),
+('ORD003', 'user3@example.com', 'BN001', 3, '12341235', 'Delivered'),
+('ORD004', 'user4@example.com', 'ID003', 2, '12341236', 'Delivered'),
+('ORD005', 'user5@example.com', 'TH001', 4, NULL, 'Pending'),
+('ORD006', 'user1@example.com', 'PH002', 1, '12341237', 'Delivered'),
+('ORD007', 'user2@example.com', 'LA001', 2, NULL, 'Pending'),
+('ORD008', 'user3@example.com', 'VN003', 1, '12341238', 'Delivered'),
+('ORD009', 'user4@example.com', 'MM001', 3, NULL, 'Pending'),
+('ORD010', 'user5@example.com', 'CB002', 2, '12341234', 'Delivered');

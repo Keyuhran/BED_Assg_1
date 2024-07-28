@@ -5,9 +5,7 @@ loginForm.addEventListener('submit', async (event) => {
   event.preventDefault(); // Prevent default form submission
 
   const email = document.getElementById('email').value;
-  console.log(email);
   const password = document.getElementById('password').value;
-  console.log(password);
 
   try {
     console.log("Sending login request for email:", email); // Log before sending request
@@ -16,7 +14,6 @@ loginForm.addEventListener('submit', async (event) => {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email, password })
     });
-    console.log(response);
 
     if (!response.ok) {
       console.error(`Login failed with status: ${response.status}`);
@@ -24,6 +21,25 @@ loginForm.addEventListener('submit', async (event) => {
     }
 
     const data = await response.json();
+    if (data.role === 'rider') {
+      try {
+        const response2 = await fetch(`/riders/email?email=${email}`, {
+          method: 'GET',
+          headers: { 'Content-Type': 'application/json' }
+        });
+
+        if (!response2.ok) {
+          console.error(`Error retrieving rider with status: ${response2.status}`);
+          throw new Error(`Error retrieving rider with status: ${response2.status}`);
+        }
+
+        const data2 = await response2.json();
+        localStorage.setItem('riderId', data2.riderId);
+      } catch (error) {
+        console.error('Rider retrieval error:', error);
+      }
+    }
+
     // Handle successful login (redirect, display success message, etc.)
     console.log('Login Successful! Welcome,', data.email); // Adjust based on your data
     console.log(data.role);
@@ -33,13 +49,13 @@ loginForm.addEventListener('submit', async (event) => {
     localStorage.setItem('userEmail', data.email);
     localStorage.setItem('token', data.token);
 
-    // Redirect based on isAdmin status
+    // Redirect based on role
     if (data.role === 'admin') {
       window.location.href = '../AccountEditor.html'; // Redirect to account editor page if admin
     } else if (data.role === 'rider') {
-      window.location.href = '../riderHomePage.html'; // Redirect to home page if not admin
+      window.location.href = '../riderHomePage.html'; // Redirect to home page if rider
     } else {
-      window.location.href = '../homepage.html';
+      window.location.href = '../homepage.html'; // Redirect to general home page
     }
   } catch (error) {
     console.error('Login error:', error);

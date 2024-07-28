@@ -77,7 +77,62 @@ async function getUserOrders(req, res) {
   }
 }
 
+async function getOrdersByRiders(req,res) {
+  const riderId = req.query.riderId;
+  console.log(riderId);
+  try {
+    const orders = await Order.getOrdersByRiders(riderId);
+    if (orders) {
+        res.json(orders);
+    } else {
+      res.status(404).send("Orders not found");
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Error retrieving data");
+  }
+}
+
+async function getAllOrdersForRiders(req,res) {
+  
+  try {
+    const orders = await Order.getAllOrdersForRiders();
+    console.log(orders);
+    if (orders) {
+        res.json(orders);
+    } else {
+      res.status(404).send("Orders not found");
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Error retrieving data");
+  }
+}
+
+async function claimOrder(req, res) {
+  const {orderId, riderId, snackId} = req.body;
+  console.log(orderId);
+  console.log(riderId);
+  console.log(snackId);
+  try{
+    const success = await Order.claimOrder(orderId, riderId, snackId);
+    console.log(success, "hi");
+    if (success) {
+      res.status(200).send("Order claimed successfully");
+    } else {
+      res.status(404).send("Order not found");
+    }
+  } catch (error){
+    console.error(error);
+    res.status(500).send("Error claim order");
+  }
+}
+
+
 module.exports = {
   createOrder,
   getUserOrders,
+  getOrdersByRiders,
+  getAllOrdersForRiders,
+  claimOrder,
 };

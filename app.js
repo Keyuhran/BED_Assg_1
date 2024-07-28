@@ -11,6 +11,7 @@ const snackController = require("./controllers/snackController");
 const cartController = require("./controllers/cartController");
 const orderController = require("./controllers/orderController");
 const feedbackController = require("./controllers/feedbackController");
+const reviewController = require("./controllers/reviewController");
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -45,6 +46,13 @@ app.get("/admins/email", adminController.retrieveAdmin);
 app.delete("/admins/email", adminController.deleteAdmin); 
 app.put("/admins/update", adminController.updateAdminEmail);
 
+// Review Routes (Haziq)
+app.post("/review/add", reviewController.addReview);
+app.get("/review", reviewController.retrieveReview);
+app.get("/reviews/riderId", reviewController.retrieveReviews);
+app.delete("/review/del", reviewController.delReview);
+app.put("/review/update", reviewController.updateReview);
+
 // Snack Routes
 app.post("/snacks", snackController.createSnack);
 app.get("/snacks", snackController.retrieveSnacks);
@@ -52,7 +60,6 @@ app.get('/snacks/:country', snackController.getSnacksByCountry);
 app.get('/snacks/:country/:snackId', snackController.getSnackByCountryAndId);
 app.put("/snacks/:snackId", snackController.updateSnack);
 app.delete("/snacks/:snackId", snackController.deleteSnack);
-
 
 // Cart Routes (John)
 app.post('/cart/add', cartController.addToCart);
@@ -63,6 +70,9 @@ app.post('/cart/update', cartController.updateQuantity);
 // Order Routes
 app.post("/orders", orderController.createOrder);
 app.get("/orders/user", orderController.getUserOrders);
+app.get("/orders/riderId", orderController.getOrdersByRiders); 
+app.get("/orders/riders", orderController.getAllOrdersForRiders); 
+app.put("/orders/claim", orderController.claimOrder);
 
 // Feedback Routes
 app.post("/feedback", feedbackController.submitFeedback); // Ensure this line is here

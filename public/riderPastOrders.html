@@ -3,24 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Choose Delivery - SouthEats Rider</title>
-    <link rel="stylesheet" href="styles/chooseDelivery.css">
+    <title>Past Deliveries - SouthEats Rider</title>
+    <link rel="stylesheet" href="styles/riderPastOrder.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 <body>
-
-    <div class="container">
+    <div class="container-fluid">
         <header class="header">
-            <div class="header-content">
-                <div class="logo-section">
+            <div class="header-content row align-items-center">
+                <div class="logo-section col-md-6 d-flex align-items-center">
                     <img src="./media/South Eats.png" class="company-logo" alt="Company logo">
                 </div>
-                <div class="account-section">
-                    <nav class="nav-links">
+                <div class="account-section col-md-6 d-flex justify-content-end align-items-center">
+                    <nav class="nav-links d-flex">
                         <span class="nav-item">
                             <a href="riderHomePage.html" class="nav-link">Home</a>
                         </span>
                         <span class="nav-item">
-                            <a href="riderPastOrders.html" class="nav-link">Past Deliveries</a>
+                            <a href="chooseDelivery.html" class="nav-link">Choose Deliveries</a>
                         </span>
                     </nav>
                     <button class="account-button">
@@ -32,8 +32,8 @@
 
         <main class="main-content">
             <div class="main-container">
-                <h1 class="main-title">Choose Delivery</h1>
-                <div id="delivery-list" class="delivery-list"></div>
+                <h1 class="main-title">Past Deliveries</h1>
+                <div id="ordersContainer" class="orders-list row"></div>
             </div>
         </main>
 
@@ -67,6 +67,6 @@
         </footer>
     </div>
 
-    <script src="scripts/chooseDelivery.js"></script>
+    <script src="scripts/riderPastOrders.js"></script>
 </body>
 </html>
