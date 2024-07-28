@@ -34,10 +34,10 @@ app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 // User Routes
 app.post("/users/createUser", userController.createUser); //(Kieran)
 app.post("/users/login", userController.login); //(Kieran)
-app.get("/users", userController.retrieveUsers); //(Haziq)
+app.get("/users", userController.retrieveUsers); //(Kieran)
 app.get("/users/:email", userController.retrieveUser); //(Kieran)
 app.delete("/users/email", userController.deleteUser);//(Haziq)
-app.put("/users/:email", userController.updateUser)
+app.put("/users/:email", userController.updateUser)//(Kieran)
 
 
 // Rider Routes(Haziq)
@@ -54,9 +54,12 @@ app.get("/admins/email", adminController.retrieveAdmin);
 app.delete("/admins/email", adminController.deleteAdmin); 
 app.put("/admins/update", adminController.updateAdminEmail);
 
+
+
 // Snack Routes
 app.post('/snacks', upload.single('imagePath'), snackController.createSnack);
 app.get('/snacks', snackController.retrieveSnacks);
+
 app.get('/snacks/:country', snackController.getSnacksByCountry);
 app.get('/snacks/:country/:snackId', snackController.getSnackByCountryAndId);
 app.put('/snacks/:snackId', upload.single('imagePath'), snackController.updateSnack);
