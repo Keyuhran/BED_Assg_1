@@ -22,6 +22,21 @@ class Snack {
         }
     }
 
+    static async getSnackIdsByCountry(countryCode) {
+        try {
+            const connection = await sql.connect(dbConfig);
+            const sqlQuery = `SELECT snackId FROM Snacks WHERE snackId LIKE @countryCode + '%' ORDER BY snackId`;
+            const request = connection.request();
+            request.input("countryCode", sql.VarChar, countryCode);
+            const result = await request.query(sqlQuery);
+            connection.close();
+            return result.recordset.map(row => row.snackId);
+        } catch (error) {
+            console.error("Error fetching snack IDs by country:", error);
+            throw error;
+        }
+    }
+
     static async createSnack(snackId, snackName, snackDescription, snackPrice, ingredients, imagePath, country) {
         try {
             const connection = await sql.connect(dbConfig);
@@ -121,15 +136,13 @@ class Snack {
         try {
             const connection = await sql.connect(dbConfig);
             const sqlQuery = `DELETE FROM Snacks WHERE snackId = @snackId;`;
-    
             const request = connection.request();
             request.input("snackId", sql.VarChar, snackId);
-    
             const result = await request.query(sqlQuery);
             connection.close();
-    
+
             console.log("Delete results:", result);
-    
+
             // Check if any rows were affected
             return result.rowsAffected && result.rowsAffected.length > 0 && result.rowsAffected[0] > 0;
         } catch (error) {

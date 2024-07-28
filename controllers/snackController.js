@@ -1,51 +1,66 @@
 const Snack = require("../models/snack");
-const multer = require('multer');
-const upload = multer({ dest: 'uploads/' }); // Adjust the destination as needed
 
 const countryCodes = {
-  'Indonesia': 'ID',
-  'Laos': 'LA',
-  'Malaysia': 'MM',
-  'Myanmar': 'MY',
-  'Philippines': 'PH',
-  'Singapore': 'SG',
-  'Thailand': 'TH',
-  'Timor-Leste': 'TL',
-  'Vietnam': 'VN'
+    'Malaysia': 'MY',
+    'Singapore': 'SG',
+    'Brunei': 'BN',
+    'Cambodia': 'CB',
+    'Myanmar': 'MM',
+    'Philippines': 'PH',
+    'Thailand': 'TH',
+    'Indonesia': 'ID',
+    'Laos': 'LA',
+    'Vietnam': 'VN',
+    'Timor-Leste': 'TL'
 };
 
 async function createSnack(req, res) {
-  const { snackName, snackDescription, snackPrice, ingredients, country, imagePath } = req.body;
+    const { snackName, snackDescription, snackPrice, ingredients, country, imagePath } = req.body;
 
-  try {
-      const countryCode = countryCodes[country];
-      if (!countryCode) {
-          return res.status(400).json({ message: 'Invalid country provided' });
-      }
+    console.log('Received values:', { snackName, snackDescription, snackPrice, ingredients, imagePath, country });
 
-      const maxSnackId = await Snack.getMaxSnackIdByCountry(countryCode);
-      let newSnackId;
+    if (!country) {
+        console.error('Country is undefined');
+        return res.status(400).send('Country is required');
+    }
 
-      if (maxSnackId) {
-          const currentMaxIdNumber = parseInt(maxSnackId.slice(2));
-          newSnackId = `${countryCode}${String(currentMaxIdNumber + 1).padStart(3, '0')}`;
-      } else {
-          newSnackId = `${countryCode}001`;
-      }
+    try {
+        const countryCode = countryCodes[country];
+        if (!countryCode) {
+            console.error('Invalid country provided');
+            return res.status(400).send('Invalid country provided');
+        }
 
-      const newSnack = await Snack.createSnack(newSnackId, snackName, snackDescription, snackPrice, ingredients, imagePath, country);
+        const snackIds = await Snack.getSnackIdsByCountry(countryCode);
+        let newSnackId = getNewSnackId(snackIds, countryCode);
 
-      if (newSnack) {
-          res.status(201).json({ message: "Snack created successfully!" });
-      } else {
-          res.status(400).json({ message: "Error adding snack" });
-      }
-  } catch (error) {
-      res.status(500).json({ message: "Internal server error" });
-  }
+        console.log('Generated snackId:', newSnackId);
+
+        const newSnack = await Snack.createSnack(newSnackId, snackName, snackDescription, snackPrice, ingredients, imagePath, country);
+
+        if (newSnack) {
+            res.status(201).json({ message: "Snack created successfully!" });
+        } else {
+            res.status(400).send("Error adding snack");
+        }
+    } catch (error) {
+        console.error("Error creating snack:", error);
+        res.status(500).send("Internal server error");
+    }
 }
 
+function getNewSnackId(snackIds, countryCode) {
+    const existingIds = snackIds.map(snackId => parseInt(snackId.slice(2)));
+    existingIds.sort((a, b) => a - b);
 
+    for (let i = 1; i <= existingIds.length; i++) {
+        if (!existingIds.includes(i)) {
+            return `${countryCode}${String(i).padStart(3, '0')}`;
+        }
+    }
+
+    return `${countryCode}${String(existingIds.length + 1).padStart(3, '0')}`;
+}
 
 async function retrieveSnacks(req, res) {
     try {
@@ -81,29 +96,31 @@ async function getSnacksByCountry(req, res) {
 }
 
 async function updateSnack(req, res) {
-  const snackId = req.params.snackId;
-  const { snackName, snackDescription, snackPrice, ingredients, imagePath, country } = req.body;
+    const snackId = req.params.snackId;
+    const { snackName, snackDescription, snackPrice, ingredients, imagePath, country } = req.body;
 
-  try {
-      const updated = await Snack.updateSnack(
-          snackId,
-          snackName,
-          snackDescription,
-          snackPrice,
-          ingredients,
-          imagePath,
-          country
-      );
+    try {
+        const updated = await Snack.updateSnack(
+            snackId,
+            snackName,
+            snackDescription,
+            snackPrice,
+            ingredients,
+            imagePath,
+            country
+        );
 
-      if (updated) {
-          res.status(200).json({ message: "Snack updated successfully!" });
-      } else {
-          res.status(404).json({ message: "Snack not found or could not be updated" });
-      }
-  } catch (error) {
-      res.status(500).json({ message: "Internal server error" });
-  }
-};
+        if (updated) {
+            res.status(200).json({ message: "Snack updated successfully!" });
+        } else {
+            res.status(404).json({ message: "Snack not found or could not be updated" });
+        }
+    } catch (error) {
+        console.error("Error updating snack:", error);
+        res.status(500).json({ message: "Internal server error" });
+    }
+}
+
 const getSnackByCountryAndId = async (req, res) => {
     const { country, snackId } = req.params;
 
@@ -120,19 +137,19 @@ const getSnackByCountryAndId = async (req, res) => {
 };
 
 async function deleteSnack(req, res) {
-  const snackId = req.params.snackId;
+    const snackId = req.params.snackId;
 
-  try {
-      const success = await Snack.deleteSnack(snackId);
-      if (success) {
-          res.status(200).json({ message: "Snack deleted successfully" });
-      } else {
-          res.status(404).json({ message: "Snack not found" });
-      }
-  } catch (error) {
-      console.error(error);
-      res.status(500).json({ message: "Error deleting Snack" });
-  }
+    try {
+        const success = await Snack.deleteSnack(snackId);
+        if (success) {
+            res.status(200).json({ message: "Snack deleted successfully" });
+        } else {
+            res.status(404).json({ message: "Snack not found" });
+        }
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "Error deleting Snack" });
+    }
 }
 
 module.exports = {
