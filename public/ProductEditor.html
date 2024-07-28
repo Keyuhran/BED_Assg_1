@@ -20,17 +20,16 @@
                     <th>Details</th>
                     <th>Country</th>
                     <th>Price</th>
+                    <th>Ingredients</th>
+                    <th>Actions</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody id="product-table-body">
                 <!-- Existing Products -->
-                <!-- Rows as before -->
             </tbody>
         </table>
         <div class="add-product-button" onclick="showNewProductOverlay()">+</div>
     </div>
-
-    <!-- Existing Overlays -->
 
     <!-- New Product Overlay -->
     <div id="newProductOverlay" class="overlay">
@@ -46,15 +45,19 @@
                     </div>
                     <div>
                         <label for="newProductId">Product ID</label>
-                        <input type="text" id="newProductId" name="newProductId">
+                        <input type="text" id="newProductId" name="newProductId" readonly>
                     </div>
                     <div>
                         <label for="newCountry">Country</label>
-                        <input type="text" id="newCountry" name="newCountry">
+                        <select id="newCountry" name="newCountry"></select>
                     </div>
                     <div>
                         <label for="newDetails">Details</label>
                         <input type="text" id="newDetails" name="newDetails">
+                    </div>
+                    <div>
+                        <label for="newIngredients">Ingredients</label>
+                        <input type="text" id="newIngredients" name="newIngredients">
                     </div>
                     <div>
                         <label for="newPrice">Price</label>
