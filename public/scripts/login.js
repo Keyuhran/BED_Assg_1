@@ -35,7 +35,7 @@ loginForm.addEventListener('submit', async (event) => {
 
     // Redirect based on isAdmin status
     if (data.role === 'admin') {
-      window.location.href = '../AccountEditor.html'; // Redirect to account editor page if admin
+      window.location.href = '../adminhomepage.html'; // Redirect to account editor page if admin
     } else if (data.role === 'rider') {
       window.location.href = '../riderHomePage.html'; // Redirect to home page if not admin
     } else {

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AdminHomeScreen</title>
+    <link rel="stylesheet" href="styles/sellerhome.css">
+</head>
+
+<body>
+  <header>
+    <img src="media/South Eats.png" alt="Logo" class="logo">
+    <a href="gig_profile.html">
+        <img src="media/Profile.jpg" alt="User PFP" class="user-pfp"> 
+    </a>
+</header>
+    
+    
+
+<div style="display: grid; grid-template-columns: repeat(1, minmax(0, 1fr)); gap: 32px; padding: 64px; place-items: center; @media (min-width: 768px) { grid-template-columns: repeat(2, minmax(0, 1fr)); }">
+    <div style="text-align: center; gap: 16px;">
+      <div style="font-size: 30px; font-weight: bold; color: black; margin-bottom: 16px;">Product Editor</div>
+      <a href="ProductEditor.html" style="text-decoration: none;">
+        <button style="background-color: #ec4899; padding: 8px 16px; color: white; display: flex; align-items: center; gap: 8px; border-radius: 8px; border: none; cursor: pointer;">
+          <svg xmlns="http://www.w3.org/2000/svg" style="width: 16px; height: 16px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-shopping-bag"><path d="M6 2l1.34 11.39a4 4 0 004 3.61h1.32a4 4 0 004-3.61L18 2"/><path d="M17 9a5 5 0 00-10 0M12 1v4"/></svg>
+          <span>Manage Products</span>
+        </button>
+      </a>
+    </div>
+    <div style="text-align: center; gap: 16px;">
+      <div style="font-size: 30px; font-weight: bold; color: black; margin-bottom: 16px;">Account Editor</div>
+      <a href="AccountEditor.html" style="text-decoration: none;">
+        <button style="border: 1px solid black; padding: 8px 16px; background-color: transparent; color: black; display: flex; align-items: center; gap: 8px; border-radius: 8px; cursor: pointer;">
+          <svg xmlns="http://www.w3.org/2000/svg" style="width: 16px; height: 16px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-users"><path d="M17 21v-2a4 4 0 00-4-4H7a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
+          <span>Manage Accounts</span>
+        </button>
+      </a>
+    </div>
+  </div>
+  
+
+</body>
+</html>
