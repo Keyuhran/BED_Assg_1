@@ -6,8 +6,6 @@ const bodyParser = require("body-parser");
 const cors = require('cors');
 const sql = require("mssql");
 const dbConfig = require("./dbConfig");
-const multer = require('multer');
-const upload = multer();
 const userController = require("./controllers/userController");
 const riderController = require("./controllers/riderController");
 const adminController = require("./controllers/adminController");
@@ -57,12 +55,12 @@ app.put("/admins/update", adminController.updateAdminEmail);
 
 
 // Snack Routes
-app.post('/snacks', upload.single('imagePath'), snackController.createSnack);
+app.post('/snacks', snackController.createSnack);
 app.get('/snacks', snackController.retrieveSnacks);
 
 app.get('/snacks/:country', snackController.getSnacksByCountry);
 app.get('/snacks/:country/:snackId', snackController.getSnackByCountryAndId);
-app.put('/snacks/:snackId', upload.single('imagePath'), snackController.updateSnack);
+app.put('/snacks/:snackId', snackController.updateSnack);
 app.delete('/snacks/:snackId', snackController.deleteSnack);
 
 
