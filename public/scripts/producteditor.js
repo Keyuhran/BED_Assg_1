@@ -169,7 +169,7 @@ async function deleteProduct(snackId) {
                 productRow.remove();
             }
 
-            // Reload snacks after deleting a product
+            // Optionally reload snacks if you want to ensure the list is refreshed
             loadSnacks();
         } catch (error) {
             console.error('Error deleting product:', error);

@@ -120,19 +120,19 @@ const getSnackByCountryAndId = async (req, res) => {
 };
 
 async function deleteSnack(req, res) {
-    const snackId = req.params.snackId;
+  const snackId = req.params.snackId;
 
-    try {
-        const success = await Snack.deleteSnack(snackId);
-        if (success) {
-            res.status(200).send("Snack deleted successfully");
-        } else {
-            res.status(404).send("Snack not found");
-        }
-    } catch (error) {
-        console.error(error);
-        res.status(500).send("Error deleting Snack");
-    }
+  try {
+      const success = await Snack.deleteSnack(snackId);
+      if (success) {
+          res.status(200).json({ message: "Snack deleted successfully" });
+      } else {
+          res.status(404).json({ message: "Snack not found" });
+      }
+  } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: "Error deleting Snack" });
+  }
 }
 
 module.exports = {
