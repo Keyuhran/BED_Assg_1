@@ -12,3 +12,9 @@ npm install mssql
 npm install path
 npm install swagger-autogen
 npm install swagger-ui-express
+
+Website:
+localhost:3000/
+
+Swagger:
+localhost:3000/api-docs
