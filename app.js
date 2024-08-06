@@ -74,12 +74,12 @@ app.get('/cart', cartController.getCartContents);
 app.post('/cart/remove', cartController.removeFromCart);
 app.post('/cart/update', cartController.updateQuantity);
 
-// Order Routes (John)
-app.post("/orders", orderController.createOrder);
-app.get("/orders/user", orderController.getUserOrders);
-app.get("/orders/riderId", orderController.getOrdersByRiders); 
-app.get("/orders/riders", orderController.getAllOrdersForRiders); 
-app.put("/orders/claim", orderController.claimOrder);
+// Order Routes (Haziq & John)
+app.post("/orders", orderController.createOrder); //John
+app.get("/orders/user", orderController.getUserOrders); //John
+app.get("/orders/riderId", orderController.getOrdersByRiders); //Haziq
+app.get("/orders/riders", orderController.getAllOrdersForRiders); //Haziq
+app.put("/orders/claim", orderController.claimOrder); //Haziq
 
 // Feedback Routes (John)
 app.post("/feedback", feedbackController.submitFeedback); // Ensure this line is here
